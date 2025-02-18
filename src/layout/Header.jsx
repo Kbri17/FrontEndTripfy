@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.svg";
+import { Link } from "react-router-dom";
 const Header = () =>{
     return (
       <header className="w-full h-16 bg-blue-500">
@@ -25,15 +26,19 @@ const Header = () =>{
           </div>
           <div className="flex items-center justify-end border border-blue-300 ">
             <button className="flex items-center mr-[60px] focus:outline-none">
-              <div className="bg-white rounded-full p-2 mr-2">
+              <div className="bg-custom-orange  w-10 h-10  rounded-full p-2 mr-2">
                 <FontAwesomeIcon
                   icon={faUser}
-                  className="text-blue-500 text-2xl"
+                  className="text-white text-2xl"
                 />
               </div>
               <div className="flex flex-col">
-                <span className=" flex text-white text-xl justify-start">Log in</span>
-                <span className="text-orange-500 font-semibold  text-xl">Register</span>
+                <span className=" flex text-white font-bold text-xl justify-start">
+                  Log in
+                </span>
+                <span className="text-custom-orange font-bold text-xl">
+                  <Link to="/login">Register</Link>
+                </span>
               </div>
             </button>
           </div>
