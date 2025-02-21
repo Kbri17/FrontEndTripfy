@@ -8,14 +8,14 @@ import Producto from "./pages/Producto"
 import Galeria from "./pages/Galeria"
 import RegisterForm from "./auth/RegisterForm";
 import PerfilUser from "./auth/PerfilUsuario";
-import RegisterForm from "./auth/RegisterForm";
-import PerfilUser from "./auth/PerfilUsuario";
+import SwiperCarousel from "./components/SwiperCard";
+
 
 const Root = () => (
-  <div className="flex flex-col min-h-screen">
+  <div className="w-full flex flex-col min-h-screen overflow-x-hidden">
     <Header /> {/* Siempre visible arriba */}
     {/* Contenido principal que ocupa el espacio restante */}
-    <div className="flex-grow mt-16">
+    <div className="flex-1 w-full mt-16">
       <Outlet />
     </div>
     <Footer /> {/* Siempre abajo */}
@@ -37,8 +37,16 @@ export const router = createBrowserRouter([
         element: <LoginForm />,
       },
       {
+        path: "/register",
+        element: <RegisterForm />,
+      },
+      {
+        path: "/perfil",
+        element: <PerfilUser />,
+      },
+      {
         path: "/producto",
-        element: <Producto/>,
+        element: <Producto />,
       },
       {
         path: "/details",
@@ -46,15 +54,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/galeria",
-        element: <Galeria/>,
+        element: <Galeria />,
       },
       {
-        path: "/register",
-        element: <RegisterForm />,
-      },
-      {
-        path: "/perfil",
-        element: <PerfilUser/>,
+        path: "/swiper",
+        element: <SwiperCarousel/>,
       },
     ],
   },

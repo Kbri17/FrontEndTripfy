@@ -1,17 +1,22 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules"; // Importa los módulos
 import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import TravelPackageCard from "./Card";
-import img from "../assets/img.png"
-
+import image from "../assets/img.png";
 const SwiperCarousel = () => {
   return (
-    <div className="py-8">
+    <div className="py-8 w-8/12 mx-auto">
       <Swiper
+        modules={[Navigation, Pagination, Autoplay]} // Añade los módulos aquí
         spaceBetween={20}
-        slidesPerView={5}
+        slidesPerView={3} // Ajusta este valor según tus necesidades
         navigation={true}
-        loop={true} // Habilita el looping para que las tarjetas se repitan
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        loop={true} // Asegúrate de que haya suficientes slides para el bucle
         breakpoints={{
           640: {
             slidesPerView: 2,
@@ -20,61 +25,28 @@ const SwiperCarousel = () => {
             slidesPerView: 3,
           },
           1024: {
-            slidesPerView: 5,
+            slidesPerView: 3,
           },
         }}
       >
-        {/* Fila 1 */}
         <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard img ={image} />
+          <div className="card bg-white p-4 rounded-xl  hover:scale-105 transition transform duration-300">
+            <TravelPackageCard img={image} />
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard />
+          <div className="card bg-white p-4 rounded-xl  hover:scale-105 transition transform duration-300">
+            <TravelPackageCard img={image} />
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard />
+          <div className="card bg-white p-4 rounded-xl  hover:scale-105 transition transform duration-300">
+            <TravelPackageCard img={image} />
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard />
-          </div>
-        </SwiperSlide>
-
-        {/* Fila 2 */}
-        <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="card bg-white p-4 rounded-xl shadow-lg hover:scale-105 transition transform duration-300">
-            <TravelPackageCard />
+          <div className="card bg-white p-4 rounded-xl  hover:scale-105 transition transform duration-300">
+            <TravelPackageCard img={image} />
           </div>
         </SwiperSlide>
       </Swiper>

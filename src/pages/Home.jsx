@@ -1,16 +1,16 @@
-import Footer from '../layout/Footer'
-import Header from '../layout/Header'
 import HeroSection from '../HeroSection'
 import Carousel from '../components/Carrusel'
-import LoginForm from '../auth/LoginForm'
+import SwiperCarousel from '../components/SwiperCard'
+
 
 const Home = ()=>{
-    return(
-        <>
+    return (
+      <>
         <HeroSection />
+        {/* remplazar por category el swiper */}
+        <SwiperCarousel />
         <Carousel />
-        </>
-
-    )
+      </>
+    );
 }
 export default Home

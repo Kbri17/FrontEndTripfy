@@ -22,7 +22,7 @@ const LoginForm =()=>{
     };
 
     return (
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-6 mb-6">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-24">
         <form onSubmit={handleSubmit}>
           {/* Campo de Email */}
           <div className="mb-4">

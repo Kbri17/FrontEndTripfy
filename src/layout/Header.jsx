@@ -8,16 +8,16 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 w-full h-16 bg-blue-500 z-50">
+    <header className="fixed top-0 left-0 w-full h-16 bg-blue-500 z-50">
       {/* Contenedor que divide en 3 columnas */}
       <div className="grid grid-cols-3 h-full">
-        <div className="flex items-center justify-start pl-4 border">
+        <div className="flex items-center justify-start pl-4 ">
           <Link to="/">
-            <img className="h-10" src={logo} alt="Logo" />
+            <img className="h-10 ml-[60px]" src={logo} alt="Logo" />
           </Link>
         </div>
 
-        <div className="flex items-center justify-center border">
+        <div className="flex items-center justify-center ">
           <div className="relative">
             <input
               type="text"
@@ -31,7 +31,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-end pr-4 border">
+        <div className="flex items-center justify-end pr-4 mr-[60px]">
           {/* Botón de hamburguesa en pantallas pequeñas */}
           <button
             className="block md:hidden focus:outline-none"
@@ -41,11 +41,11 @@ const Header = () => {
           </button>
 
           {/* Links de Login y Register en pantallas grandes */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center ">
             <div className="bg-custom-orange w-10 h-10 rounded-full p-2 mr-2">
               <FontAwesomeIcon icon={faUser} className="text-white text-2xl" />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col ">
               <span className="text-white font-bold text-xl">
                 <Link to="/login">Log in</Link>
               </span>
