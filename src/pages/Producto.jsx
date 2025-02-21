@@ -36,9 +36,7 @@ const ProductDetail = () => {
 
       {/* Botón de "Ver más" */}
       <div className="see-more-button">
-        <button onClick={() => alert('Ver más...')}>
-          Ver más
-        </button>
+      <a href="/Details">Ver más</a>
       </div>
     </div>
   );
