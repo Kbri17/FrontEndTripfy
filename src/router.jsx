@@ -3,6 +3,9 @@ import Home from "./pages/Home";
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 import LoginForm from "./auth/LoginForm";
+import Details from "./pages/Details";
+import Producto from "./pages/Producto"
+import Galeria from "./pages/Galeria"
 import RegisterForm from "./auth/RegisterForm";
 import PerfilUser from "./auth/PerfilUsuario";
 
@@ -38,6 +41,17 @@ export const router = createBrowserRouter([
       {
         path: "/perfil",
         element: <PerfilUser/>,
+         path: "/producto",
+        element: <Producto/>,
+      },
+      {
+        path: "/details",
+        element: <Details />,
+      },
+      {
+        path: "/galeria",
+        element: <Galeria/>,
+
       },
     ],
   },
