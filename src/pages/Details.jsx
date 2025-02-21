@@ -56,7 +56,7 @@ const ProductDetails = () => {
 
         {/* Enlace "Ver más" en la parte inferior derecha */}
         <div className="see-more">
-          <a href="/more-images">Ver galeria de imagenes</a>
+          <a href="/Galeria">Ver galeria de imagenes</a>
         </div>
 
       </div>
