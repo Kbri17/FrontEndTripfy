@@ -1,14 +1,13 @@
-import React, {useState} from "react";
-import { registrarUsuario } from "./actions/UsuarioAction";
-
-const RegisterForm =()=>{
+import React, {useState, useEffect} from "react";
+import { actualizarUsuario, obtenerUsuarioPorId } from "./actions/UsuarioAction";
+const PerfilUser =()=>{
     const [usuario, setUsuario] = useState({
       correo: "",
       contrasenia: "",
       nombre: "",
       apellido: "",
     });
-    const handleChange = (e) => {
+    const handleChangeUser = (e) => {
       const { name, value } = e.target;
       setUsuario((prevData) => ({
         ...prevData,
@@ -17,18 +16,30 @@ const RegisterForm =()=>{
       }));
     };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      // Aquí va la lógica para enviar el formulario
-      registrarUsuario(usuario).then(res =>{
-        console.log("Se registro usuario", res)
-        if (res.idUsuario) {
-          localStorage.setItem("userId", res.idUsuario); // Guardamos el ID en localStorage
-          console.log("ID guardado en localStorage:", res.idUsuario);
+    useEffect(() => {
+        const userId = localStorage.getItem("userId");
+        if (userId) {
+          obtenerUsuarioPorId(userId).then((data) => {
+            setUsuario(data);
+          });
         }
-      })
-      
-    };
+      }, []);
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          const userId = localStorage.getItem("userId");
+          if (!userId) {
+            console.error("No hay ID de usuario en localStorage");
+            return;
+          }
+
+          const res = await actualizarUsuario(userId, usuario);
+          console.log("Usuario actualizado con éxito:", res);
+        } catch (error) {
+          console.error("Error al actualizar usuario:", error);
+        }
+      };
 
     return (
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-6 mb-6">
@@ -46,7 +57,7 @@ const RegisterForm =()=>{
               id="nombre"
               name="nombre"
               value={usuario.nombre}
-              onChange={handleChange}
+              onChange={handleChangeUser}
               required
               className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Introduce tu nombre"
@@ -65,7 +76,7 @@ const RegisterForm =()=>{
               id="apellido"
               name="apellido"
               value={usuario.apellido}
-              onChange={handleChange}
+              onChange={handleChangeUser}
               required
               className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Introduce tu apellido"
@@ -84,7 +95,7 @@ const RegisterForm =()=>{
               id="correo"
               name="correo"
               value={usuario.correo}
-              onChange={handleChange}
+              onChange={handleChangeUser}
               required
               className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Introduce tu email"
@@ -104,7 +115,7 @@ const RegisterForm =()=>{
               id="contrasenia"
               name="contrasenia"
               value={usuario.contrasenia}
-              onChange={handleChange}
+              onChange={handleChangeUser}
               required
               className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Introduce tu contraseña"
@@ -125,4 +136,4 @@ const RegisterForm =()=>{
     );
 }
 
-export default RegisterForm
+export default PerfilUser

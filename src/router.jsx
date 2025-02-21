@@ -3,12 +3,14 @@ import Home from "./pages/Home";
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 import LoginForm from "./auth/LoginForm";
+import RegisterForm from "./auth/RegisterForm";
+import PerfilUser from "./auth/PerfilUsuario";
 
 const Root = () => (
   <div className="flex flex-col min-h-screen">
     <Header /> {/* Siempre visible arriba */}
     {/* Contenido principal que ocupa el espacio restante */}
-    <div className="flex-grow">
+    <div className="flex-grow mt-16">
       <Outlet />
     </div>
     <Footer /> {/* Siempre abajo */}
@@ -28,6 +30,14 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginForm />,
+      },
+      {
+        path: "/register",
+        element: <RegisterForm />,
+      },
+      {
+        path: "/perfil",
+        element: <PerfilUser/>,
       },
     ],
   },
