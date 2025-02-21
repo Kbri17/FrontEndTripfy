@@ -8,6 +8,8 @@ import Producto from "./pages/Producto"
 import Galeria from "./pages/Galeria"
 import RegisterForm from "./auth/RegisterForm";
 import PerfilUser from "./auth/PerfilUsuario";
+import RegisterForm from "./auth/RegisterForm";
+import PerfilUser from "./auth/PerfilUsuario";
 
 const Root = () => (
   <div className="flex flex-col min-h-screen">
