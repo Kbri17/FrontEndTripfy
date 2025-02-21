@@ -5,8 +5,6 @@ const LoginForm =()=>{
     const [formData, setFormData] = useState({
       email: "",
       password: "",
-      firstName: "",
-      lastName: "",
     });
 
     const handleChange = (e) => {
@@ -24,7 +22,7 @@ const LoginForm =()=>{
     };
 
     return (
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-6 mb-6">
         <form onSubmit={handleSubmit}>
           {/* Campo de Email */}
           <div className="mb-4">
@@ -45,7 +43,7 @@ const LoginForm =()=>{
               placeholder="Introduce tu email"
             />
           </div>
-      
+
           {/* Campo de Contraseña */}
           <div className="mb-4">
             <label
@@ -65,51 +63,13 @@ const LoginForm =()=>{
               placeholder="Introduce tu contraseña"
             />
           </div>
-          {/* Campo de Nombre */}
-          <div className="mb-4">
-            <label
-              htmlFor="firstName"
-              className="block text-gray-700 text-sm font-semibold mb-2"
-            >
-              Nombre
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Introduce tu nombre"
-            />
-          </div>
-          {/* Campo de Apellido */}
-          <div className="mb-4">
-            <label
-              htmlFor="lastName"
-              className="block text-gray-700 text-sm font-semibold mb-2"
-            >
-              Apellido
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Introduce tu apellido"
-            />
-          </div>
           {/* Botón de Enviar */}
           <div className="mb-4">
             <button
               type="submit"
               className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              Registrarse
+              Log in
             </button>
           </div>
         </form>
