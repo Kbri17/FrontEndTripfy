@@ -1,10 +1,18 @@
 import React from "react";
-const Footer = () =>{
-    return (
-        <footer className="w-full h-16 bg-blue-500">
-         
-        </footer>
-    );
-}
+import logo from "../assets/logo.svg";
 
-export default Footer
+const Footer = () => {
+  return (
+    // <footer className="w-full h-16 bg-blue-500">
+
+    // </footer>
+    <footer className="w-full h-16 bg-blue-500 flex items-center justify-start px-4">
+      <img src={logo} alt="Tripfy Logo" className="h-6" />
+      <span className="text-white text-l ml-[10px]">
+        &copy; {new Date().getFullYear()} Tripfy. Todos los derechos reservados.
+      </span>
+    </footer>
+  );
+};
+
+export default Footer;
