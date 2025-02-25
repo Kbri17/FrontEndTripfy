@@ -58,7 +58,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "/swiper",
-        element: <SwiperCarousel/>,
+        element: <SwiperCarousel />,
+      },
+      //Solo rutas admin
+      {
+        path: "/admin",
+        element: <SwiperCarousel />,
+      },
+      {
+        path: "/admin/update",
+        element: <SwiperCarousel />,
       },
     ],
   },

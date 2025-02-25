@@ -9,12 +9,13 @@ import image from "../assets/img.png";
 const SwiperCarousel = () => {
   return (
     <div className="py-8 w-8/12 mx-auto">
+      <h3 className="text-center font-bold text-2xl">Categorias</h3>
       <Swiper
         modules={[Navigation, Pagination, Autoplay]} // Añade los módulos aquí
         spaceBetween={20}
         slidesPerView={3} // Ajusta este valor según tus necesidades
         navigation={true}
-        pagination={{ clickable: true }}
+        /* pagination={{ clickable: true }} */
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         loop={true} // Asegúrate de que haya suficientes slides para el bucle
         breakpoints={{
@@ -31,22 +32,22 @@ const SwiperCarousel = () => {
       >
         <SwiperSlide>
           <div className="card bg-white p-4 rounded-xl  hover:scale-105 transition transform duration-300">
-            <TravelPackageCard img={image} />
+            <TravelPackageCard image={image} />
           </div>
         </SwiperSlide>
         <SwiperSlide>
           <div className="card bg-white p-4 rounded-xl  hover:scale-105 transition transform duration-300">
-            <TravelPackageCard img={image} />
+            <TravelPackageCard image={image} />
           </div>
         </SwiperSlide>
         <SwiperSlide>
           <div className="card bg-white p-4 rounded-xl  hover:scale-105 transition transform duration-300">
-            <TravelPackageCard img={image} />
+            <TravelPackageCard image={image} />
           </div>
         </SwiperSlide>
         <SwiperSlide>
           <div className="card bg-white p-4 rounded-xl  hover:scale-105 transition transform duration-300">
-            <TravelPackageCard img={image} />
+            <TravelPackageCard image={image} />
           </div>
         </SwiperSlide>
       </Swiper>

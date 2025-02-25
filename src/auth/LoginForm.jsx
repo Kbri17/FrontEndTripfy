@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-
+import Success from "../alerts/Succes";
 
 const LoginForm =()=>{
     const [formData, setFormData] = useState({
@@ -22,7 +22,8 @@ const LoginForm =()=>{
     };
 
     return (
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-24">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-28">
+        <h3 className="text-center font-bold text-2xl">Iniciar sesión</h3>
         <form onSubmit={handleSubmit}>
           {/* Campo de Email */}
           <div className="mb-4">
