@@ -2,11 +2,11 @@ import React from 'react';
 import '../Estilos/Details.css';
 
 // Imágenes importadas desde la carpeta assets
-import image1 from '../assets/img.png';
-import image2 from '../assets/img.png';
-import image3 from '../assets/img.png';
-import image4 from '../assets/img.png';
-import image5 from '../assets/img.png';
+import image1 from '../assets/img1.jpg.jpg';
+import image2 from '../assets/img2.jpg.jpg';
+import image3 from '../assets/img3.jpg.jpg';
+import image4 from '../assets/img4.jpg.jpg';
+import image5 from '../assets/img5.jpg.jpg';
 
 const ProductDetails = () => {
 
