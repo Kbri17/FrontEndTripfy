@@ -9,6 +9,8 @@ import Galeria from "./pages/Galeria"
 import RegisterForm from "./auth/RegisterForm";
 import PerfilUser from "./auth/PerfilUsuario";
 import SwiperCarousel from "./components/SwiperCard";
+import Administracion from "./pages/Administracion";
+import AgregarProducto from "./pages/AgregarProducto";
 
 
 const Root = () => (
@@ -69,6 +71,16 @@ export const router = createBrowserRouter([
         path: "/admin/update",
         element: <SwiperCarousel />,
       },
+      //Rutas prueba panel administracion y agregar producto
+      {
+        path: "/administracion",
+        element: <Administracion />,
+      },
+      {
+        path: "/AgregarProducto",
+        element: <AgregarProducto />,
+      },
+
     ],
   },
 ]);
