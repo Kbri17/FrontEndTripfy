@@ -3,7 +3,7 @@ import '../Estilos/Details.css';
 
 // Imágenes importadas desde la carpeta assets
 import image1 from '../assets/img1.jpg.jpg';
-import image2 from '../assets/img2.jpg.jpg';
+import image6 from '../assets/img6.jgp.jpg';
 import image3 from '../assets/img3.jpg.jpg';
 import image4 from '../assets/img4.jpg.jpg';
 import image5 from '../assets/img5.jpg.jpg';
@@ -40,7 +40,7 @@ const ProductDetails = () => {
           {/* Grilla de imágenes en la mitad derecha */}
           <div className="grid-container">
             <div className="grid-item">
-              <img src={image2} alt="Producto 2" />
+              <img src={image6} alt="Producto 2" />
             </div>
             <div className="grid-item">
               <img src={image3} alt="Producto 3" />
@@ -56,7 +56,7 @@ const ProductDetails = () => {
 
         {/* Enlace "Ver más" en la parte inferior derecha */}
         <div className="see-more">
-          <a href="/Galeria">Ver galeria de imagenes</a>
+          <a href="/Galeria">Ver más</a>
         </div>
 
       </div>
