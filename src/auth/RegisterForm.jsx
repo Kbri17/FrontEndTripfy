@@ -9,6 +9,7 @@ const RegisterForm = () => {
     contrasenia: "",
     nombre: "",
     apellido: "",
+    username: "",
   });
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -112,6 +113,26 @@ const RegisterForm = () => {
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Introduce tu contraseña"
+          />
+        </div>
+
+        {/* Campo de username */}
+        <div className="mb-4">
+          <label
+            htmlFor="correo"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
+            Username
+          </label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={usuario.username}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Introduce tu email"
           />
         </div>
 
