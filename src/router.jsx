@@ -11,6 +11,7 @@ import PerfilUser from "./auth/PerfilUsuario";
 import SwiperCarousel from "./components/SwiperCard";
 import Administracion from "./pages/Administracion";
 import AgregarProducto from "./pages/AgregarProducto";
+import GestionarCategorias from "./pages/GestionarCategorias";
 
 
 const Root = () => (
@@ -79,6 +80,10 @@ export const router = createBrowserRouter([
       {
         path: "/AgregarProducto",
         element: <AgregarProducto />,
+      },
+      {
+        path: "/GesyionarCategorias",
+        element: <GestionarCategorias />,
       },
 
     ],
