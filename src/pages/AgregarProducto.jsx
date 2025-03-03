@@ -1,4 +1,3 @@
-// AgregarProducto.js
 import React, { useState } from 'react';
 import '../Estilos/AgregarProducto.css';
 
@@ -6,12 +5,17 @@ const AgregarProducto = () => {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [imagenes, setImagenes] = useState([]);
+  const [categoria, setCategoria] = useState('');  
   const [error, setError] = useState('');
   const [productos, setProductos] = useState([]); // Simulación de la base de datos
+
+
+  const categoriasDisponibles = ['Full day', 'paquetes'];
 
   const handleNombreChange = (e) => setNombre(e.target.value);
   const handleDescripcionChange = (e) => setDescripcion(e.target.value);
   const handleImagenesChange = (e) => setImagenes(Array.from(e.target.files));
+  const handleCategoriaChange = (e) => setCategoria(e.target.value); 
 
   const verificarNombreExistente = () => {
     // Simulación de verificación de nombre en la "base de datos"
@@ -25,13 +29,14 @@ const AgregarProducto = () => {
       return;
     }
 
-    if (nombre && descripcion && imagenes.length > 0) {
-      const nuevoProducto = { nombre, descripcion, imagenes };
+    if (nombre && descripcion && imagenes.length > 0 && categoria) {
+      const nuevoProducto = { nombre, descripcion, imagenes, categoria };
       setProductos([...productos, nuevoProducto]);
       setError('');
       setNombre('');
       setDescripcion('');
       setImagenes([]);
+      setCategoria('');
       alert('Producto agregado con éxito.');
     } else {
       setError('Por favor, complete todos los campos.');
@@ -72,6 +77,23 @@ const AgregarProducto = () => {
             onChange={handleImagenesChange} 
             required 
           />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="categoria">Categoría</label>
+          <select 
+            id="categoria" 
+            value={categoria} 
+            onChange={handleCategoriaChange} 
+            required
+          >
+            <option value="">Seleccione una categoría</option>
+            {categoriasDisponibles.map((categoria, index) => (
+              <option key={index} value={categoria}>
+                {categoria}
+              </option>
+            ))}
+          </select>
         </div>
 
         {error && <p className="error">{error}</p>}
