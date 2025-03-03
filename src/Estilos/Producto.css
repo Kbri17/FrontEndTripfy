@@ -1,0 +1,59 @@
+/* Estilos generales para el componente */
+.product-detail {
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .back-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .product-body {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .product-image {
+    width: 50%;
+    padding-right: 20px;
+  }
+  
+  .product-image img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .product-description {
+    width: 50%;
+  }
+  
+  .product-description p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .see-more-button {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .see-more-button button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

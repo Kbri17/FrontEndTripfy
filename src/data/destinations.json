@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "title": "Playa del Carmen",
+    "destination": "México",
+    "description": "Disfruta del sol y el mar en las playas de arena blanca.",
+    "price": "$999",
+    "image": "https://via.placeholder.com/300x200?text=Playa+del+Carmen"
+  },
+  {
+    "id": 2,
+    "title": "Machu Picchu",
+    "destination": "Perú",
+    "description": "Explora la maravilla del mundo Inca.",
+    "price": "$1299",
+    "image": "https://via.placeholder.com/300x200?text=Machu+Picchu"
+  },
+  {
+    "id": 3,
+    "title": "París",
+    "destination": "Francia",
+    "description": "Descubre el romance en la ciudad de las luces.",
+    "price": "$1499",
+    "image": "https://via.placeholder.com/300x200?text=París"
+  },
+  {
+    "id": 4,
+    "title": "Tokio",
+    "destination": "Japón",
+    "description": "Sumérgete en la cultura japonesa moderna y tradicional.",
+    "price": "$1399",
+    "image": "https://via.placeholder.com/300x200?text=Tokio"
+  },
+  {
+    "id": 5,
+    "title": "Playa del Carmen",
+    "destination": "México",
+    "description": "Disfruta del sol y el mar en las playas de arena blanca.",
+    "price": "$999",
+    "image": "https://via.placeholder.com/300x200?text=Playa+del+Carmen"
+  },
+  {
+    "id": 6,
+    "title": "Machu Picchu",
+    "destination": "Perú",
+    "description": "Explora la maravilla del mundo Inca.",
+    "price": "$1299",
+    "image": "https://via.placeholder.com/300x200?text=Machu+Picchu"
+  },
+  {
+    "id": 7,
+    "title": "París",
+    "destination": "Francia",
+    "description": "Descubre el romance en la ciudad de las luces.",
+    "price": "$1499",
+    "image": "https://via.placeholder.com/300x200?text=París"
+  },
+  {
+    "id": 8,
+    "title": "Tokio",
+    "destination": "Japón",
+    "description": "Sumérgete en la cultura japonesa moderna y tradicional.",
+    "price": "$1399",
+    "image": "https://via.placeholder.com/300x200?text=Tokio"
+  }
+]

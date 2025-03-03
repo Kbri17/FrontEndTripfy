@@ -1,0 +1,159 @@
+/* Estilos generales */
+* {
+  margin: auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.product-details-container {
+  padding: 100px;
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+/* Título del producto alineado a la izquierda */
+.product-title h1 {
+  text-align: left;
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Flecha para regresar alineada a la derecha */
+.back-arrow {
+  display:grid;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.back-arrow:hover {
+  text-decoration: underline;
+}
+
+/* Cuerpo del producto */
+.product-body {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Galería de imágenes */
+.product-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.main-image {
+  width: 48%;
+  text-align: center;
+}
+
+.main-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 48%;
+}
+
+.grid-item {
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Estilo para el enlace "Ver más" */
+.see-more {
+  position: absolute;
+  bottom: 100px;
+  right: 20px;
+  font-size: 16px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.see-more a {
+  text-decoration: none;
+}
+
+.see-more:hover {
+  text-decoration: underline;
+}
+
+/* Texto descriptivo */
+.product-description {
+  margin-top: 60px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Estilos responsivos */
+@media (max-width: 1024px) {
+  .product-gallery {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-image {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+
+  .grid-container {
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .grid-item {
+    text-align: center;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-image {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .grid-container {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .grid-item {
+    text-align: center;
+    padding: 8px;
+  }
+
+  .see-more {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    font-size: 14px;
+  }
+
+  .product-description {
+    font-size: 16px;
+  }
+}
