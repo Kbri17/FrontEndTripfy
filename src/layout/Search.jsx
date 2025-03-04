@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Search = () => {
   return (
     <section>
-      <div className="w-full h-16 bg-blue-300 z-50">
+      <div className="w-full mt-16 h-16 bg-blue-300 z-40">
         {/* Contenedor que divide en 3 columnas */}
         <div className="grid grid-cols-3 h-full">
           <div className="flex items-center justify-center ">

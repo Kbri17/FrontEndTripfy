@@ -18,7 +18,7 @@ const Root = () => (
   <div className="w-full flex flex-col min-h-screen overflow-x-hidden">
     <Header /> {/* Siempre visible arriba */}
     {/* Contenido principal que ocupa el espacio restante */}
-    <div className="flex-1 w-full mt-16">
+    <div className="flex-1 w-full bg-white">
       <Outlet />
     </div>
     <Footer /> {/* Siempre abajo */}

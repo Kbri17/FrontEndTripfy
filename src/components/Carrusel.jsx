@@ -32,7 +32,7 @@ const Carousel = () => {
         {destinations.map((item) => (
           <div
             key={item.id}
-            className="card bg-white p-4 rounded-xl hover:scale-105 transition transform duration-300"
+            className="card p-4 rounded-xl hover:scale-105 transition transform duration-300"
           >
             <TravelPackageCard
               image={img}

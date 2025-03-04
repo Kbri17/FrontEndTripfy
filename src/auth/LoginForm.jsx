@@ -35,7 +35,7 @@ const LoginForm = () => {
       localStorage.setItem("user", JSON.stringify(data.userResponse));
 
       // Redirigir al perfil o dashboard
-      navigate("/perfil"); 
+      navigate("/perfil");
     } catch (err) {
       setError(err.message);
     }
@@ -48,7 +48,10 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit}>
         {/* Campo de Usuario */}
         <div className="mb-4">
-          <label htmlFor="username" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="username"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Usuario
           </label>
           <input
@@ -65,7 +68,10 @@ const LoginForm = () => {
 
         {/* Campo de Contraseña */}
         <div className="mb-4">
-          <label htmlFor="contrasenia" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="contrasenia"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Contraseña
           </label>
           <input
