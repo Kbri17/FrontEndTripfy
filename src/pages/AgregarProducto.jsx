@@ -22,26 +22,85 @@ const AgregarProducto = () => {
     return productos.some((producto) => producto.nombre === nombre);
   };
 
-  const handleSubmit = (e) => {
+
+  // const [nombre, setNombre] = useState('');
+  // const [descripcion, setDescripcion] = useState('');
+  // const [imagenes, setImagenes] = useState([]);
+  // const [categoria, setCategoria] = useState('');  
+  // const [error, setError] = useState('');
+  // const [productos, setProductos] = 
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    if (!nombre.trim() || !descripcion.trim() || imagenes.length === 0 || !categoria) {
+      setError('Por favor, complete todos los campos.');
+      return;
+    }
+  
     if (verificarNombreExistente()) {
       setError('El nombre del producto ya está en uso.');
       return;
     }
-
-    if (nombre && descripcion && imagenes.length > 0 && categoria) {
-      const nuevoProducto = { nombre, descripcion, imagenes, categoria };
-      setProductos([...productos, nuevoProducto]);
-      setError('');
+  
+    const formData = new FormData();
+    formData.append('nombre', nombre);
+    formData.append('descripcion', descripcion);
+    formData.append('categoria', categoria);
+  
+    // Agregar imágenes al FormData
+    imagenes.forEach((imagen, index) => {
+      formData.append(`imagenes`, imagen);
+    });
+  
+    try {
+      const response = await fetch('http://localhost:8080/tour/guardar', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error al guardar el producto.');
+      }
+  
+      const data = await response.json();
+      alert('Producto agregado con éxito.');
+      
+      // Resetear formulario
       setNombre('');
       setDescripcion('');
       setImagenes([]);
+      setVistaPrevia([]);
       setCategoria('');
-      alert('Producto agregado con éxito.');
-    } else {
-      setError('Por favor, complete todos los campos.');
+      setError('');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+  
+    } catch (error) {
+      setError('Hubo un problema al guardar el producto.');
     }
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (verificarNombreExistente()) {
+  //     setError('El nombre del producto ya está en uso.');
+  //     return;
+  //   }
+
+  //   if (nombre && descripcion && imagenes.length > 0 && categoria) {
+  //     const nuevoProducto = { nombre, descripcion, imagenes, categoria };
+  //     setProductos([...productos, nuevoProducto]);
+  //     setError('');
+  //     setNombre('');
+  //     setDescripcion('');
+  //     setImagenes([]);
+  //     setCategoria('');
+  //     alert('Producto agregado con éxito.');
+  //   } else {
+  //     setError('Por favor, complete todos los campos.');
+  //   }
+  // };
 
   return (
     <div className="agregar-producto">

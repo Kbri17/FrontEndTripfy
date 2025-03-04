@@ -25,9 +25,9 @@ const RegisterForm = () => {
     // Aquí va la lógica para enviar el formulario
     registrarUsuario(usuario).then((res) => {
       console.log("Se registro usuario", res);
-      if (res.idUsuario) {
-        localStorage.setItem("userId", res.idUsuario); // Guardamos el ID en localStorage
-        console.log("ID guardado en localStorage:", res.idUsuario);
+      if (res.userResponse?.id != null) {
+        localStorage.setItem("userId", res.userResponse.id); // Guardamos el ID en localStorage
+        console.log("ID guardado en localStorage:", res.userResponse?.id);
         Success();
         navigate("/login");
       }
