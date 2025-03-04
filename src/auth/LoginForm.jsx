@@ -22,7 +22,7 @@ const LoginForm =()=>{
     };
 
     return (
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-28">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-28 mb-8">
         <h3 className="text-center font-bold text-2xl">Iniciar sesión</h3>
         <form onSubmit={handleSubmit}>
           {/* Campo de Email */}

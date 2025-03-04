@@ -9,8 +9,8 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full h-32 bg-blue-500 z-50">
-      <div className="w-full h-16 bg-blue-500">
+    <header className="top-0 left-0 w-full h-32 bg-custom-blue z-50">
+      <div className="fixed  w-full h-16 bg-custom-blue">
         {/* Contenedor que divide en 3 columnas */}
         <div className="grid grid-cols-2 h-full">
           <div className="flex items-center justify-start pl-4 ">
@@ -29,19 +29,25 @@ const Header = () => {
 
             {/* Links de Login y Register en pantallas grandes */}
             <div className="hidden md:flex items-center ">
-              <div className="bg-custom-orange w-10 h-10 rounded-full p-2 mr-2">
+              <div className="flex ">
+                <Link
+                  to="/register"
+                  className="bg-white text-custom-orange font-bold text-xl px-4 py-1 rounded hover:bg-orange-600 transition duration-300 mr-4"
+                >
+                  Registrarse
+                </Link>
+                <Link
+                  to="/login"
+                  className="bg-custom-orange text-white font-bold text-xl px-4 py-1 rounded hover:bg-orange-600 transition duration-300 mr-4"
+                >
+                  Iniciar sesión
+                </Link>
+              </div>
+              <div className="flex bg-custom-orange w-10 h-10 rounded-full p-2 mr-2 margin-auto items-center justify-center">
                 <FontAwesomeIcon
                   icon={faUser}
-                  className="text-white text-2xl"
+                  className="flex text-white text-2xl margin-auto items-center justify-center text-center"
                 />
-              </div>
-              <div className="flex flex-col ">
-                <span className="text-white font-bold text-xl">
-                  <Link to="/login">Iniciar sesión</Link>
-                </span>
-                <span className="text-custom-orange font-bold text-xl">
-                  <Link to="/register">Registrarse</Link>
-                </span>
               </div>
             </div>
           </div>
@@ -49,28 +55,25 @@ const Header = () => {
 
         {/* Menú desplegable en pantallas pequeñas */}
         {menuOpen && (
-          <div className="md:hidden bg-blue-500">
+          <div className="md:hidden bg-blue-400 z-51">
             <div className="flex flex-col items-center py-4">
               <Link
-                to="/login"
-                className="text-white font-bold text-xl mb-2"
-                onClick={() => setMenuOpen(false)}
+                to="/register"
+                className="bg-white text-custom-orange font-bold text-xl px-4 py-1 rounded hover:bg-orange-600 transition duration-300 mb-2"
               >
-                Log in
+                Registrarse
               </Link>
               <Link
-                to="/register"
-                className="text-custom-orange font-bold text-xl"
-                onClick={() => setMenuOpen(false)}
+                to="/login"
+                className="bg-custom-orange text-white font-bold text-xl px-4 py-1 rounded hover:bg-orange-600 transition duration-300"
               >
-                Register
+                Iniciar sesión
               </Link>
             </div>
           </div>
         )}
       </div>
-      <Search/>
-      
+      <Search />
     </header>
   );
 };

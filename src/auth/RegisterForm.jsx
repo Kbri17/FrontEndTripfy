@@ -34,7 +34,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-24 mb-6">
+    <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-12 mb-6">
       <h3 className="text-center font-bold text-2xl">Registrarse</h3>
       <form onSubmit={handleSubmit}>
         {/* Campo de Nombre */}
