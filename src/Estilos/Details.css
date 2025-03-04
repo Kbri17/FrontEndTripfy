@@ -1,12 +1,12 @@
 /* Estilos generales */
 * {
-  margin: 0;
+  margin: auto;
   padding: 0;
   box-sizing: border-box;
 }
 
 .product-details-container {
-  padding: 20px;
+  padding: 100px;
   position: relative;
   font-family: Arial, sans-serif;
 }
@@ -22,7 +22,7 @@
 
 /* Flecha para regresar alineada a la derecha */
 .back-arrow {
-  display: flex;
+  display:grid;
   justify-content: flex-end;
   margin-bottom: 20px;
   font-size: 18px;
