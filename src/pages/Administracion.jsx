@@ -1,21 +1,26 @@
-// AdminPanel.js
-import React, { useState } from 'react';
-import AgregarProducto from './AgregarProducto';
-import GestionarCategorias from './GestionarCategorias';
+import React, { useState, useEffect } from 'react';
 import '../Estilos/Administracion.css';
-import '../Estilos/GestionarCategorias.css';
-
+import axios from 'axios'; 
 
 const AdminPanel = () => {
-  const [mostrarAgregarProducto, setMostrarAgregarProducto] = useState(false);
-  const [mostrarGestionarCategorias, setMostrarGestionarCategorias] = useState(false);
+  // Estado para almacenar los productos
+  const [productos, setProductos] = useState([]);
 
-  const handleMostrarAgregarProducto = () => {
-    setMostrarAgregarProducto(true);
+  // Función para obtener productos desde la API
+  const obtenerProductos = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/buscartodos'); 
+      setProductos(response.data); 
+    } catch (error) {
+      console.error('Error al obtener los productos:', error);
+    }
   };
-  const handleMostrarGestionarCategorias = () => {
-    setMostrarGestionarCategorias(true);
-  };
+
+  // Cargar los productos al montar el componente
+  useEffect(() => {
+    obtenerProductos();
+  }, []); 
+
   return (
     <div className="admin-panel">
       <header className="admin-header">
@@ -27,21 +32,48 @@ const AdminPanel = () => {
           <li><a href="#dashboard">Dashboard</a></li>
           <li><a href="#productos">Productos</a></li>
           <li><a href="#usuarios">Usuarios</a></li>
-          <li><button onClick={handleMostrarAgregarProducto}>Agregar Producto</button></li>
-          <li><button onClick={handleMostrarGestionarCategorias}>Gestionar categorías</button></li>
+          <li><a href="/AgregarProducto">Agregar producto</a></li>
+          <li><a href="/GestionarCategorias">Gestionar categorías</a></li>
         </ul>
       </div>
 
-      <main className="main-content">
-        {mostrarAgregarProducto ? <AgregarProducto /> : <p></p>}
-        {mostrarGestionarCategorias ? <GestionarCategorias/>:<p></p>}
-      </main>
-
-      
+      <div className="main-content">
+        <section id="productos">
+          <h2>Productos Registrados</h2>
+          {/* Tabla para mostrar los productos */}
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Si no hay productos */}
+              {productos.length === 0 ? (
+                <tr>
+                  <td colSpan="3">No hay productos registrados</td>
+                </tr>
+              ) : (
+               
+                productos.map(producto => (
+                  <tr key={producto.id}>
+                    <td>{producto.nombre}</td>
+                    <td>{producto.precio}</td>
+                    <td>
+                      <button onClick={() => console.log('Editar Producto', producto.id)}>Editar</button>
+                      <button onClick={() => console.log('Eliminar Producto', producto.id)}>Eliminar</button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </section>
+      </div>
     </div>
-
-    
   );
-}
+};
 
 export default AdminPanel;

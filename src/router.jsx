@@ -82,7 +82,7 @@ export const router = createBrowserRouter([
         element: <AgregarProducto />,
       },
       {
-        path: "/GesyionarCategorias",
+        path: "/GestionarCategorias",
         element: <GestionarCategorias />,
       },
 
