@@ -9,10 +9,20 @@ const AdminPanel = () => {
   // Función para obtener productos desde la API
   const obtenerProductos = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/buscartodos'); 
-      setProductos(response.data); 
+      const response = await axios.get('http://localhost:8080/tour/buscartodos'); 
+      setProductos(response.data);
     } catch (error) {
       console.error('Error al obtener los productos:', error);
+    }
+  };
+
+  // Función para eliminar un producto
+  const eliminarProducto = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/tour//eliminar/${id}`); 
+      setProductos(productos.filter(producto => producto.id !== id)); 
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
     }
   };
 
@@ -56,14 +66,14 @@ const AdminPanel = () => {
                   <td colSpan="3">No hay productos registrados</td>
                 </tr>
               ) : (
-               
+                // Mapea los productos y crea una fila por cada uno
                 productos.map(producto => (
                   <tr key={producto.id}>
                     <td>{producto.nombre}</td>
                     <td>{producto.precio}</td>
                     <td>
                       <button onClick={() => console.log('Editar Producto', producto.id)}>Editar</button>
-                      <button onClick={() => console.log('Eliminar Producto', producto.id)}>Eliminar</button>
+                      <button onClick={() => eliminarProducto(producto.id)}>Eliminar</button>
                     </td>
                   </tr>
                 ))
@@ -77,3 +87,4 @@ const AdminPanel = () => {
 };
 
 export default AdminPanel;
+
