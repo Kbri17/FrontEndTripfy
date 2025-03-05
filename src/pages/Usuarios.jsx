@@ -12,6 +12,7 @@ const Usuarios = () => {
   const obtenerUsuarios = async () => {
     try {
       const response = await axios.get('http://localhost:8080/user/buscartodos'); 
+      console.log('Usuarios obtenidos:', response.data);
       setUsuarios(response.data); 
       console.log(usuarios);
     } catch (error) {
@@ -66,6 +67,7 @@ const Usuarios = () => {
           <table>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Acciones</th>
@@ -79,8 +81,9 @@ const Usuarios = () => {
                 </tr>
               ) : (
                 usuarios.map(usuario => (
-                   
+                  
                   <tr key={usuario.id}>
+                    <td>{usuario.idUsuario}</td>
                     <td>{usuario.nombre}</td>
                     <td>{usuario.email}</td>
                     <td>
