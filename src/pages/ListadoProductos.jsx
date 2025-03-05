@@ -11,6 +11,7 @@ const ListadoProductos = () => {
   const obtenerProductos = async () => {
     try {
       const response = await axios.get('http://localhost:8080/tour/buscartodos'); 
+      console.log('Usuarios obtenidos: ',response.data)
       setProductos(response.data);
     } catch (error) {
       console.error('Error al obtener los productos:', error);
@@ -48,6 +49,7 @@ const ListadoProductos = () => {
           <table>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Nombre</th>
                 <th>Precio</th>
                 <th>Acciones</th>
@@ -61,6 +63,7 @@ const ListadoProductos = () => {
               ) : (
                 productos.map(producto => (
                   <tr key={producto.id}>
+                    <td>{producto.idTour}</td>
                     <td>{producto.nombre}</td>
                     <td>{producto.precio}</td>
                     <td>
