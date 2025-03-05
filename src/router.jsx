@@ -12,7 +12,8 @@ import SwiperCarousel from "./components/SwiperCard";
 import Administracion from "./pages/Administracion";
 import AgregarProducto from "./pages/AgregarProducto";
 import GestionarCategorias from "./pages/GestionarCategorias";
-
+import ListadoProductos from "./pages/ListadoProductos";
+import Usuarios from "./pages/Usuarios";
 
 const Root = () => (
   <div className="w-full flex flex-col min-h-screen overflow-x-hidden">
@@ -72,7 +73,7 @@ export const router = createBrowserRouter([
         path: "/admin/update",
         element: <SwiperCarousel />,
       },
-      //Rutas prueba panel administracion y agregar producto
+      //Rutas prueba panel administracion  agregar producto, categorias, usurios, productos
       {
         path: "/administracion",
         element: <Administracion />,
@@ -82,8 +83,16 @@ export const router = createBrowserRouter([
         element: <AgregarProducto />,
       },
       {
-        path: "/GesyionarCategorias",
+        path: "/GestionarCategorias",
         element: <GestionarCategorias />,
+      },
+      {
+        path: "/ListadoProductos",
+        element: <ListadoProductos />,
+      },
+      {
+        path: "/Usuarios",
+        element: <Usuarios />,
       },
 
     ],

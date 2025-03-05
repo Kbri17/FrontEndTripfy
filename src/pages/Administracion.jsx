@@ -1,21 +1,10 @@
-// AdminPanel.js
 import React, { useState } from 'react';
-import AgregarProducto from './AgregarProducto';
-import GestionarCategorias from './GestionarCategorias';
 import '../Estilos/Administracion.css';
-import '../Estilos/GestionarCategorias.css';
 
 
 const AdminPanel = () => {
-  const [mostrarAgregarProducto, setMostrarAgregarProducto] = useState(false);
-  const [mostrarGestionarCategorias, setMostrarGestionarCategorias] = useState(false);
+ 
 
-  const handleMostrarAgregarProducto = () => {
-    setMostrarAgregarProducto(true);
-  };
-  const handleMostrarGestionarCategorias = () => {
-    setMostrarGestionarCategorias(true);
-  };
   return (
     <div className="admin-panel">
       <header className="admin-header">
@@ -25,23 +14,19 @@ const AdminPanel = () => {
       <div className="sidebar">
         <ul>
           <li><a href="#dashboard">Dashboard</a></li>
-          <li><a href="#productos">Productos</a></li>
-          <li><a href="#usuarios">Usuarios</a></li>
-          <li><button onClick={handleMostrarAgregarProducto}>Agregar Producto</button></li>
-          <li><button onClick={handleMostrarGestionarCategorias}>Gestionar categorías</button></li>
+          <li><a href="/ListadoProductos">Productos</a></li>
+          <li><a href="/Usuarios">Usuarios</a></li>
+          <li> <a href="/AgregarProducto">Agregar producto</a></li>
+          <li> <a href="/GestionarCategorias">Gestionar categorías</a></li>
+    
         </ul>
       </div>
-
-      <main className="main-content">
-        {mostrarAgregarProducto ? <AgregarProducto /> : <p></p>}
-        {mostrarGestionarCategorias ? <GestionarCategorias/>:<p></p>}
-      </main>
-
       
-    </div>
+   </div>
 
     
   );
 }
 
 export default AdminPanel;
+
