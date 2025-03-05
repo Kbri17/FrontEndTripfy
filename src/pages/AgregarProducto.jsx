@@ -6,9 +6,10 @@ const AgregarProducto = () => {
   const [descripcion, setDescripcion] = useState('');
   const [imagenes, setImagenes] = useState([]);
   const [categoria, setCategoria] = useState('');  
+  const [precio, setPrecio] = useState(0.0);
+  const [ubicacion, setUbicacion] = useState('');
   const [error, setError] = useState('');
   const [productos, setProductos] = useState([]); // Simulación de la base de datos
-
 
   const categoriasDisponibles = ['Full day', 'paquetes'];
 
@@ -16,26 +17,18 @@ const AgregarProducto = () => {
   const handleDescripcionChange = (e) => setDescripcion(e.target.value);
   const handleImagenesChange = (e) => setImagenes(Array.from(e.target.files));
   const handleCategoriaChange = (e) => setCategoria(e.target.value); 
+  const handlePrecioChange = (e) => setPrecio(parseFloat(e.target.value) || 0.0);
+  const handleUbicacionChange = (e) => setUbicacion(e.target.value);
 
   const verificarNombreExistente = () => {
-    // Simulación de verificación de nombre en la "base de datos"
     return productos.some((producto) => producto.nombre === nombre);
   };
-
-
-  // const [nombre, setNombre] = useState('');
-  // const [descripcion, setDescripcion] = useState('');
-  // const [imagenes, setImagenes] = useState([]);
-  // const [categoria, setCategoria] = useState('');  
-  // const [error, setError] = useState('');
-  // const [productos, setProductos] = 
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    if (!nombre.trim() || !descripcion.trim() || imagenes.length === 0 || !categoria) {
-      setError('Por favor, complete todos los campos.');
+    if (!nombre.trim() || !descripcion.trim() || imagenes.length === 0 || !categoria || precio <= 0 || !ubicacion.trim()) {
+      setError('Por favor, complete todos los campos. El precio debe ser mayor a 0.');
       return;
     }
   
@@ -48,10 +41,11 @@ const AgregarProducto = () => {
     formData.append('nombre', nombre);
     formData.append('descripcion', descripcion);
     formData.append('categoria', categoria);
+    formData.append('precio', precio);
+    formData.append('ubicacion', ubicacion);
   
-    // Agregar imágenes al FormData
-    imagenes.forEach((imagen, index) => {
-      formData.append(`imagenes`, imagen);
+    imagenes.forEach((imagen) => {
+      formData.append('imagenes', imagen);
     });
   
     try {
@@ -64,43 +58,19 @@ const AgregarProducto = () => {
         throw new Error('Error al guardar el producto.');
       }
   
-      const data = await response.json();
       alert('Producto agregado con éxito.');
       
-      // Resetear formulario
       setNombre('');
       setDescripcion('');
       setImagenes([]);
-      setVistaPrevia([]);
       setCategoria('');
+      setPrecio(0.0);
+      setUbicacion('');
       setError('');
-      if (fileInputRef.current) fileInputRef.current.value = '';
-  
     } catch (error) {
       setError('Hubo un problema al guardar el producto.');
     }
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (verificarNombreExistente()) {
-  //     setError('El nombre del producto ya está en uso.');
-  //     return;
-  //   }
-
-  //   if (nombre && descripcion && imagenes.length > 0 && categoria) {
-  //     const nuevoProducto = { nombre, descripcion, imagenes, categoria };
-  //     setProductos([...productos, nuevoProducto]);
-  //     setError('');
-  //     setNombre('');
-  //     setDescripcion('');
-  //     setImagenes([]);
-  //     setCategoria('');
-  //     alert('Producto agregado con éxito.');
-  //   } else {
-  //     setError('Por favor, complete todos los campos.');
-  //   }
-  // };
 
   return (
     <div className="agregar-producto">
@@ -134,6 +104,29 @@ const AgregarProducto = () => {
             id="imagenes" 
             multiple 
             onChange={handleImagenesChange} 
+            required 
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="precio">Precio</label>
+          <input 
+            type="number" 
+            id="precio"
+            step="0.01" 
+            value={precio} 
+            onChange={handlePrecioChange} 
+            required 
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="ubicacion">Ubicación</label>
+          <input 
+            type="text" 
+            id="ubicacion"
+            value={ubicacion} 
+            onChange={handleUbicacionChange} 
             required 
           />
         </div>
