@@ -9,6 +9,7 @@ const RegisterForm = () => {
     contrasenia: "",
     nombre: "",
     apellido: "",
+    username: "",
   });
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -24,9 +25,9 @@ const RegisterForm = () => {
     // Aquí va la lógica para enviar el formulario
     registrarUsuario(usuario).then((res) => {
       console.log("Se registro usuario", res);
-      if (res.idUsuario) {
-        localStorage.setItem("userId", res.idUsuario); // Guardamos el ID en localStorage
-        console.log("ID guardado en localStorage:", res.idUsuario);
+      if (res.userResponse?.id != null) {
+        localStorage.setItem("userId", res.userResponse.id); // Guardamos el ID en localStorage
+        console.log("ID guardado en localStorage:", res.userResponse?.id);
         Success();
         navigate("/login");
       }
@@ -34,7 +35,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-24 mb-6">
+    <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-12 mb-6">
       <h3 className="text-center font-bold text-2xl">Registrarse</h3>
       <form onSubmit={handleSubmit}>
         {/* Campo de Nombre */}
@@ -112,6 +113,26 @@ const RegisterForm = () => {
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Introduce tu contraseña"
+          />
+        </div>
+
+        {/* Campo de username */}
+        <div className="mb-4">
+          <label
+            htmlFor="correo"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
+            Username
+          </label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={usuario.username}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Introduce tu email"
           />
         </div>
 

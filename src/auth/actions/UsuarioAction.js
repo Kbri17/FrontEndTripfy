@@ -1,8 +1,9 @@
 import requestGenerico from "../../services/HttpCliente";
+import axios from "axios";
 
 export const registrarUsuario = async (usuario) => {
   try {
-    const response = await requestGenerico.post("/user/guardar", usuario);
+    const response = await requestGenerico.post("/auth/register", usuario);
     console.log("Respuesta del servidor:", response);
     return response;
   } catch (error) {
@@ -14,15 +15,28 @@ export const registrarUsuario = async (usuario) => {
   }
 };
 
-export const obtenerUsuarioPorId = async (id) => {
+
+export const obtenerUsuarioPorId = async (userId) => {
   try {
-    const response = await requestGenerico.get(`/user/buscar/${id}`);
-    return response;
+    const token = localStorage.getItem("token"); // Asegúrate de que el token esté guardado
+    if (!token) {
+      console.error("No hay token en localStorage");
+      return null;
+    }
+
+    const response = await axios.get(`http://localhost:8080/user/buscar/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Asegúrate de que tu backend usa 'Bearer'
+      },
+    });
+    
+    return response.data;
   } catch (error) {
     console.error("Error al obtener usuario:", error);
     return null;
   }
 };
+
 
 export const actualizarUsuario = async (id, usuario) => {
   try {
