@@ -21,12 +21,12 @@ const PerfilUser = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
-    console.log("UserId en localStorage:", userId); // 👀 Verifica qué ID está guardado
+    /* console.log("UserId en localStorage:", userId); // 👀 Verifica qué ID está guardado */
   
     if (userId) {
       obtenerUsuarioPorId(userId)
         .then((data) => {
-          console.log("Usuario obtenido:", data); // 👀 Verifica los datos recibidos
+          /* console.log("Usuario obtenido:", data); // 👀 Verifica los datos recibidos */
           if (data) {
             setUsuario(data);
           } else {
@@ -62,9 +62,13 @@ const PerfilUser = () => {
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-6 mb-6">
+      <h3 className="text-center font-bold text-2xl">Actualizar datos</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="nombre" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="nombre"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Nombre
           </label>
           <input
@@ -79,7 +83,10 @@ const PerfilUser = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="apellido" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="apellido"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Apellido
           </label>
           <input
@@ -94,7 +101,10 @@ const PerfilUser = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="correo" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="correo"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Email
           </label>
           <input
@@ -109,7 +119,10 @@ const PerfilUser = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="contrasenia" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="contrasenia"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Contraseña
           </label>
           <input
@@ -128,7 +141,7 @@ const PerfilUser = () => {
             type="submit"
             className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Registrarse
+            Actualizar Perfil
           </button>
         </div>
       </form>

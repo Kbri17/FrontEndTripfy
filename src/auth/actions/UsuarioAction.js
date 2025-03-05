@@ -15,6 +15,24 @@ export const registrarUsuario = async (usuario) => {
   }
 };
 
+export const iniciarSesion = async (credenciales) => {
+  try {
+    const response = await requestGenerico.post("/auth/login", credenciales);
+    /* console.log("Respuesta del servidor:", response);
+ */
+    // Almacenar token en localStorage
+    localStorage.setItem("token", response.token);
+
+    /* console.log("Usuario autenticado:", response); */
+    return response;
+  } catch (error) {
+    console.error(
+      "Error al iniciar sesión:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
 
 export const obtenerUsuarioPorId = async (userId) => {
   try {

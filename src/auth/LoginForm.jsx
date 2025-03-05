@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { iniciarSesion } from "../auth/actions/UsuarioAction"; // Importamos la función
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ username: "", contrasenia: "" });
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -11,42 +13,42 @@ const LoginForm = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
+ const handleSubmit = async (e) => {
+   e.preventDefault();
+   setError(null);
+   setLoading(true);
 
-    try {
-      const response = await fetch("http://localhost:8080/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+   try {
+     const response = await iniciarSesion(formData);
+    
+     // Verifica que response.data exista
+     if (!response.userResponse || !response.token) {
+       throw new Error("Respuesta del servidor inválida");
+     }
+    localStorage.setItem("user", JSON.stringify(response.userResponse));
+    localStorage.setItem("userId", JSON.stringify(response.userResponse.id));
+     // Guardar token y usuario en localStorage
+    /*  localStorage.setItem("token", response.data.token);
+     localStorage.setItem("user", JSON.stringify(response.data.userResponse));
 
-      const data = await response.json();
+     console.log("Usuario autenticado:", response.data); */
 
-      if (!response.ok) {
-        throw new Error(data.message || "Error en la autenticación");
-      }
-
-      // Guardar token y datos del usuario
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.userResponse));
-
-      // Redirigir al perfil o dashboard
-      navigate("/perfil");
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+     // Redirigir al perfil
+     navigate("/perfil");
+   } catch (err) {
+     console.error("Error en la autenticación:", err);
+     setError(err.response?.data?.message || "Credenciales incorrectas");
+   } finally {
+     setLoading(false);
+   }
+ };
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-28">
       <h3 className="text-center font-bold text-2xl">Iniciar sesión</h3>
       {error && <p className="text-red-500 text-center">{error}</p>}
       <form onSubmit={handleSubmit}>
-        {/* Campo de Usuario */}
+        {/* Usuario */}
         <div className="mb-4">
           <label
             htmlFor="username"
@@ -66,10 +68,10 @@ const LoginForm = () => {
           />
         </div>
 
-        {/* Campo de Contraseña */}
+        {/* Contraseña */}
         <div className="mb-4">
           <label
-            htmlFor="contrasenia"
+            htmlFor="password"
             className="block text-gray-700 text-sm font-semibold mb-2"
           >
             Contraseña
@@ -90,9 +92,14 @@ const LoginForm = () => {
         <div className="mb-4">
           <button
             type="submit"
-            className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={loading}
+            className={`w-full py-2 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
           >
-            Iniciar sesión
+            {loading ? "Cargando..." : "Iniciar sesión"}
           </button>
         </div>
       </form>
