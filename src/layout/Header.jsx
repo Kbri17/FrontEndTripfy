@@ -1,28 +1,14 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
 import Search from "./Search";
-import { useAuth } from "../auth/context/AuthContext";
+import { useAuth } from "../auth/hooks/useAuth";
 
 const Header = () => {
-  const { usuario, logout, cargando } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-    useEffect(() => {
-      console.log("Usuario en Header:", usuario);
-    }, [usuario]);
-
-  // Si aún está cargando, muestra un componente de carga o nada
-  if (cargando) {
-    return (
-      <header className="top-0 left-0 w-full h-32 bg-custom-blue z-50">
-        <div className="fixed w-full h-16 bg-custom-blue">
-          {/* Opcional: Añade un spinner de carga */}
-        </div>
-      </header>
-    );
-  }
+  const { user, logout } = useAuth(); // Obtiene usuario y logout del contexto
 
   return (
     <header className="top-0 left-0 w-full h-32 bg-custom-blue z-50">
@@ -42,14 +28,14 @@ const Header = () => {
             </button>
 
             {/* Mostrar usuario autenticado o botones de login/registro */}
-            {usuario ? (
-              <div className="w-6/12 flex items-center space-x-4">
-                <span className="w-4/6 text-white font-semibold text-xl">
-                  Hola {usuario.name || usuario.nombre || "Usuario"}
+            {user ? (
+              <div className="w-6/12 flex items-center flex-between space-x-4">
+                <span className="w-8/12 text-white font-semibold text-xl">
+                  Hola, {user.name || user.nombre || "Usuario"}
                 </span>
                 <button
                   onClick={logout}
-                  className="w-4/6 bg-custom-orange text-white font-bold text-xl px-4 py-1 rounded hover:bg-orange-600 transition duration-300 mr-4"
+                  className="bg-custom-orange text-white font-bold text-xl py-1 rounded hover:bg-orange-600 transition duration-300 mr-4"
                 >
                   Cerrar sesión
                 </button>
@@ -77,13 +63,18 @@ const Header = () => {
         {menuOpen && (
           <div className="md:hidden bg-blue-400 z-51">
             <div className="flex flex-col items-center py-4">
-              {usuario ? (
-                <button
-                  onClick={logout}
-                  className="bg-red-500 text-white font-bold text-xl px-4 py-1 rounded hover:bg-red-600 transition duration-300"
-                >
-                  Cerrar sesión
-                </button>
+              {user ? (
+                <>
+                  <span className="text-white font-semibold text-xl mb-2">
+                    Hola, {user.username || user.nombre || "Usuario"}
+                  </span>
+                  <button
+                    onClick={logout}
+                    className="bg-red-500 text-white font-bold text-xl px-4 py-1 rounded hover:bg-red-600 transition duration-300"
+                  >
+                    Cerrar sesión
+                  </button>
+                </>
               ) : (
                 <>
                   <Link

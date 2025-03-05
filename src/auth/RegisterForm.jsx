@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registrarUsuario } from "./actions/UsuarioAction";
+import { useAuth } from "./hooks/useAuth";
 import Success from "../alerts/Succes";
 
 const RegisterForm = () => {
@@ -12,6 +12,9 @@ const RegisterForm = () => {
     username: "",
   });
   const navigate = useNavigate();
+  const {register, error , loading} = useAuth();
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUsuario((prevData) => ({
@@ -20,16 +23,16 @@ const RegisterForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí va la lógica para enviar el formulario
-    registrarUsuario(usuario).then((res) => {
-      /* console.log("Se registro usuario", res); */
-      if (res.token) {
-        Success();
-        navigate("/login");
-      }
-    });
+
+    try {
+      await register(usuario);
+      Success();
+      navigate("/login"); // Redirigir después del registro
+    } catch (err) {
+      console.error("Error de registro", err);
+    }
   };
 
   return (
