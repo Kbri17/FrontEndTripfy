@@ -8,7 +8,6 @@ const Home = ()=>{
       <>
         <HeroSection />
         {/* remplazar por category el swiper */}
-      
         <Carousel />
       </>
     );
