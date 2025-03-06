@@ -53,8 +53,11 @@ const ListadoProductos = () => {
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Precio</th>
-                <th>Estado</th>
+                <th>Ubicación</th>
+                <th>Categoria</th>
                 <th>Acciones</th>
+                <th>Estado</th>
+                
 
               </tr>
             </thead>
@@ -69,11 +72,13 @@ const ListadoProductos = () => {
                     <td>{producto.idTour}</td>
                     <td>{producto.nombre}</td>
                     <td>{producto.precio}</td>
-                    <td>{producto.estado ? "Activo" : "Inactivo"}</td>
+                    <td>{producto.ubicacion}</td>
+                    <td>{producto.categoria}</td>
                     <td>
                       <button onClick={() => console.log('Editar Producto', producto.idTour)}>Editar</button>
                       <button onClick={() => eliminarProducto(producto.idTour)}>Eliminar</button>
                     </td>
+                    <td>{producto.estado ? "Activo" : "Inactivo"}</td>
                   </tr>
                 ))
               )}

@@ -46,6 +46,8 @@ body {
   /* Estilos para las flechas */
   .arrow {
     position: absolute;
+    height: 70px;
+    width: 90px;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.5);
