@@ -21,23 +21,28 @@ const Carousel = () => {
   }, []);
 
   return (
+    
     <div className="w-10/12 py-8 flex items-center mx-auto justify-center">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-10">
-        {tours.map((tour) => (
-          <div
-            key={tour.idTour}
-            className="card p-4 rounded-xl hover:scale-105 transition transform duration-300"
-          >
-            <TravelPackageCard
-              image={tour.imagenes.length > 0 ? tour.imagenes[0].url : "ruta_por_defecto.png"}
-              title={tour.nombre}
-              destination={tour.ubicacion}
-              description={tour.descripcion}
-              price={tour.precio}
-              categoria={tour.categoria}  // 👉 Pasamos la categoría
-            />
-          </div>
-        ))}
+        {tours.map((tour) => {
+            
+            return (
+              <div
+                key={tour.idTour}
+                className="card p-4 rounded-xl hover:scale-105 transition transform duration-300"
+              >
+                <TravelPackageCard
+                  idTour={tour.idTour} // 🔹 Pasamos el ID
+                  image={tour.imagenes.length > 0 ? tour.imagenes[0].url : "ruta_por_defecto.png"}
+                  title={tour.nombre}
+                  destination={tour.ubicacion}
+                  description={tour.descripcion}
+                  price={tour.precio}
+                  categoria={tour.categoria}
+                />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

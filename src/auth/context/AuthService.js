@@ -20,6 +20,7 @@ export const authService = {
       if (response.token) {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.userResponse));
+        
       }
 
       return response;

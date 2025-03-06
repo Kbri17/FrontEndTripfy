@@ -6,6 +6,7 @@ const LoginForm = () => {
   const [usuario, setUsuario] = useState({ username: "", contrasenia: "" });
   const navigate = useNavigate();
   const { login, error, loading } = useAuth();
+  const [localError, setLocalError] = useState(error);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,14 +15,37 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const success = await login(usuario);
-
-    if (success) {
-      navigate("/");
+  
+    try {
+      const response = await login(usuario); // Hace la petición al backend
+      console.log("Respuesta del backend:", response); // Verifica la estructura de response
+  
+      // Validar si la autenticación fue exitosa
+      if (!response.token) {
+        throw new Error(response.message || "Error en la autenticación");
+      }
+  
+      // Guardar token y datos del usuario en localStorage
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify(response.userResponse));
+  
+      // Obtener el rol del usuario
+      const userRole = response.userResponse?.role;
+      console.log("El rol de usuario es:", userRole);
+  
+      // Redirigir según el rol del usuario
+      if (userRole === "ADMIN") {
+        navigate("/administracion");
+      } else {
+        navigate("/perfil");
+      }
+    } catch (err) {
+      console.error("Error en login:", err);
+      setLocalError(err.message);
     }
   };
-
+  
+  
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg w-10/12 md:max-w-lg mx-auto mt-24 md:mt-12">
       <h3 className="text-center font-bold text-2xl">Iniciar sesión</h3>
