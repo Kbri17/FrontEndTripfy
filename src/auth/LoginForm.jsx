@@ -18,12 +18,12 @@ const LoginForm = () => {
     const success = await login(usuario);
 
     if (success) {
-      navigate("/perfil");
+      navigate("/");
     }
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-28">
+    <div className="bg-white p-8 rounded-lg shadow-lg w-10/12 md:max-w-lg mx-auto mt-24 md:mt-12">
       <h3 className="text-center font-bold text-2xl">Iniciar sesión</h3>
       {error && <p className="text-red-500 text-center">{error}</p>}
       <form onSubmit={handleSubmit}>
@@ -75,7 +75,7 @@ const LoginForm = () => {
             className={`w-full py-2 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
+                : "bg-custom-blue hover:bg-blue-600"
             }`}
           >
             {loading ? "Cargando..." : "Iniciar sesión"}

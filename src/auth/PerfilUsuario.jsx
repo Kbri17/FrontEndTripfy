@@ -42,7 +42,7 @@ const PerfilUser = () => {
   }
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-6 mb-6">
+    <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 md:max-w-lg mx-auto mt-6 mb-6">
       <h3 className="text-center font-bold text-2xl">Actualizar datos</h3>
       <form>
         <div className="mb-4">
@@ -120,7 +120,7 @@ const PerfilUser = () => {
         <div className="mb-4">
           <button
             type="submit"
-            className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-2 bg-custom-blue text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Actualizar Perfil
           </button>
