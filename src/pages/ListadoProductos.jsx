@@ -21,7 +21,7 @@ const ListadoProductos = () => {
   // Función para eliminar un producto
   const eliminarProducto = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/tour/eliminar/{id}`); 
+      await axios.put(`http://localhost:8080/tour/eliminar/${id}`); 
       setProductos(productos.filter(producto => producto.id !== id)); 
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
@@ -52,7 +52,9 @@ const ListadoProductos = () => {
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Precio</th>
+                <th>Estado</th>
                 <th>Acciones</th>
+
               </tr>
             </thead>
             <tbody>
@@ -66,9 +68,10 @@ const ListadoProductos = () => {
                     <td>{producto.idTour}</td>
                     <td>{producto.nombre}</td>
                     <td>{producto.precio}</td>
+                    <td>{producto.estado ? "Activo" : "Inactivo"}</td>
                     <td>
-                      <button onClick={() => console.log('Editar Producto', producto.id)}>Editar</button>
-                      <button onClick={() => eliminarProducto(producto.id)}>Eliminar</button>
+                      <button onClick={() => console.log('Editar Producto', producto.idTour)}>Editar</button>
+                      <button onClick={() => eliminarProducto(producto.idTour)}>Eliminar</button>
                     </td>
                   </tr>
                 ))
