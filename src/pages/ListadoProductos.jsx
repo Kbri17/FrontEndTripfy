@@ -23,6 +23,7 @@ const ListadoProductos = () => {
     try {
       await axios.put(`http://localhost:8080/tour/eliminar/${id}`); 
       setProductos(productos.filter(producto => producto.id !== id)); 
+      window.location.reload(); // 🔄 Recarga toda la página
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
     }

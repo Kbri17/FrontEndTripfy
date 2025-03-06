@@ -25,8 +25,9 @@ const Usuarios = () => {
     console.log('ID del usuario a eliminar:', id);
     try {
       if (id) {
-        await axios.delete(`http://localhost:8080/user/eliminarUsuario/${id}`);
+        await axios.put(`http://localhost:8080/user/eliminar/${id}`);
         setUsuarios(usuarios.filter(usuario => usuario.id !== id));
+        window.location.reload(); // 🔄 Recarga toda la página
       } else {
         console.error('No se pudo obtener el ID del usuario');
       }
@@ -87,8 +88,8 @@ const Usuarios = () => {
                     <td>{usuario.nombre}</td>
                     <td>{usuario.correo}</td>
                     <td>
-                      <button onClick={() => editarUsuario(usuario.id)}>Modificar</button>
-                      <button onClick={() => eliminarUsuario(usuario.id)}>Eliminar</button>
+                      <button onClick={() => editarUsuario(usuario.idUsuario)}>Modificar</button>
+                      <button onClick={() => eliminarUsuario(usuario.idUsuario)}>Eliminar</button>
                     </td>
                     <td>{usuario.estado ? "Activo" : "Inactivo"}</td>
                   </tr>
