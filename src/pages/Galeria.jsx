@@ -27,7 +27,7 @@ const ImageCarousel = () => {
       <div className="carousel-container">
         {/* Flecha de "anterior" */}
         <button className="arrow left-arrow" onClick={goToPrevious}>
-          ←
+          ◀
         </button>
 
         {/* Imagen actual */}
@@ -37,7 +37,7 @@ const ImageCarousel = () => {
 
         {/* Flecha de "siguiente" */}
         <button className="arrow right-arrow" onClick={goToNext}>
-          →
+          ▶
         </button>
       </div>
     </div>

@@ -79,8 +79,11 @@ const ListadoProductos = () => {
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Precio</th>
-                <th>Estado</th>
+                <th>Ubicación</th>
+                <th>Categoría</th>
                 <th>Acciones</th>
+                <th>Estado</th>
+                
 
               </tr>
             </thead>
@@ -95,11 +98,13 @@ const ListadoProductos = () => {
                     <td>{producto.idTour}</td>
                     <td>{producto.nombre}</td>
                     <td>{producto.precio}</td>
-                    <td>{producto.estado ? "Activo" : "Inactivo"}</td>
+                    <td>{producto.ubicacion}</td>
+                    <td>{producto.categoria}</td>
                     <td>
                       <button onClick={() => abrirModal(producto)}>Editar</button>
                       <button onClick={() => eliminarProducto(producto.idTour)}>Eliminar</button>
                     </td>
+                    <td>{producto.estado ? "Activo" : "Inactivo"}</td>
                   </tr>
                 ))
               )}
@@ -149,6 +154,19 @@ const ListadoProductos = () => {
                       <option value="Inactivo">Inactivo</option>
                     </select>
                   </div>
+                  <div className="mb-3">
+                    <label htmlFor="categoria" className="form-label">Categoría</label>
+                    <select
+                      id="categoria"
+                      className="form-select"
+                      value={productoEdicion.categoria }
+                      onChange={(e) => setProductoEdicion({ ...productoEdicion, categoria: e.target.value })}
+                    >
+                      <option value="Paquete">Paquete</option>
+                      <option value="FullDay">Full Day</option>
+                    </select>
+                  </div>
+                
                 </form>
               </div>
               <div className="modal-footer">
