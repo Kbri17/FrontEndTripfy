@@ -85,12 +85,12 @@ const Usuarios = () => {
                   <tr key={usuario.id}>
                     <td>{usuario.idUsuario}</td>
                     <td>{usuario.nombre}</td>
-                    <td>{usuario.email}</td>
+                    <td>{usuario.correo}</td>
                     <td>
                       <button onClick={() => editarUsuario(usuario.id)}>Modificar</button>
                       <button onClick={() => eliminarUsuario(usuario.id)}>Eliminar</button>
                     </td>
-                    <td>{usuario.estado}</td>
+                    <td>{usuario.estado ? "Activo" : "Inactivo"}</td>
                   </tr>
                 ))
               )}
