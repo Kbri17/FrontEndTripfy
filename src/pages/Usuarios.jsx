@@ -93,8 +93,8 @@ const Usuarios = () => {
                     <td>{usuario.correo}</td>
                     <td>{usuario.rolEstado}</td>
                     <td>
-                      <button onClick={() => editarUsuario(usuario.idUsuario)}>Modificar</button>
-                      <button onClick={() => eliminarUsuario(usuario.idUsuario)}>Eliminar</button>
+                      <button className="botonesUsuario"onClick={() => editarUsuario(usuario.idUsuario)}>Modificar</button>
+                      <button className="botonesUsuario"onClick={() => eliminarUsuario(usuario.idUsuario)}>Eliminar</button>
                     </td>
                     <td>{usuario.estado ? "Activo" : "Inactivo"}</td>
                   </tr>
