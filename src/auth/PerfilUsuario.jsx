@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { actualizarUsuario, obtenerUsuarioPorId } from "./actions/UsuarioAction";
+import { useAuth } from "./hooks/useAuth";
 
 const PerfilUser = () => {
+  const { loadUser, user, error, loading } = useAuth();
   const [usuario, setUsuario] = useState({
     correo: "",
     contrasenia: "",
     nombre: "",
     apellido: "",
   });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    loadUser(); // Cargar datos del usuario al montar el componente
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      setUsuario({
+        correo: user.email || "",
+        contrasenia: "", // No mostrar la contraseña por seguridad
+        nombre: user.name || "",
+        apellido: user.apellido || "",
+      });
+    }
+  }, [user]);
 
   const handleChangeUser = (e) => {
     const { name, value } = e.target;
@@ -19,59 +33,30 @@ const PerfilUser = () => {
     }));
   };
 
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    console.log("UserId en localStorage:", userId); // 👀 Verifica qué ID está guardado
-  
-    if (userId) {
-      obtenerUsuarioPorId(userId)
-        .then((data) => {
-          console.log("Usuario obtenido:", data); // 👀 Verifica los datos recibidos
-          if (data) {
-            setUsuario(data);
-          } else {
-            setError("No se encontró el usuario.");
-          }
-        })
-        .catch((err) => setError("Error al obtener usuario: " + err.message))
-        .finally(() => setLoading(false));
-    } else {
-      setError("No hay usuario en localStorage.");
-      setLoading(false);
-    }
-  }, []);
+  if (loading) {
+    return <p className="text-center text-blue-500">Cargando...</p>;
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const userId = localStorage.getItem("userId");
-      if (!userId) {
-        console.error("No hay ID de usuario en localStorage");
-        return;
-      }
-
-      const res = await actualizarUsuario(userId, usuario);
-      console.log("Usuario actualizado con éxito:", res);
-    } catch (error) {
-      console.error("Error al actualizar usuario:", error);
-    }
-  };
-
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (error) {
+    return <p className="text-center text-red-500">Error: {error}</p>;
+  }
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-6 mb-6">
-      <form onSubmit={handleSubmit}>
+      <h3 className="text-center font-bold text-2xl">Actualizar datos</h3>
+      <form>
         <div className="mb-4">
-          <label htmlFor="nombre" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="nombre"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Nombre
           </label>
           <input
             type="text"
             id="nombre"
             name="nombre"
-            value={usuario.nombre || ""}
+            value={usuario.nombre}
             onChange={handleChangeUser}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -79,14 +64,17 @@ const PerfilUser = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="apellido" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="apellido"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Apellido
           </label>
           <input
             type="text"
             id="apellido"
             name="apellido"
-            value={usuario.apellido || ""}
+            value={usuario.apellido}
             onChange={handleChangeUser}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -94,14 +82,17 @@ const PerfilUser = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="correo" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="correo"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Email
           </label>
           <input
             type="email"
             id="correo"
             name="correo"
-            value={usuario.correo || ""}
+            value={usuario.correo}
             onChange={handleChangeUser}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -109,18 +100,21 @@ const PerfilUser = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="contrasenia" className="block text-gray-700 text-sm font-semibold mb-2">
+          <label
+            htmlFor="contrasenia"
+            className="block text-gray-700 text-sm font-semibold mb-2"
+          >
             Contraseña
           </label>
           <input
             type="password"
             id="contrasenia"
             name="contrasenia"
-            value={usuario.contrasenia || ""}
+            value={usuario.contrasenia}
             onChange={handleChangeUser}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Introduce tu contraseña"
+            placeholder="Introduce tu nueva contraseña"
           />
         </div>
         <div className="mb-4">
@@ -128,7 +122,7 @@ const PerfilUser = () => {
             type="submit"
             className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Registrarse
+            Actualizar Perfil
           </button>
         </div>
       </form>

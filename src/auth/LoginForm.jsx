@@ -1,43 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({ username: "", contrasenia: "" });
-  const [error, setError] = useState(null);
+  const [usuario, setUsuario] = useState({ username: "", contrasenia: "" });
   const navigate = useNavigate();
+  const { login, error, loading } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setUsuario((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
-    try {
-      const response = await fetch("http://localhost:8080/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    const success = await login(usuario);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Error en la autenticación");
-      }
-
-      // Guardar token y datos del usuario
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.userResponse));
-
-      // Redirigir al perfil o dashboard
+    if (success) {
       navigate("/perfil");
-    } catch (err) {
-      setError(err.message);
     }
   };
 
@@ -46,7 +27,7 @@ const LoginForm = () => {
       <h3 className="text-center font-bold text-2xl">Iniciar sesión</h3>
       {error && <p className="text-red-500 text-center">{error}</p>}
       <form onSubmit={handleSubmit}>
-        {/* Campo de Usuario */}
+        {/* Usuario */}
         <div className="mb-4">
           <label
             htmlFor="username"
@@ -58,7 +39,7 @@ const LoginForm = () => {
             type="text"
             id="username"
             name="username"
-            value={formData.username}
+            value={usuario.username}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -66,7 +47,7 @@ const LoginForm = () => {
           />
         </div>
 
-        {/* Campo de Contraseña */}
+        {/* Contraseña */}
         <div className="mb-4">
           <label
             htmlFor="contrasenia"
@@ -78,7 +59,7 @@ const LoginForm = () => {
             type="password"
             id="contrasenia"
             name="contrasenia"
-            value={formData.contrasenia}
+            value={usuario.contrasenia}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -90,9 +71,14 @@ const LoginForm = () => {
         <div className="mb-4">
           <button
             type="submit"
-            className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={loading}
+            className={`w-full py-2 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
           >
-            Iniciar sesión
+            {loading ? "Cargando..." : "Iniciar sesión"}
           </button>
         </div>
       </form>
