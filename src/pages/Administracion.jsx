@@ -16,8 +16,8 @@ const AdminPanel = () => {
           <li><a href="#dashboard">Dashboard</a></li>
           <li><a href="/ListadoProductos">Productos</a></li>
           <li><a href="/Usuarios">Usuarios</a></li>
-          <li> <a href="/AgregarProducto">Agregar producto</a></li>
-          <li> <a href="/GestionarCategorias">Gestionar categorías</a></li>
+          <li><a href="/AgregarProducto">Agregar producto</a></li>
+          <li><a href="/GestionarCategorias">Gestionar categorías</a></li>
     
         </ul>
       </div>
