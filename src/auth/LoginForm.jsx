@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 
 const LoginForm = () => {
-  const [usuario, setUsuario] = useState({ username: "", contrasenia: "" });
+  const [usuario, setUsuario] = useState({ email: "", contrasenia: "" }); // ✅ Cambio de "username" a "email"
   const navigate = useNavigate();
   const { login, error, loading } = useAuth();
   const [localError, setLocalError] = useState(error);
@@ -15,25 +15,21 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const response = await login(usuario); // Hace la petición al backend
-      console.log("Respuesta del backend:", response); // Verifica la estructura de response
-  
-      // Validar si la autenticación fue exitosa
+      const response = await login(usuario);
+      console.log("Respuesta del backend:", response);
+
       if (!response.token) {
         throw new Error(response.message || "Error en la autenticación");
       }
-  
-      // Guardar token y datos del usuario en localStorage
+
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.userResponse));
-  
-      // Obtener el rol del usuario
+
       const userRole = response.userResponse?.role;
       console.log("El rol de usuario es:", userRole);
-  
-      // Redirigir según el rol del usuario
+
       if (userRole === "ADMIN") {
         navigate("/administracion");
       } else {
@@ -41,33 +37,40 @@ const LoginForm = () => {
       }
     } catch (err) {
       console.error("Error en login:", err);
-      setLocalError(err.message);
+      setLocalError(err.message || "Error desconocido");
+
+      
     }
   };
+
   
-  
+
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg w-10/12 md:max-w-lg mx-auto mt-24 md:mt-12">
       <h3 className="text-center font-bold text-2xl">Iniciar sesión</h3>
-      {error && <p className="text-red-500 text-center">{error}</p>}
+      {error && (
+        <p className="text-red-500 text-center">
+          {typeof error === "string" ? error : JSON.stringify(error)}
+        </p>
+      )}
       <form onSubmit={handleSubmit}>
-        {/* Usuario */}
+        {/* Email */}
         <div className="mb-4">
           <label
-            htmlFor="username"
+            htmlFor="email"
             className="block text-gray-700 text-sm font-semibold mb-2"
           >
-            Usuario
+            Correo Electrónico
           </label>
           <input
-            type="text"
-            id="username"
-            name="username"
-            value={usuario.username}
+            type="email"
+            id="email"
+            name="email" // ✅ Asegurar que el name es "email"
+            value={usuario.email}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Introduce tu usuario"
+            placeholder="Introduce tu correo"
           />
         </div>
 

@@ -11,7 +11,7 @@ const TravelPackageCard = ({ idTour, image, title, description, price, destinati
   };
 
   // Limitar la descripción a 80 caracteres, y asegurar que description no sea undefined
-  const shortDescription = description && description.length > 80 ? description.slice(0, 80) + '...' : description;
+  const shortDescription = description && description.length > 80 ? description.slice(0, 40) + '...' : description;
 
   return (
     <div className="max-w-lg h-60 rounded-lg overflow-hidden shadow-lg bg-white flex flex-row">
