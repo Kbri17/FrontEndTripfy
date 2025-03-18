@@ -87,7 +87,10 @@ const Header = () => {
                   </span>
                   <button
                     onClick={logout}
+                    
                     className="bg-red-500 text-white font-bold text-xl px-4 py-1 rounded hover:bg-red-600 transition duration-300"
+                    
+        
                   >
                     Cerrar sesión
                   </button>
