@@ -14,7 +14,7 @@ import AgregarProducto from "./pages/AgregarProducto";
 import GestionarCategorias from "./pages/GestionarCategorias";
 import ListadoProductos from "./pages/ListadoProductos";
 import Usuarios from "./pages/Usuarios";
-
+import ReservationsList from "./pages/ReservasList";
 const Root = () => (
   <div className="w-full flex flex-col min-h-screen overflow-x-hidden">
     <Header /> {/* Siempre visible arriba */}
@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
         element: <Producto />,
       },
       {
-        path: "/details/:id",  // 🔥 Agregamos ":id"
+        path: "/details/:id", // 🔥 Agregamos ":id"
         element: <Details />,
       },
       {
@@ -94,7 +94,10 @@ export const router = createBrowserRouter([
         path: "/Usuarios",
         element: <Usuarios />,
       },
-
+      {
+        path: "/reservas",
+        element: <ReservationsList />,
+      },
     ],
   },
 ]);
