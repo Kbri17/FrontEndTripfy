@@ -5,6 +5,8 @@ import HeroSection from "./HeroSection";
 import Carousel from "./components/Carrusel";
 import LoginForm from "./auth/LoginForm";
 import ProductDetails from "./components/ProductDetails";
+import ImageCarousel from "./pages/Galeria";
+
 
 function App() {
   return (
@@ -24,6 +26,9 @@ function App() {
         />
         <Route path="/details/:id" element={<ProductDetails />} /> {/* Esta ruta debe coincidir */}
         <Route path="*" element={<h1>Página no encontrada</h1>} />
+        <Route path="/galeria/:id" element={<ImageCarousel />} />
+        
+
       </Routes>
       <Footer />
     </Router>

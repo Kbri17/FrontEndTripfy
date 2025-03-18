@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker"; 
 import "react-datepicker/dist/react-datepicker.css"; 
+// import { Link } from "react-router-dom";
+
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -102,12 +104,20 @@ const ProductDetails = () => {
           </div>
 
       </div>
+      const navigate = useNavigate();
+
+
 
       <div className="see-more text-right mt-3">
-        <a href="/Galeria" className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs">
+        <a href={`/galeria/${id}`} className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs">
           📷 Mostrar todas las fotos
         </a>
       </div>
+      {/* <Link to={`/Galeria/${id}`} className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs">
+  📷 Mostrar todas las fotos
+</Link> */}
+    
+
 
       <div className="reservation-container flex gap-6 mt-6">
         <div className="product-description w-1/2">
