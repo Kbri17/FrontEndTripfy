@@ -1,43 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import '../Estilos/Galeria.css';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-const ImageCarousel = () => {
+const Galeria = () => {
   const { id } = useParams(); // Obtiene el ID del tour desde la URL
+  const navigate = useNavigate();
   const [imagenes, setImagenes] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // Petición al backend para obtener las imágenes del tour
-    fetch(`http://localhost:8080/tour/buscar/${id}/imagenes`)
-      .then(response => response.json())
-      .then(data => setImagenes(data))
-      .catch(error => console.error('Error cargando imágenes:', error));
+    // Cargar imágenes del tour desde el backend
+    fetch(`http://localhost:8080/tour/imagenes/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Imágenes recibidas:", data);
+        if (Array.isArray(data) && data.length > 0) {
+          setImagenes(data);
+        } else {
+          console.error("No se encontraron imágenes para este tour.");
+        }
+      })
+      .catch((error) => console.error("Error cargando imágenes:", error));
   }, [id]);
 
   const goToPrevious = () => {
-    setCurrentIndex(prevIndex => (prevIndex === 0 ? imagenes.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? imagenes.length - 1 : prevIndex - 1
+    );
   };
 
   const goToNext = () => {
-    setCurrentIndex(prevIndex => (prevIndex === imagenes.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) =>
+      prevIndex === imagenes.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
   return (
-    <div className="carousel-wrapper">
+    <div className="container mx-auto p-6 text-center">
+      <button onClick={() => navigate(-1)} className="text-blue-500 mb-4">
+        ⬅ Volver
+      </button>
+
+      <h1 className="text-3xl font-semibold mb-4">Galería de imágenes</h1>
+
       {imagenes.length > 0 ? (
-        <div className="carousel-container">
-          <button className="arrow left-arrow" onClick={goToPrevious}>◀</button>
-          <div className="image-container">
-            <img src={`http://localhost:8080${imagenes[currentIndex]}`} alt={`Tour ${id}`} />
+        <div className="relative max-w-3xl mx-auto">
+          <button
+            onClick={goToPrevious}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 text-3xl text-gray-700"
+          >
+            ◀
+          </button>
+
+          <div className="h-96 flex justify-center items-center">
+            <img
+              src={`http://localhost:8080${imagenes[currentIndex]}`}
+              alt={`Imagen ${currentIndex + 1}`}
+              className="rounded-lg shadow-lg object-cover w-full h-full"
+            />
           </div>
-          <button className="arrow right-arrow" onClick={goToNext}>▶</button>
+
+          <button
+            onClick={goToNext}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-3xl text-gray-700"
+          >
+            ▶
+          </button>
         </div>
       ) : (
-        <p>No hay imágenes disponibles para este tour.</p>
+        <p>No hay imágenes disponibles.</p>
       )}
     </div>
   );
 };
 
-export default ImageCarousel;
+export default Galeria;

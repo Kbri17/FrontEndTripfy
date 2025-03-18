@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker"; 
-import "react-datepicker/dist/react-datepicker.css"; 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 // import { Link } from "react-router-dom";
-
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -23,7 +22,7 @@ const ProductDetails = () => {
         }
         const data = await response.json();
         setTour(data);
-        generarDescripcion(data.nombre); 
+        generarDescripcion(data.nombre);
       } catch (error) {
         console.error("Error al obtener los detalles:", error);
         navigate("/");
@@ -66,58 +65,61 @@ const ProductDetails = () => {
 
   return (
     <div className="container mx-auto p-6">
-        <div className="back-arrow text-right mb-4" onClick={() => navigate(-1)}>
+      <div className="back-arrow text-right mb-4" onClick={() => navigate(-1)}>
         <span className="cursor-pointer text-blue-500">&larr; Volver</span>
       </div>
 
-    <div className="product-title mb-4 flex justify-between items-center">
-      <h1 className="text-4xl font-semibold text-custom-blue">{tour.nombre}</h1>
-      <div className="flex gap-4">
-      
-        <button className="text-gray-700 hover:text-gray-900 text-lg">📤 Compartir</button>
-        <button className="text-gray-700 hover:text-gray-900 text-lg">🧡 Favoritos</button>
+      <div className="product-title mb-4 flex justify-between items-center">
+        <h1 className="text-4xl font-semibold text-custom-blue">
+          {tour.nombre}
+        </h1>
+        <div className="flex gap-4">
+          <button className="text-gray-700 hover:text-gray-900 text-lg">
+            📤 Compartir
+          </button>
+          <button className="text-gray-700 hover:text-gray-900 text-lg">
+            🧡 Favoritos
+          </button>
+        </div>
       </div>
-    </div>
 
-    
-      
       <div className="product-body flex gap-6">
-      <div className="image-container w-full flex gap-6 rounded-lg overflow-hidden bg-white shadow-lg p-4">
-            <div className="main-image w-1/2 rounded-lg overflow-hidden h-[400px]">
-              <img
-                src={tour.imagenes[0]?.url || "ruta_por_defecto.jpg"}
-                alt="Imagen principal"
-                className="w-full h-full object-cover rounded-xl shadow-md"
-              />
-            </div>
-            <div className="secondary-images w-1/2 grid grid-cols-2 grid-rows-2 gap-2 rounded-lg overflow-hidden h-[400px]">
-              {tour.imagenes.slice(1, 5).map((imagen, index) => (
-                <div key={index} className="rounded-lg overflow-hidden h-full w-full flex">
-                  <img
-                    src={imagen.url}
-                    alt={`Imagen ${index + 2}`}
-                    className="w-full h-full object-cover rounded-xl shadow-md"
-                  />
-                </div>
-              ))}
-            </div>
+        <div className="image-container w-full flex gap-6 rounded-lg overflow-hidden bg-white shadow-lg p-4">
+          <div className="main-image w-1/2 rounded-lg overflow-hidden h-[400px]">
+            <img
+              src={tour.imagenes[0]?.url || "ruta_por_defecto.jpg"}
+              alt="Imagen principal"
+              className="w-full h-full object-cover rounded-xl shadow-md"
+            />
           </div>
-
+          <div className="secondary-images w-1/2 grid grid-cols-2 grid-rows-2 gap-2 rounded-lg overflow-hidden h-[400px]">
+            {tour.imagenes.slice(1, 5).map((imagen, index) => (
+              <div
+                key={index}
+                className="rounded-lg overflow-hidden h-full w-full flex"
+              >
+                <img
+                  src={imagen.url}
+                  alt={`Imagen ${index + 2}`}
+                  className="w-full h-full object-cover rounded-xl shadow-md"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      const navigate = useNavigate();
-
-
 
       <div className="see-more text-right mt-3">
-        <a href={`/galeria/${id}`} className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs">
+        <a
+          href={`/galeria/${id}`}
+          className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs"
+        >
           📷 Mostrar todas las fotos
         </a>
       </div>
       {/* <Link to={`/Galeria/${id}`} className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs">
   📷 Mostrar todas las fotos
 </Link> */}
-    
-
 
       <div className="reservation-container flex gap-6 mt-6">
         <div className="product-description w-1/2">
@@ -128,7 +130,8 @@ const ProductDetails = () => {
         <div className="w-1/3 ml-auto">
           <div className="calendar-container sticky top-0 flex flex-col items-center border rounded-lg shadow-lg p-2 bg-white">
             <div className="tour-price text-2xl font-bold text-black mb-2">
-              ${tour.precio} <span className="text-sm font-normal">por persona</span>
+              ${tour.precio}{" "}
+              <span className="text-sm font-normal">por persona</span>
             </div>
 
             <div className="border border-gray-300 rounded-lg p-3 mb-3 w-full">
@@ -162,7 +165,9 @@ const ProductDetails = () => {
                   className="w-full border-none text-black font-semibold cursor-pointer"
                 >
                   {[...Array(10).keys()].map((num) => (
-                    <option key={num + 1} value={num + 1}>{num + 1}</option>
+                    <option key={num + 1} value={num + 1}>
+                      {num + 1}
+                    </option>
                   ))}
                 </select>
               </div>

@@ -4,7 +4,7 @@ import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 import LoginForm from "./auth/LoginForm";
 import Details from "./pages/Details";
-import Producto from "./pages/Producto"
+import Favoritos from "./pages/Favoritos"
 import Galeria from "./pages/Galeria"
 import RegisterForm from "./auth/RegisterForm";
 import PerfilUser from "./auth/PerfilUsuario";
@@ -49,15 +49,15 @@ export const router = createBrowserRouter([
         element: <PerfilUser />,
       },
       {
-        path: "/producto",
-        element: <Producto />,
+        path: "/favoritos",
+        element: <Favoritos />,
       },
       {
         path: "/details/:id", // 🔥 Agregamos ":id"
         element: <Details />,
       },
       {
-        path: "/galeria",
+        path: "/galeria/:id",
         element: <Galeria />,
       },
       {
