@@ -1,6 +1,10 @@
 import requestGenerico from "../../services/HttpCliente";
+import { useNavigate } from "react-router-dom";
+
+
 
 export const authService = {
+
   // Registro de usuario
   async register(usuario) {
     try {
@@ -56,10 +60,13 @@ export const authService = {
       throw error.response?.data || error.message;
     }
   },
-
   // Cerrar sesión
-  logout() {
+  async logout() {
+    // const navigate = useNavigate();
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    // navigate("/");
   },
+
+
 };

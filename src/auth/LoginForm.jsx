@@ -33,7 +33,7 @@ const LoginForm = () => {
       if (userRole === "ADMIN") {
         navigate("/administracion");
       } else {
-        navigate("/perfil");
+        navigate("/");
       }
     } catch (err) {
       console.error("Error en login:", err);

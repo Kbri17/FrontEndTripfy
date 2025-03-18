@@ -9,6 +9,9 @@ module.exports = {
         "custom-gray": "#D0D0D0", // Color 3
         "custom-bluelg": "#F2F5FF", // Color 4 
       },
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'], // Definir Montserrat como fuente
+      },
     },
   },
   plugins: [],
