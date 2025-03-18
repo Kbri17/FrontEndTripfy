@@ -1,22 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import '../Estilos/ListadoProductos.css';
 import axios from 'axios';
+import { Edit, Trash2, PackageSearch } from 'lucide-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const ListadoProductos = () => {
-  // Estado para almacenar los productos 
   const [productos, setProductos] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [productoEdicion, setProductoEdicion] = useState(null); 
+  const [productoEdicion, setProductoEdicion] = useState(null);
 
-  
-
-  // Función para obtener productos desde la API
   const obtenerProductos = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/tour/buscartodos'); 
-      console.log('Usuarios obtenidos: ',response.data)
+      const response = await axios.get('http://localhost:8080/tour/buscartodos');
       setProductos(response.data);
     } catch (error) {
       console.error('Error al obtener los productos:', error);
@@ -24,149 +18,118 @@ const ListadoProductos = () => {
   };
 
   const abrirModal = (producto) => {
-    setProductoEdicion(producto); // Establecer el producto a editar
-    setShowModal(true); // Mostrar el modal
+    setProductoEdicion(producto);
+    setShowModal(true);
   };
 
   const cerrarModal = () => {
-    setShowModal(false); // Ocultar el modal
-    setProductoEdicion(null); // Limpiar el producto a editar
+    setShowModal(false);
+    setProductoEdicion(null);
   };
-  // Función para eliminar un producto
+
   const eliminarProducto = async (id) => {
     try {
-      await axios.put(`http://localhost:8080/tour/eliminar/${id}`); 
-      setProductos(productos.filter(producto => producto.id !== id)); 
-      window.location.reload(); // 🔄 Recarga toda la página
+      await axios.put(`http://localhost:8080/tour/eliminar/${id}`);
+      setProductos(productos.filter(producto => producto.id !== id));
+      window.location.reload();
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
     }
   };
-
-  const editarProducto = async (id) => {
+  const editarProducto = async () => {
     try {
-      await axios.post(`http://localhost:8080/tour/modificar`, productoEdicion); 
+      await axios.post(`http://localhost:8080/tour/modificar`, productoEdicion);
       setProductos(productos.map(producto =>
         producto.idTour === productoEdicion.idTour ? productoEdicion : producto
       ));
-      cerrarModal(); 
-      //window.location.reload(); // 🔄 Recarga toda la página
+      cerrarModal();
     } catch (error) {
-      console.error('Error al eliminar el producto:', error);
+      console.error('Error al editar el producto:', error);
     }
   };
 
-  
-
-  // Cargar los productos 
   useEffect(() => {
     obtenerProductos();
-  }, []); 
+  }, []);
 
   return (
-    <div className="admin-panel">
-      <header className="admin-header">
-        <h1>Panel de Administrador</h1>
-      </header> 
-
-      <div className="main-content">
-        <section id="productos">
-          <h2>Productos Registrados</h2>
-          {/* Tabla para mostrar los productos */}
-          <table>
-            <thead>
+    <div className="container mt-4">
+      <h2 className="text-center mb-4">Productos Registrados</h2>
+      <div className="table-responsive">
+        <table className="table table-striped table-hover">
+          <thead className="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Ubicación</th>
+              <th>Categoría</th>
+              <th>Acciones</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {productos.length === 0 ? (
               <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Ubicación</th>
-                <th>Categoría</th>
-                <th>Acciones</th>
-                <th>Estado</th>
-                
-
+                <td colSpan="7" className="text-center">No hay productos registrados</td>
               </tr>
-            </thead>
-            <tbody>
-              {productos.length === 0 ? (
-                <tr>
-                  <td colSpan="3">No hay productos registrados</td>
+            ) : (
+              productos.map(producto => (
+                <tr key={producto.idTour}>
+                  <td>{producto.idTour}</td>
+                  <td>{producto.nombre}</td>
+                  <td>${producto.precio}</td>
+                  <td>{producto.ubicacion}</td>
+                  <td>{producto.categoria}</td>
+                  <td>
+                    <button className="btn btn-warning me-2" onClick={() => abrirModal(producto)}>
+                      <Edit size={18} />
+                    </button>
+                    <button className="btn btn-danger" onClick={() => eliminarProducto(producto.idTour)}>
+                      <Trash2 size={18} />
+                    </button>
+                  </td>
+                  <td>
+                    <span className={`badge ${producto.estado ? 'bg-success' : 'bg-danger'}`}>
+                      {producto.estado ? "Activo" : "Inactivo"}
+                    </span>
+                  </td>
                 </tr>
-              ) : (
-                productos.map(producto => (
-                  <tr key={producto.id}>
-                    <td>{producto.idTour}</td>
-                    <td>{producto.nombre}</td>
-                    <td>{producto.precio}</td>
-                    <td>{producto.ubicacion}</td>
-                    <td>{producto.categoria}</td>
-                    <td>
-                      <button onClick={() => abrirModal(producto)}>Editar</button>
-                      <button onClick={() => eliminarProducto(producto.idTour)}>Eliminar</button>
-                    </td>
-                    <td>{producto.estado ? "Activo" : "Inactivo"}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </section>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
-        {showModal && productoEdicion && (
-          <div className="modal" id="staticBackdrop" style={{ display: 'block' }}>
+      {showModal && productoEdicion && (
+        <div className="modal fade show d-block" tabIndex="-1">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="staticBackdropLabel">Editar Producto</h5>
-                <button type="button" className="btn-close" onClick={cerrarModal} aria-label="Close"></button>
+                <h5 className="modal-title">Editar Producto</h5>
+                <button type="button" className="btn-close" onClick={cerrarModal}></button>
               </div>
               <div className="modal-body">
                 <form>
                   <div className="mb-3">
-                    <label htmlFor="nombre" className="form-label">Nombre</label>
-                    <input
-                      type="text"
-                      id="nombre"
-                      className="form-control"
-                      value={productoEdicion.nombre}
-                      onChange={(e) => setProductoEdicion({ ...productoEdicion, nombre: e.target.value })}
-                    />
+                    <label className="form-label">Nombre</label>
+                    <input type="text" className="form-control" value={productoEdicion.nombre} onChange={(e) => setProductoEdicion({ ...productoEdicion, nombre: e.target.value })} />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="precio" className="form-label">Precio</label>
-                    <input
-                      type="number"
-                      id="precio"
-                      className="form-control"
-                      value={productoEdicion.precio}
-                      onChange={(e) => setProductoEdicion({ ...productoEdicion, precio: e.target.value })}
-                    />
+                    <label className="form-label">Descripción</label>
+                    <input type="text" className="form-control" value={productoEdicion.descripcion} onChange={(e) => setProductoEdicion({ ...productoEdicion, descripcion: e.target.value })} />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="estado" className="form-label">Estado</label>
-                    <select
-                      id="estado"
-                      className="form-select"
-                      value={productoEdicion.estado ? "Activo" : "Inactivo"}
-                      onChange={(e) => setProductoEdicion({ ...productoEdicion, estado: e.target.value === "Activo" })}
-                    >
+                    <label className="form-label">Precio</label>
+                    <input type="number" className="form-control" value={productoEdicion.precio} onChange={(e) => setProductoEdicion({ ...productoEdicion, precio: e.target.value })} />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Estado</label>
+                    <select className="form-select" value={productoEdicion.estado ? "Activo" : "Inactivo"} onChange={(e) => setProductoEdicion({ ...productoEdicion, estado: e.target.value === "Activo" })}>
                       <option value="Activo">Activo</option>
                       <option value="Inactivo">Inactivo</option>
                     </select>
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="categoria" className="form-label">Categoría</label>
-                    <select
-                      id="categoria"
-                      className="form-select"
-                      value={productoEdicion.categoria }
-                      onChange={(e) => setProductoEdicion({ ...productoEdicion, categoria: e.target.value })}
-                    >
-                      <option value="Paquete">Paquete</option>
-                      <option value="FullDay">Full Day</option>
-                    </select>
-                  </div>
-                
                 </form>
               </div>
               <div className="modal-footer">
@@ -176,12 +139,9 @@ const ListadoProductos = () => {
             </div>
           </div>
         </div>
-        )}
-        
-      </div>
+      )}
     </div>
   );
 };
 
 export default ListadoProductos;
-
