@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -12,6 +13,12 @@ import { useAuth } from "../auth/hooks/useAuth";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout } = useAuth(); // Obtiene usuario y logout del contexto
+  const navigate = useNavigate();
+
+  const handleLogout = () =>{
+    logout();
+    navigate("/");
+  }
 
   return (
     <header className="top-0 left-0 w-full h-16 bg-custom-blue z-50">
@@ -50,7 +57,7 @@ const Header = () => {
                 </div>
                 <div>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="bg-custom-orange text-white font-bold text-xl w-12/12 py-1 rounded hover:bg-orange-600 transition duration-300 mr-4"
                   >
                     Cerrar sesión
@@ -86,7 +93,7 @@ const Header = () => {
                     Hola, {user.username || user.nombre || "Usuario"}
                   </span>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="bg-red-500 text-white font-bold text-xl px-4 py-1 rounded hover:bg-red-600 transition duration-300"
                   >
                     Cerrar sesión

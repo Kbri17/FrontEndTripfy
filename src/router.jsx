@@ -15,6 +15,9 @@ import GestionarCategorias from "./pages/GestionarCategorias";
 import ListadoProductos from "./pages/ListadoProductos";
 import Usuarios from "./pages/Usuarios";
 import ReservationsList from "./pages/ReservasList";
+import Pruebas from "./components/Pruebas";
+import ListarProductoDos from "./pages/ListarProductoDos";
+import { PiFolderLock } from "react-icons/pi";
 const Root = () => (
   <div className="w-full flex flex-col min-h-screen overflow-x-hidden">
     <Header /> {/* Siempre visible arriba */}
@@ -98,6 +101,12 @@ export const router = createBrowserRouter([
         path: "/reservas",
         element: <ReservationsList />,
       },
+
+      {
+        path: "/pruebas",
+        element: <ListarProductoDos />,
+      },
     ],
   },
 ]);
+

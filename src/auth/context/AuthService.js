@@ -1,8 +1,4 @@
 import requestGenerico from "../../services/HttpCliente";
-import { useNavigate } from "react-router-dom";
-
-
-
 export const authService = {
 
   // Registro de usuario
