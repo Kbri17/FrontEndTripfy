@@ -4,6 +4,8 @@ import { Edit, Trash2 } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const ListadoProductos = () => {
   const [productos, setProductos] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -12,7 +14,7 @@ const ListadoProductos = () => {
   const obtenerProductos = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/tour/buscartodos"
+        `${apiUrl}/tour/buscartodos`
       );
       setProductos(response.data);
     } catch (error) {
@@ -43,7 +45,7 @@ const ListadoProductos = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`http://localhost:8080/tour/eliminar/${id}`);
+          await axios.put(`${apiUrl}/tour/eliminar/${id}`);
           setProductos(productos.filter((producto) => producto.id !== id));
           window.location.reload();
         } catch (error) {
@@ -55,7 +57,7 @@ const ListadoProductos = () => {
 
   const editarProducto = async () => {
     try {
-      await axios.post(`http://localhost:8080/tour/modificar`, productoEdicion);
+      await axios.post(`${apiUrl}/tour/modificar`, productoEdicion);
       setProductos(
         productos.map((producto) =>
           producto.idTour === productoEdicion.idTour
