@@ -18,14 +18,14 @@ export const productReducer = (state, action) => {
       return {
         ...state,
         products: state.products.map((p) =>
-          p.id === action.payload.id ? action.payload : p
+          p.idTour=== action.payload.id ? action.payload : p
         ),
       };
 
     case ProductActionTypes.DELETE_PRODUCT:
       return {
         ...state,
-        products: state.products.filter((p) => p.id !== action.payload),
+        products: state.products.filter((p) => p.idTour !== action.payload),
       };
 
     case ProductActionTypes.SET_ERROR:

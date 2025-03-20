@@ -5,7 +5,6 @@ export const productService ={
 async getAllProducts(){
     try{
         const products = await requestGenerico.get("/tour/buscartodos");
-        console.log("productos: ", products)
         return products;
     }
     catch(error){
@@ -25,7 +24,7 @@ async updateProduct(id, product){
 
 async deleteProduct(id){
     try{
-        const deleteProduct = await requestGenerico.delete(`/tour/eliminar/${id}`)
+        const deleteProduct = await requestGenerico.put(`/tour/eliminar/${id}`)
         return deleteProduct;
     }
     catch(error){

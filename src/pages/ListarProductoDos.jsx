@@ -8,8 +8,7 @@ const ListarProductoDos = () => {
   const [productoEdicion, setProductoEdicion] = useState(null);
 
   // Usamos el hook personalizado
-  const { products, loadProducts, updateProduct, deleteProduct } =
-    useProducts();
+  const { products, loadProducts, updateProduct, deleteProduct } = useProducts();
 
   useEffect(() => {
     loadProducts(); // Carga los productos al montar el componente

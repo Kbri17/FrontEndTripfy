@@ -12,7 +12,7 @@ const RegisterForm = () => {
     username: "",
   });
   const navigate = useNavigate();
-  const {register, error , loading} = useAuth();
+  const {register} = useAuth();
 
 
   const handleChange = (e) => {

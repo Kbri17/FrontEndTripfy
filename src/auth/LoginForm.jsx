@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 
 const LoginForm = () => {
-  const [usuario, setUsuario] = useState({ email: "", contrasenia: "" }); // ✅ Cambio de "username" a "email"
+  const [usuario, setUsuario] = useState({ email: "", contrasenia: "" });
   const navigate = useNavigate();
   const { login, error, loading } = useAuth();
   const [localError, setLocalError] = useState(error);
@@ -18,8 +18,6 @@ const LoginForm = () => {
 
     try {
       const response = await login(usuario);
-      console.log("Respuesta del backend:", response);
-
       if (!response.token) {
         throw new Error(response.message || "Error en la autenticación");
       }
@@ -42,15 +40,12 @@ const LoginForm = () => {
       
     }
   };
-
-  
-
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg w-10/12 md:max-w-lg mx-auto mt-24 md:mt-12">
       <h3 className="text-center font-bold text-2xl">Iniciar sesión</h3>
       {error && (
-        <p className="text-red-500 text-center">
-          {typeof error === "string" ? error : JSON.stringify(error)}
+        <p className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md text-center shadow-md mt-2 mb-2">
+          {error.error}
         </p>
       )}
       <form onSubmit={handleSubmit}>

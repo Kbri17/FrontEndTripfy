@@ -117,7 +117,7 @@ const ListadoUsuarios = () => {
                 </tr>
               ) : (
                 usuarios.map((usuario) => (
-                  <tr key={usuario.id}>
+                  <tr key={usuario.idUsuario}>
                     <td>{usuario.idUsuario}</td>
                     <td>{usuario.nombre}</td>
                     <td>{usuario.apellido}</td>

@@ -15,13 +15,15 @@ export const authService = {
   async login(credenciales) {
     try {
       const response = await requestGenerico.post("/auth/login", credenciales);
-
+      
       // Guardar token y usuario en localStorage
       if (response.token) {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.userResponse));
         
       }
+      console.log("Usuario encontrado:", response);
+
 
       return response;
     } catch (error) {
@@ -38,6 +40,7 @@ export const authService = {
       }
 
       const response = await requestGenerico.get(`/user/buscar/${userId}`);
+      console.log("Usuario encontrado:", response);
       return response;
     } catch (error) {
       throw error.response?.data || error.message;
