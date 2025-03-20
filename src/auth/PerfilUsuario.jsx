@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
+
 import { useAuth } from "./hooks/useAuth"; // ✅ Asegúrate de que esta ruta es correcta
+
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log("API URL:", apiUrl);
 
 const PerfilUser = () => {
   const [view, setView] = useState(null);
@@ -14,7 +18,7 @@ const PerfilUser = () => {
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
-      fetch(`http://localhost:8080/user/buscar/${userId}`)
+      fetch(`${apiUrl}/user/buscar/${userId}`)
         .then((response) => response.json())
         .then((data) => {
           if (data) setUsuario({ ...data, idUsuario: userId });
@@ -44,7 +48,7 @@ const PerfilUser = () => {
       }
 
       const usuarioActualizado = { ...usuario, idUsuario: userId };
-      const response = await fetch("http://localhost:8080/user/modificar", {
+      const response = await fetch(`${apiUrl}/user/modificar`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
