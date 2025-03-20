@@ -4,7 +4,6 @@ import { useProducts } from "../products/Hooks/useProducts";
 
 const Carousel = () => {  
   const { products, loadProducts } = useProducts();
-  console.log("Products:", products);
 
   useEffect(() => {
       loadProducts();

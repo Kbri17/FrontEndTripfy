@@ -5,7 +5,7 @@ import { useAuth } from "./hooks/useAuth";
 const LoginForm = () => {
   const [usuario, setUsuario] = useState({ email: "", contrasenia: "" });
   const navigate = useNavigate();
-  const { login, error, loading } = useAuth();
+  const { login, error, loading, loadUser } = useAuth();
   const [localError, setLocalError] = useState(error);
 
   const handleChange = (e) => {
@@ -18,16 +18,12 @@ const LoginForm = () => {
 
     try {
       const response = await login(usuario);
+      console.log("Respuesta de login:", response);
       if (!response.token) {
         throw new Error(response.message || "Error en la autenticación");
       }
-
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("user", JSON.stringify(response.userResponse));
-
-      const userRole = response.userResponse?.role;
-      console.log("El rol de usuario es:", userRole);
-
+      await loadUser();
+      const userRole = response.userResponse.role;
       if (userRole === "ADMIN") {
         navigate("/administracion");
       } else {

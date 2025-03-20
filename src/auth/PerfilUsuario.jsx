@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "./hooks/useAuth";// Asegúrate de que la ruta sea correcta
+
 const PerfilUser = () => {
   const [usuario, setUsuario] = useState({
     correo: "",
@@ -8,8 +9,7 @@ const PerfilUser = () => {
     apellido: "",
     username: "",
   });
-  const { user } = useAuth();
-  console.log(user)
+  const {user} = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +26,7 @@ const PerfilUser = () => {
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 md:max-w-lg mx-auto mt-12 mb-6">
       <h3 className="text-center text-custom-orange font-bold text-2xl">
-        Registrarse
+        Perfil
       </h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -40,7 +40,7 @@ const PerfilUser = () => {
             type="text"
             id="username"
             name="username"
-            value={user.name}
+            value={user.username}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -59,7 +59,7 @@ const PerfilUser = () => {
             type="text"
             id="nombre"
             name="nombre"
-            value={user.name}
+            value={user.nombre}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -97,7 +97,7 @@ const PerfilUser = () => {
             type="email"
             id="correo"
             name="correo"
-            value={user.email}
+            value={user.correo}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -117,7 +117,7 @@ const PerfilUser = () => {
             type="text"
             id="role"
             name="role"
-            value={user.role}
+            value={user.rolEstado}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,8 +13,8 @@ import { useAuth } from "../auth/hooks/useAuth";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
-  const userAdmin = user?.role === "ADMIN";
+  const { user, logout, loadUser } = useAuth();
+  const userAdmin = user?.rolEstado=== "ADMIN";
   const navigate = useNavigate();
 
   const handleLogout = () =>{

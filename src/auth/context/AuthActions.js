@@ -46,8 +46,8 @@ export const authActions = {
 
     try {
       const userData = await authService.login(credenciales);
-      console.log( "data desde metodo login" + userData);
-      
+      console.log("data desde metodo login" + userData);
+
       dispatch({
         type: AuthActionTypes.LOGIN_SUCCESS,
         payload: userData,
@@ -69,15 +69,20 @@ export const authActions = {
   },
 
   // Cargar usuario desde localStorage
-  loadUser: (dispatch) => () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+  loadUser: (dispatch) => async () => {
+    const userId = localStorage.getItem("id");
     const token = localStorage.getItem("token");
 
-    if (user && token) {
-      dispatch({
-        type: AuthActionTypes.LOAD_USER,
-        payload: { user, token },
-      });
+    if (userId && token) {
+      try {
+        const user = await authService.getUserById(userId);
+        dispatch({
+          type: AuthActionTypes.LOAD_USER,
+          payload: { user, token },
+        });
+      } catch (error) {
+        console.error("Error cargando el usuario:", error);
+      }
     }
   },
 

@@ -19,12 +19,9 @@ export const authService = {
       // Guardar token y usuario en localStorage
       if (response.token) {
         localStorage.setItem("token", response.token);
-        localStorage.setItem("user", JSON.stringify(response.userResponse));
+        localStorage.setItem("id", JSON.stringify(response.userResponse.id));
         
       }
-      console.log("Usuario encontrado:", response);
-
-
       return response;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -40,7 +37,6 @@ export const authService = {
       }
 
       const response = await requestGenerico.get(`/user/buscar/${userId}`);
-      console.log("Usuario encontrado:", response);
       return response;
     } catch (error) {
       throw error.response?.data || error.message;
