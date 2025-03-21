@@ -14,7 +14,8 @@ const ProductDetails = () => {
   const [startDate, setStartDate] = useState(null); // Fecha de inicio
   const [endDate, setEndDate] = useState(null); // Fecha de finalización
   const [numPeople, setNumPeople] = useState(1);
-
+  const [fechasOcupadas, setFechasOcupadas] = useState(new Set());
+ 
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -29,6 +30,26 @@ const ProductDetails = () => {
         console.error("Error al obtener los detalles:", error);
         navigate("/");
       }
+
+      const fetchFechasOcupadas = async () => {
+        try {
+          const response = await fetch(`${apiUrl}/reservas/fechas/${id}`);
+          if (response.status === 204) {
+            setFechasOcupadas(new Set()); // No hay reservas
+            return;
+          }
+          if (!response.ok) {
+            throw new Error("Error al obtener las fechas ocupadas");
+          }
+          const data = await response.json();
+          setFechasOcupadas(new Set(data.map(fecha => new Date(fecha).toISOString().split("T")[0])));
+        } catch (error) {
+          console.error("Error al obtener las fechas ocupadas:", error);
+        }
+      };
+     
+      // Llamar a la función después de obtener el tour
+      fetchFechasOcupadas();
     };
 
     fetchTour();
@@ -61,6 +82,17 @@ const ProductDetails = () => {
         <br />
       </React.Fragment>
     ));
+  };
+
+  const highlightWithRed = (date) => {
+    return fechasOcupadas.has(date.toISOString().split("T")[0])
+      ? "occupied-date"
+      : undefined;
+  };
+  
+  const isDateDisabled = (date) => {
+    // Si la fecha está en fechasOcupadas, devuelve false para deshabilitarla
+    return !fechasOcupadas.has(date.toISOString().split("T")[0]);
   };
 
   if (!tour) return <p>Cargando detalles...</p>;
@@ -141,13 +173,17 @@ const ProductDetails = () => {
                 <div>
                   <label className="block text-gray-600">LLEGADA</label>
                   <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    className="w-full border-none text-black font-semibold"
-                    placeholderText="Seleccionar fecha"
-                    minDate={new Date()}
-                  />
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      className="w-full border-none text-black font-semibold"
+                      placeholderText="Seleccionar fecha"
+                      minDate={new Date()}
+                      filterDate={isDateDisabled}
+                      dayClassName={highlightWithRed}
+                    />
+
                 </div>
+               
                 <div>
                   <label className="block text-gray-600">SALIDA</label>
                   <DatePicker
@@ -156,6 +192,8 @@ const ProductDetails = () => {
                     className="w-full border-none text-black font-semibold"
                     placeholderText="Seleccionar fecha"
                     minDate={startDate}
+                    filterDate={isDateDisabled}
+                    dayClassName={highlightWithRed}
                   />
                 </div>
               </div>
@@ -201,5 +239,7 @@ const ProductDetails = () => {
     </div>
   );
 };
+
+
 
 export default ProductDetails;
