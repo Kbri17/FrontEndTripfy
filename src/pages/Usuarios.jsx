@@ -13,18 +13,20 @@ const ListadoUsuarios = () => {
   const [showModal, setShowModal] = useState(false);
   const [usuarioEdicion, setUsuarioEdicion] = useState(null);
 
-  // Función para obtener usuarios desde la API
   const obtenerUsuarios = async () => {
     try {
-      const response = await axios.get(
-        `${apiUrl}/user/buscartodos`
-      );
-      console.log("Usuarios obtenidos:", response.data);
-      setUsuarios(response.data);
+      const data = await requestGenerico.get("/user/buscartodos");
+      if (data) {
+        console.log("Usuarios obtenidos:", data);
+        setUsuarios(data);
+      } else {
+        console.error("No se pudieron obtener los usuarios.");
+      }
     } catch (error) {
       console.error("Error al obtener los usuarios:", error);
     }
   };
+  
 
   const abrirModal = (usuario) => {
     setUsuarioEdicion(usuario); // Establecer el usuario a editar
