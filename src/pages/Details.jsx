@@ -19,7 +19,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchTour = async () => {
       try {
-        const response = await fetch(`${apiUrl}/tour/buscar/${id}`);
+        const response = await fetch(`https://localhost:443/tour/buscar/${id}`);
         if (!response.ok) {
           throw new Error(`No se encontró el tour con ID ${id}`);
         }
@@ -33,7 +33,7 @@ const ProductDetails = () => {
 
       const fetchFechasOcupadas = async () => {
         try {
-          const response = await fetch(`${apiUrl}/reservas/fechas/${id}`);
+          const response = await fetch(`https://localhost:443/reservas/fechas/${id}`);
           if (response.status === 204) {
             setFechasOcupadas(new Set()); // No hay reservas
             return;

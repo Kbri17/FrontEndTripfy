@@ -14,7 +14,7 @@ const ListadoProductos = () => {
   const obtenerProductos = async () => {
     try {
       const response = await axios.get(
-        `${apiUrl}/tour/buscartodos`
+        `https://localhost:443/tour/buscartodos`
       );
       setProductos(response.data);
     } catch (error) {
@@ -45,7 +45,7 @@ const ListadoProductos = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`${apiUrl}/tour/eliminar/${id}`);
+          await axios.put(`https://localhost:443/tour/eliminar/${id}`);
           setProductos(productos.filter((producto) => producto.id !== id));
           window.location.reload();
         } catch (error) {
@@ -57,7 +57,7 @@ const ListadoProductos = () => {
 
   const editarProducto = async () => {
     try {
-      await axios.post(`${apiUrl}/tour/modificar`, productoEdicion);
+      await axios.post(`https://localhost:443/tour/modificar`, productoEdicion);
       setProductos(
         productos.map((producto) =>
           producto.idTour === productoEdicion.idTour

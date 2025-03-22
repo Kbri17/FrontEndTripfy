@@ -41,7 +41,7 @@ const AgregarProducto = () => {
     
 
     try {
-      const response = await fetch(`${apiUrl}/tour/guardar`, {
+      const response = await fetch(`https://localhost:443/tour/guardar`, {
         method: 'POST',
         body: formData,
       });

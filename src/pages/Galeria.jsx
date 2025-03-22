@@ -11,7 +11,7 @@ const Galeria = () => {
 
   useEffect(() => {
     // Cargar imágenes del tour desde el backend
-    fetch(`${apiUrl}/tour/imagenes/${id}`)
+    fetch(`https://localhost:443/tour/imagenes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Imágenes recibidas:", data);
@@ -55,7 +55,7 @@ const Galeria = () => {
 
           <div className="h-96 flex justify-center items-center">
             <img
-              src={`${apiUrl}/${imagenes[currentIndex]}`}
+              src={`https://localhost:443/${imagenes[currentIndex]}`}
               alt={`Imagen ${currentIndex + 1}`}
               className="rounded-lg shadow-lg object-cover w-full h-full"
             />
