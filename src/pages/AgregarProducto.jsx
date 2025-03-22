@@ -3,7 +3,7 @@ import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const AgregarProducto = () => {
   const [nombre, setNombre] = useState('');
@@ -41,7 +41,7 @@ const AgregarProducto = () => {
     
 
     try {
-      const response = await fetch(`https://localhost:443/tour/guardar`, {
+      const response = await fetch(`${apiUrl}/tour/guardar`, {
         method: 'POST',
         body: formData,
       });

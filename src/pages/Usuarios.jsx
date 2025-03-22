@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Edit, Trash2, PackageSearch } from "lucide-react";
 import Swal from "sweetalert2";
 
-
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const ListadoUsuarios = () => {
   // Estado para almacenar los productos
@@ -17,7 +17,7 @@ const ListadoUsuarios = () => {
   const obtenerUsuarios = async () => {
     try {
       const response = await axios.get(
-        `https://localhost:443/user/buscartodos`
+        `${apiUrl}/user/buscartodos`
       );
       console.log("Usuarios obtenidos:", response.data);
       setUsuarios(response.data);
@@ -51,7 +51,7 @@ const ListadoUsuarios = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.put(`https://localhost:443/user/eliminar/${id}`);
+          await axios.put(`${apiUrl}/user/eliminar/${id}`);
           setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
           window.location.reload();
         } catch (error) {
@@ -64,7 +64,7 @@ const ListadoUsuarios = () => {
   // Función para editar un usuario (modificar sus datos)
   const editarUsuario = async () => {
     try {
-      await axios.put(`https://localhost:443/user/modificar`, usuarioEdicion);
+      await axios.put(`${apiUrl}/user/modificar`, usuarioEdicion);
       setUsuarios(
         usuarios.map((usuario) =>
           usuario.idUsuario === usuarioEdicion.idUsuario

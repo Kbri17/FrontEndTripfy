@@ -1,6 +1,9 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://localhost:443";
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
+axios.defaults.baseURL = apiUrl;
 
 
 const requestGenerico = {

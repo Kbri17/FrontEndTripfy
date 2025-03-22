@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // import { Link } from "react-router-dom";
 
-
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -16,10 +16,12 @@ const ProductDetails = () => {
   const [numPeople, setNumPeople] = useState(1);
   const [fechasOcupadas, setFechasOcupadas] = useState(new Set());
  
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchTour = async () => {
       try {
-        const response = await fetch(`https://localhost:443/tour/buscar/${id}`);
+        const response = await fetch(`${apiUrl}/tour/buscar/${id}`);
         if (!response.ok) {
           throw new Error(`No se encontró el tour con ID ${id}`);
         }
@@ -33,7 +35,7 @@ const ProductDetails = () => {
 
       const fetchFechasOcupadas = async () => {
         try {
-          const response = await fetch(`https://localhost:443/reservas/fechas/${id}`);
+          const response = await fetch(`${apiUrl}/reservas/fechas/${id}`);
           if (response.status === 204) {
             setFechasOcupadas(new Set()); // No hay reservas
             return;
