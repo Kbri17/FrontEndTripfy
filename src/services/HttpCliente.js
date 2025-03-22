@@ -5,6 +5,12 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 axios.defaults.baseURL = apiUrl;
 
+const api = axios.create({
+  baseURL: apiUrl,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 const requestGenerico = {
   get: (url) => api.get(url).then((res) => res.data),
