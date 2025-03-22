@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Edit, Trash2, PackageSearch } from "lucide-react";
 import Swal from "sweetalert2";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+
 
 const ListadoUsuarios = () => {
   // Estado para almacenar los productos

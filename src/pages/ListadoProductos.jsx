@@ -4,7 +4,7 @@ import { Edit, Trash2 } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+
 
 const ListadoProductos = () => {
   const [productos, setProductos] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+
 
 const Galeria = () => {
   const { id } = useParams(); // Obtiene el ID del tour desde la URL
