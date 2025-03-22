@@ -12,13 +12,3 @@ const requestGenerico = {
   put: (url, body) => api.put(url, body).then((res) => res.data),
   delete: (url) => api.delete(url).then((res) => res.data),
 };
-
-export const getTours = async () => {
-  try {
-    const response = await api.get("/tour/buscartodos");
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener los tours:", error);
-    return null;
-  }
-};
