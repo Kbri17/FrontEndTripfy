@@ -1,6 +1,12 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:443";
+axios.defaults.baseURL = "https://localhost:443";
+const api = axios.create({
+  baseURL: "https://localhost:443",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 const requestGenerico = {
   get: (url) => api.get(url).then((res) => res.data),
