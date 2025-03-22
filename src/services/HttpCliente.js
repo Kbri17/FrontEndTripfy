@@ -1,15 +1,9 @@
+export default requestGenerico;
+
 import axios from "axios";
 
-
-const apiUrl = import.meta.env.VITE_API_URL;
-
-axios.defaults.baseURL = apiUrl;
-
 const api = axios.create({
-  baseURL: apiUrl,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "/api", // Ahora Vite redirige a tu backend
 });
 
 const requestGenerico = {
@@ -19,5 +13,12 @@ const requestGenerico = {
   delete: (url) => api.delete(url).then((res) => res.data),
 };
 
-export default requestGenerico;
-
+export const getTours = async () => {
+  try {
+    const response = await api.get("/tour/buscartodos");
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener los tours:", error);
+    return null;
+  }
+};

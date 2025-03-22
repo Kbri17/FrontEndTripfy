@@ -15,11 +15,12 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5173, // Opcional, define el puerto
-    open: true,  // Opcional, abre el navegador automáticamente
+    proxy: {
+      "/api": {
+        target: "https://ec2-107-22-158-63.compute-1.amazonaws.com", // Backend con SSL
+        changeOrigin: true,
+        secure: false, // 🔴 Desactiva la verificación SSL (solo para pruebas)
+      },
+    },
   },
-  build: {
-    outDir: 'dist',
-  },
-  base: '/', // Asegura que las rutas sean correctas
 });
