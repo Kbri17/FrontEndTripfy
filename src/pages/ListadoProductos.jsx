@@ -22,6 +22,7 @@ const ListadoProductos = () => {
     }
   };
 
+
   const abrirModal = (producto) => {
     setProductoEdicion(producto);
     setShowModal(true);
