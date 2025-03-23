@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Search from "../layout/Search";
+import Search from "../layout/SearchFull";
 import Carousel from "../components/Carrusel";
 import { FaSun, FaSuitcase } from "react-icons/fa";
 const Home = () => {

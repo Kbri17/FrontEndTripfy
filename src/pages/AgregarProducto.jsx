@@ -12,6 +12,7 @@ const AgregarProducto = () => {
   const [categoria, setCategoria] = useState('');
   const [precio, setPrecio] = useState(0.0);
   const [ubicacion, setUbicacion] = useState('');
+  const [fecha, setFecha] = useState('date');
   const [error, setError] = useState('');
 
   const categoriasDisponibles = ['Full day', 'Paquetes'];
@@ -33,6 +34,7 @@ const AgregarProducto = () => {
     formData.append('descripcion', descripcion);
     formData.append('categoria', categoria);
     formData.append('precio', precio);
+    formData.append('fecha', fecha);
     formData.append('ubicacion', ubicacion);
     
     imagenes.forEach((imagen, index) => {
@@ -41,7 +43,7 @@ const AgregarProducto = () => {
     
 
     try {
-      const response = await fetch(`https://localhost:443/tour/guardar`, {
+      const response = await fetch(`http://localhost:8080/tour/guardar`, {
         method: 'POST',
         body: formData,
       });
@@ -57,6 +59,7 @@ const AgregarProducto = () => {
       setImagenes([]);
       setCategoria('');
       setPrecio(0.0);
+      setFecha(Date);
       setUbicacion('');
       setError('');
     } catch (error) {
@@ -175,6 +178,11 @@ const AgregarProducto = () => {
           <div>
             <label className="block text-sm font-medium">Ubicación</label>
             <input type="text" value={ubicacion} onChange={(e) => setUbicacion(e.target.value)} className="w-full p-2 border rounded-md" required />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">Fecha</label>
+            <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} className="w-full p-2 border rounded-md" required />
           </div>
 
           <div>
