@@ -1,6 +1,7 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8080/";
+const API_URL = import.meta.env.VITE_API_URL;
+axios.defaults.baseURL = API_URL;
 
 const requestGenerico = {
   get: (url) => axios.get(url).then((res) => res.data),
