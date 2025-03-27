@@ -34,10 +34,10 @@ const RegisterForm = () => {
       console.error("Error de registro", err);
     }
   };
-
+ 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-12 mb-6">
-      <h3 className="text-center font-bold text-2xl">Registrarse</h3>
+    <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 md:max-w-lg mx-auto mt-12 mb-6">
+      <h3 className="text-center text-custom-orange font-bold text-2xl">Registrarse</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
@@ -139,13 +139,14 @@ const RegisterForm = () => {
         <div className="mb-4">
           <button
             type="submit"
-            className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-2 bg-custom-blue text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Registrarse
           </button>
         </div>
       </form>
     </div>
+    
   );
 };
 

@@ -46,6 +46,8 @@ export const authActions = {
 
     try {
       const userData = await authService.login(credenciales);
+      console.log( "data desde metodo login" + userData);
+      
       dispatch({
         type: AuthActionTypes.LOGIN_SUCCESS,
         payload: userData,

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../Estilos/Usuarios.css';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Usuarios = () => {
-  // Estado para almacenar los usuarios
-  const [usuarios, setUsuarios] = useState([]); 
-
-
+const ListadoUsuarios = () => {
+  // Estado para almacenar los productos 
+  const [usuarios, setUsuarios] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [usuarioEdicion, setUsuarioEdicion] = useState(null); 
 
   // Función para obtener usuarios desde la API
   const obtenerUsuarios = async () => {
@@ -14,19 +15,31 @@ const Usuarios = () => {
       const response = await axios.get('http://localhost:8080/user/buscartodos'); 
       console.log('Usuarios obtenidos:', response.data);
       setUsuarios(response.data); 
-      console.log(usuarios);
     } catch (error) {
       console.error('Error al obtener los usuarios:', error);
     }
   };
+  
 
+  const abrirModal = (usuario) => {
+    setUsuarioEdicion(usuario); // Establecer el usuario a editar
+    setShowModal(true); // Mostrar el modal
+    console.log(usuario)
+  };
+
+  const cerrarModal = () => {
+    setShowModal(false); // Ocultar el modal
+    setUsuarioEdicion(null); // Limpiar el usuario a editar
+  };
   // Función para eliminar un usuario
   const eliminarUsuario = async (id) => {
-    console.log('ID del usuario a eliminar:', id);
+    console.log(id)
     try {
+    
       if (id) {
-        await axios.delete(`http://localhost:8080/user/eliminarUsuario/${id}`);
+        await axios.put(`http://localhost:8080/user/eliminar/${id}`);
         setUsuarios(usuarios.filter(usuario => usuario.id !== id));
+        window.location.reload(); 
       } else {
         console.error('No se pudo obtener el ID del usuario');
       }
@@ -35,41 +48,46 @@ const Usuarios = () => {
     }
   };
 
-  // Función para editar un usuario 
-  const editarUsuario = async (id) => {
-    try {
-        await axios.put(`http://localhost:8080/user/modificarUsuario/${id}`); 
-        setUsuarios(usuarios.filter(usuario => usuario.id !== id)); 
-      } catch (error) {
-        console.error('Error al modificar el usuario:', error);
-      }
-    };
+  
 
+  // Función para editar un usuario (modificar sus datos)
+  const editarUsuario = async () => {
+    try {
+      await axios.put(`http://localhost:8080/user/modificar`, usuarioEdicion);
+      setUsuarios(usuarios.map(usuario => usuario.idUsuario === usuarioEdicion.idUsuario ? usuarioEdicion : usuario)); 
+      cerrarModal(); 
+
+    } catch (error) {
+      console.error('Error al modificar el usuario:', error);
+    }
+  };
+
+ 
+
+
+  
   // Cargar los usuarios al montar el componente
   useEffect(() => {
     obtenerUsuarios();
   }, []); 
-
+console.log(usuarioEdicion)
   return (
     <div className="admin-panel">
       <header className="admin-header">
         <h1>Panel de Administrador</h1>
       </header>
 
-      
-
       <div className="main-content">
-
-
         <section id="usuarios">
           <h2>Usuarios Registrados</h2>
-          {/* Tabla para mostrar los usuarios */}
           <table>
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Apellido</th>
                 <th>Email</th>
+                <th>Rol</th>
                 <th>Acciones</th>
                 <th>Estado</th>
               </tr>
@@ -77,30 +95,106 @@ const Usuarios = () => {
             <tbody>
               {usuarios.length === 0 ? (
                 <tr>
-                  <td colSpan="3">No hay usuarios registrados</td>
+                  <td colSpan="7">No hay usuarios registrados</td>
                 </tr>
               ) : (
                 usuarios.map(usuario => (
-                  
                   <tr key={usuario.id}>
                     <td>{usuario.idUsuario}</td>
                     <td>{usuario.nombre}</td>
-                    <td>{usuario.email}</td>
+                    <td>{usuario.apellido}</td>
+                    <td>{usuario.correo}</td>
+                    <td>{usuario.rolEstado}</td>
                     <td>
-                      <button onClick={() => editarUsuario(usuario.id)}>Modificar</button>
-                      <button onClick={() => eliminarUsuario(usuario.id)}>Eliminar</button>
+                      <button onClick={() => abrirModal(usuario)}>Modificar</button> <br />
+                      <button onClick={() => eliminarUsuario(usuario.idUsuario)}>Eliminar</button>
                     </td>
-                    <td>{usuario.estado}</td>
+                    <td>{usuario.estado ? "Activo" : "Inactivo"}</td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
         </section>
+        {showModal && usuarioEdicion && (
+          <div className="modal" id="staticBackdrop" style={{ display: 'block' }}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="staticBackdropLabel">Modificar usuario</h5>
+                <button type="button" className="btn-close" onClick={cerrarModal} aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="mb-3">
+                    <label htmlFor="nombre" className="form-label">Nombre</label>
+                    <input
+                      type="text"
+                      id="nombre"
+                      className="form-control"
+                      value={usuarioEdicion.nombre}
+                      onChange={(e) => setUsuarioEdicion({ ...usuarioEdicion, nombre: e.target.value })}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="apellido" className="form-label">Apellido</label>
+                    <input
+                      type="text"
+                      id="apellido"
+                      className="form-control"
+                      value={usuarioEdicion.apellido}
+                      onChange={(e) => setUsuarioEdicion({ ...usuarioEdicion, apellido: e.target.value })}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      className="form-control"
+                      value={usuarioEdicion.correo}
+                      onChange={(e) => setUsuarioEdicion({ ...usuarioEdicion, correo: e.target.value })}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="estado" className="form-label">Estado</label>
+                    <select
+                      id="estado"
+                      className="form-select"
+                      value={usuarioEdicion.estado ? "Activo" : "Inactivo"}
+                      onChange={(e) => setUsuarioEdicion({ ...usuarioEdicion, estado: e.target.value === "Activo" })}
+                    >
+                      <option value="Activo">Activo</option>
+                      <option value="Inactivo">Inactivo</option>
+                    </select>
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="rolEstado" className="form-label">Rol</label>
+                    <select
+                      id="rolEstado"
+                      className="form-select"
+                      value={usuarioEdicion.rolEstado}
+                      onChange={(e) => setUsuarioEdicion({ ...usuarioEdicion, rolEstado: e.target.value })}
+                    >
+                      <option value="USER">Usuario</option>
+                      <option value="ADMIN">Administrador</option>
+                    </select>
+                  </div>
+                
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={cerrarModal}>Cerrar</button> 
+                <button type="button" className="btn btn-primary" onClick={editarUsuario}>Guardar cambios</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
+        
       </div>
     </div>
   );
 };
 
-export default Usuarios;
-
+export default ListadoUsuarios;
