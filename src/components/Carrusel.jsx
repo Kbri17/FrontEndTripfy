@@ -24,7 +24,8 @@ const Carousel = () => {
     
     <div className="w-10/12 py-8 flex items-center mx-auto justify-center">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-10">
-        {tours.map((tour) => {
+        {tours
+          .filter((tour) => tour.estado === true).map((tour) => {
             
             return (
               <div
