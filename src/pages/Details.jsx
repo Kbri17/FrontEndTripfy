@@ -224,8 +224,15 @@ const ProductDetails = () => {
               console.log(localStorage.getItem("isLoggedIn"));
             
               if (!isLoggedIn) {
-                alert("Para reservar debes iniciar sesión.");
-                navigate("/login");
+                Swal.fire({
+                  title: "🔒 Acceso restringido",
+                  text: "Para reservar debes iniciar sesión.",
+                  icon: "warning",
+                  confirmButtonColor: "#F18F01",
+                  confirmButtonText: "Iniciar sesión",
+                }).then(() => {
+                  navigate("/login");
+                });
                 return;
               }
               console.log(localStorage.getItem("isLoggedIn"));
