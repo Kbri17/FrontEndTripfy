@@ -1,20 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const TravelPackageCard = ({ idTour, image, title, description, price, destination, categoria }) => {
-  const navigate = useNavigate(); // Hook para la navegación
+  const navigate = useNavigate();
+  const [isFavorite, setIsFavorite] = useState(false); // Estado para favoritos
 
   const handleDetailsClick = () => {
     console.log("Redirigiendo a:", `/details/${idTour}`);
-    console.log("ID del tour:", idTour); // Verificar si idTour es correcto
-    navigate(`/details/${idTour}`); // Redirige a la ruta con el ID del tour
+    console.log("ID del tour:", idTour);
+    navigate(`/details/${idTour}`);
   };
 
-  // Limitar la descripción a 80 caracteres, y asegurar que description no sea undefined
-  const shortDescription = description && description.length > 80 ? description.slice(0, 40) + '...' : description;
+  // Limitar la descripción a 40 caracteres
+  const shortDescription = description?.length > 40 ? description.slice(0, 40) + '...' : description;
+
+  // Alternar favorito
+  const toggleFavorite = () => {
+    let storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  
+    if (isFavorite) {
+      storedFavorites = storedFavorites.filter((tour) => tour.idTour !== idTour);
+    } else {
+      storedFavorites.push({ idTour, image, title, price, destination });
+    }
+  
+    localStorage.setItem("favorites", JSON.stringify(storedFavorites));
+    setIsFavorite(!isFavorite);
+  };
 
   return (
-    <div className="max-w-lg h-60 rounded-lg overflow-hidden shadow-lg bg-white flex flex-row">
+    <div className="max-w-lg h-60 rounded-lg overflow-hidden shadow-lg bg-white flex flex-row relative">
+      {/* Ícono de corazón */}
+      <button 
+        onClick={toggleFavorite} 
+        className="absolute top-2 right-2 text-2xl focus:outline-none"
+      >
+        {isFavorite ? "❤️" : "🤍"}
+      </button>
+
       {/* Lado Izquierdo: Imagen */}
       <div className="w-1/2">
         <img className="w-full h-full object-cover rounded-lg" src={image} alt={title} />
@@ -27,11 +50,11 @@ const TravelPackageCard = ({ idTour, image, title, description, price, destinati
         <p className="text-gray-500 mt-2 text-sm flex-grow">{shortDescription}</p>
         <span className="text-lg font-semibold text-gray-800">{price}</span>
 
-        {/* Contenedor del precio y el botón generado dinámicamente */}
+        {/* Botón de ver detalles */}
         <div className="mt-auto flex justify-between items-center">
           <button 
             className="px-4 py-2 bg-custom-blue text-white rounded-lg hover:bg-blue-600 transition"
-            onClick={handleDetailsClick} // Maneja el clic en el botón
+            onClick={handleDetailsClick}
           >
             Ver {categoria}
           </button>

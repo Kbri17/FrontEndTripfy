@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faUser,
   faCartShopping,
+  faUserGear,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
@@ -11,7 +13,14 @@ import { useAuth } from "../auth/hooks/useAuth";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, logout } = useAuth(); // Obtiene usuario y logout del contexto
+  const { user, logout, loadUser } = useAuth();
+  const userAdmin = user?.rolEstado=== "ADMIN";
+  const navigate = useNavigate();
+
+  const handleLogout = () =>{
+    logout();
+    navigate("/");
+  }
 
   return (
     <header className="top-0 left-0 w-full h-16 bg-custom-blue z-50">
@@ -32,7 +41,7 @@ const Header = () => {
 
             {/* Mostrar usuario autenticado o botones de login/registro */}
             {user ? (
-              <div className="w-full flex items-center justify-end space-x-4">
+              <div className="hidden md:flex  w-full flex items-center justify-end space-x-4">
                 <div>
                   <span className="w-4/12 text-white font-semibold text-xl">
                     Hola, {user.name || user.nombre || "Usuario"}
@@ -40,17 +49,22 @@ const Header = () => {
                 </div>
 
                 <div className="flex gap-4 text-2xl text-white">
-                  <Link>
+                  <Link to="/reservas">
                     {" "}
                     <FontAwesomeIcon icon={faCartShopping} />{" "}
                   </Link>
                   <Link to="/perfil">
                     <FontAwesomeIcon icon={faUser} />
                   </Link>
+                  {userAdmin && (
+                    <Link to="/administracion">
+                      <FontAwesomeIcon icon={faUserGear} />
+                    </Link>
+                  )}
                 </div>
                 <div>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="bg-custom-orange text-white font-bold text-xl w-12/12 py-1 rounded hover:bg-orange-600 transition duration-300 mr-4"
                   >
                     Cerrar sesión
@@ -83,10 +97,26 @@ const Header = () => {
               {user ? (
                 <>
                   <span className="text-white font-semibold text-xl mb-2">
-                    Hola, {user.username || user.nombre || "Usuario"}
+                    Hola, {user.name || user.nombre || "Usuario"}
                   </span>
+                  <div className="flex flex-col gap-4 text-2xl text-white mb-2">
+                    <Link to="/reservas">
+                      {" "}
+                      <FontAwesomeIcon icon={faCartShopping} />
+                      {" reservas"}
+                    </Link>
+                    <Link to="/perfil">
+                      <FontAwesomeIcon icon={faUser} /> {"usuario"}
+                    </Link>
+                    {userAdmin && (
+                      <Link to="/administracion">
+                        <FontAwesomeIcon icon={faUserGear} />
+                        {"panel admin"}
+                      </Link>
+                    )}
+                  </div>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="bg-red-500 text-white font-bold text-xl px-4 py-1 rounded hover:bg-red-600 transition duration-300"
                   >
                     Cerrar sesión

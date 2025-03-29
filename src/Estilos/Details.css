@@ -49,7 +49,7 @@
 }
 
 .main-image {
-  width: 48%;
+  width: 46%;
   text-align: center;
 }
 
@@ -60,15 +60,17 @@
 }
 
 .grid-container {
-  display: grid;
+  display:grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
-  width: 48%;
+  width: 52%;
+  
+
 }
 
 .grid-item {
   text-align: center;
-  border: 1px solid #ddd;
+ 
   padding: 8px;
   border-radius: 8px;
 }

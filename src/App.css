@@ -1,0 +1,7 @@
+body {
+  @apply font-montserrat;
+}
+
+.occupied-date {
+  @apply bg-red-100 text-red-600 rounded-full;
+}

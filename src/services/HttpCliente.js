@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "http://localhost:8080/";
 
 const requestGenerico = {
   get: (url) => axios.get(url).then((res) => res.data),
@@ -10,4 +10,3 @@ const requestGenerico = {
 };
 
 export default requestGenerico;
-

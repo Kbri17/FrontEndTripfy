@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useProducts } from "../products/Hooks/useProducts";
 import { Edit, Trash2 } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Swal from "sweetalert2";
 
-
-
-const ListadoProductos = () => {
-  const [productos, setProductos] = useState([]);
+const ListarProductoDos = () => {
   const [showModal, setShowModal] = useState(false);
   const [productoEdicion, setProductoEdicion] = useState(null);
 
-  const obtenerProductos = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/tour/buscartodos`
-      );
-      setProductos(response.data);
-    } catch (error) {
-      console.error("Error al obtener los productos:", error);
-    }
-  };
+  // Usamos el hook personalizado
+  const { products, loadProducts, updateProduct, deleteProduct } = useProducts();
+
+  useEffect(() => {
+    loadProducts(); // Carga los productos al montar el componente
+  }, []);
 
   const abrirModal = (producto) => {
     setProductoEdicion(producto);
@@ -33,54 +25,13 @@ const ListadoProductos = () => {
   };
 
   const eliminarProducto = async (id) => {
-    Swal.fire({
-      title: "¿Está seguro?",
-      text: "Esta acción no se puede deshacer",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axios.put(`http://localhost:8080/tour/eliminar/${id}`);
-          setProductos(productos.filter((producto) => producto.id !== id));
-          window.location.reload();
-        } catch (error) {
-          console.error("Error al eliminar el producto:", error);
-        }
-      }
-    });
+    await deleteProduct(id); // Usamos el hook en vez de axios
   };
 
   const editarProducto = async () => {
-    try {
-      await axios.post(`http://localhost:8080/tour/modificar`, productoEdicion);
-      setProductos(
-        productos.map((producto) =>
-          producto.idTour === productoEdicion.idTour
-            ? productoEdicion
-            : producto
-        )
-      );
-      cerrarModal();
-      Swal.fire({
-        title: "Éxito",
-        text: "El producto fue editado con éxito",
-        icon: "success",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "Aceptar",
-      });
-    } catch (error) {
-      console.error("Error al editar el producto:", error);
-    }
+    await updateProduct(productoEdicion);
+    cerrarModal();
   };
-
-  useEffect(() => {
-    obtenerProductos();
-  }, []);
 
   return (
     <div className="container mt-4">
@@ -99,14 +50,14 @@ const ListadoProductos = () => {
             </tr>
           </thead>
           <tbody>
-            {productos.length === 0 ? (
+            {products.length === 0 ? (
               <tr>
                 <td colSpan="7" className="text-center">
                   No hay productos registrados
                 </td>
               </tr>
             ) : (
-              productos.map((producto) => (
+              products.map((producto) => (
                 <tr key={producto.idTour}>
                   <td>{producto.idTour}</td>
                   <td>{producto.nombre}</td>
@@ -241,4 +192,4 @@ const ListadoProductos = () => {
   );
 };
 
-export default ListadoProductos;
+export default ListarProductoDos;

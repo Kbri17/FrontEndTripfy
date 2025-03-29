@@ -4,7 +4,7 @@ import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 import LoginForm from "./auth/LoginForm";
 import Details from "./pages/Details";
-import Producto from "./pages/Producto"
+import Favoritos from "./pages/Favoritos"
 import Galeria from "./pages/Galeria"
 import RegisterForm from "./auth/RegisterForm";
 import PerfilUser from "./auth/PerfilUsuario";
@@ -14,7 +14,10 @@ import AgregarProducto from "./pages/AgregarProducto";
 import GestionarCategorias from "./pages/GestionarCategorias";
 import ListadoProductos from "./pages/ListadoProductos";
 import Usuarios from "./pages/Usuarios";
-
+import ReservationsList from "./pages/ReservasList";
+import Pruebas from "./components/Pruebas";
+import ListarProductoDos from "./pages/ListarProductoDos";
+import { PiFolderLock } from "react-icons/pi";
 const Root = () => (
   <div className="w-full flex flex-col min-h-screen overflow-x-hidden">
     <Header /> {/* Siempre visible arriba */}
@@ -49,15 +52,15 @@ export const router = createBrowserRouter([
         element: <PerfilUser />,
       },
       {
-        path: "/producto",
-        element: <Producto />,
+        path: "/favoritos",
+        element: <Favoritos />,
       },
       {
-        path: "/details/:id",  // 🔥 Agregamos ":id"
+        path: "/details/:id", // 🔥 Agregamos ":id"
         element: <Details />,
       },
       {
-        path: "/galeria",
+        path: "/galeria/:id",
         element: <Galeria />,
       },
       {
@@ -94,7 +97,16 @@ export const router = createBrowserRouter([
         path: "/Usuarios",
         element: <Usuarios />,
       },
+      {
+        path: "/reservas",
+        element: <ReservationsList />,
+      },
 
+      {
+        path: "/pruebas",
+        element: <ListarProductoDos />,
+      },
     ],
   },
 ]);
+

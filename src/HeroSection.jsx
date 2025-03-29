@@ -1,25 +1,42 @@
+import { useState } from "react";
 import { FaSun, FaSuitcase } from "react-icons/fa";
-import Search from "./layout/Search";
-const HeroSection = () => {
-  return (
-    <nav className="flex items-center justify-center p-4 bg-gray-800 text-white w-full">
-      <div className="flex flex-col w-11/12 md:flex-row items-center md:space-x-16">
-        <div className="text-lg font-bold mb-2 md:mb-0">Categorias</div>
-        <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-8 mb-2">
-          <button className="flex flex-col items-center p-2 bg-blue-500 text-white rounded-lg transition duration-300 hover:bg-white hover:text-blue-500">
-            <FaSun size={24} />
-            <span className="text-sm">Full Day</span>
-          </button>
-          <button className="flex flex-col items-center p-2 bg-green-500 text-white rounded-lg transition duration-300 hover:bg-white hover:text-green-500">
-            <FaSuitcase size={24} />
-            <span className="text-sm">Paquetes</span>
-          </button>
-        </div>
-        <Search />
-      </div>
-    </nav>
-  );
+import SearchFull from "./layout/SearchFull";
+import SearchPaq from "./layout/SearchPaq"; // Importamos el nuevo componente
 
+const HeroSection = () => {
+  const [selectedCategory, setSelectedCategory] = useState("Full Day"); // Estado para la categoría seleccionada
+
+  return (
+    <section className="flex flex-col items-center justify-center p-4 bg-gray-800 text-white w-full min-h-min">
+      {/* Categorías */}
+      <div className="flex space-x-4 mb-4">
+        {/* Botón Full Day */}
+        <button
+          className={`flex items-center space-x-2 p-2 rounded-lg transition duration-300 ${
+            selectedCategory === "Full Day" ? "bg-gray-500" : "bg-gray-700"
+          } hover:bg-custom-orange `}
+          onClick={() => setSelectedCategory("Full Day")} // Cambiamos la categoría al hacer clic
+        >
+          <FaSun size={16} />
+          <span className="text-sm">Full Day</span>
+        </button>
+        {/* Botón Paquetes */}
+        <button
+          className={`flex items-center space-x-2 p-2 rounded-lg transition duration-300 ${
+            selectedCategory === "Paquetes" ? "bg-gray-500" : "bg-gray-700"
+          } hover:bg-custom-orange `}
+          onClick={() => setSelectedCategory("Paquetes")} // Cambiamos la categoría al hacer clic
+        >
+          <FaSuitcase size={16} />
+          <span className="text-sm">Paquetes</span>
+        </button>
+      </div>
+
+      {/* Renderizado condicional del componente según la categoría seleccionada */}
+      {selectedCategory === "Full Day" && <SearchFull />}
+      {selectedCategory === "Paquetes" && <SearchPaq />}
+    </section>
+  );
 };
 
 export default HeroSection;

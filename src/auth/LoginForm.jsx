@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 
 const LoginForm = () => {
-  const [usuario, setUsuario] = useState({ email: "", contrasenia: "" }); // ✅ Cambio de "username" a "email"
+  const [usuario, setUsuario] = useState({ email: "", contrasenia: "" });
   const navigate = useNavigate();
-  const { login, error, loading } = useAuth();
+  const { login, error, loading, loadUser } = useAuth();
   const [localError, setLocalError] = useState(error);
 
   const handleChange = (e) => {
@@ -15,42 +15,35 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await login(usuario);
-      console.log("Respuesta del backend:", response);
-
+      console.log("Respuesta de login:", response);
       if (!response.token) {
         throw new Error(response.message || "Error en la autenticación");
       }
-
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("user", JSON.stringify(response.userResponse));
-
-      const userRole = response.userResponse?.role;
-      console.log("El rol de usuario es:", userRole);
-
+  
+      // 🔹 Guardar estado de sesión en localStorage
+      localStorage.setItem("isLoggedIn", "true");
+  
+      await loadUser();
+      const userRole = response.userResponse.role;
       if (userRole === "ADMIN") {
         navigate("/administracion");
       } else {
-        navigate("/perfil");
+        navigate("/");
       }
     } catch (err) {
       console.error("Error en login:", err);
       setLocalError(err.message || "Error desconocido");
-
-      
     }
   };
-
-  
-
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg w-10/12 md:max-w-lg mx-auto mt-24 md:mt-12">
       <h3 className="text-center font-bold text-2xl">Iniciar sesión</h3>
       {error && (
-        <p className="text-red-500 text-center">
-          {typeof error === "string" ? error : JSON.stringify(error)}
+        <p className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md text-center shadow-md mt-2 mb-2">
+          {error.error}
         </p>
       )}
       <form onSubmit={handleSubmit}>
@@ -108,8 +101,10 @@ const LoginForm = () => {
             {loading ? "Cargando..." : "Iniciar sesión"}
           </button>
         </div>
+        
       </form>
     </div>
+    
   );
 };
 
