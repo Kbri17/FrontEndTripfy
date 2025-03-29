@@ -217,10 +217,10 @@ const ProductDetails = () => {
             <button
              className="w-full bg-[#F18F01] text-white text-lg py-2 rounded-lg font-semibold hover:bg-orange-600 transition duration-300"
              onClick={() => {
-              // Comprobar si isLoggedIn está almacenado como "true" en localStorage
+              
               const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; 
             
-              console.log("Estado de sesión:", isLoggedIn); // Verificar en consola
+              console.log("Estado de sesión:", isLoggedIn);
               console.log(localStorage.getItem("isLoggedIn"));
             
               if (!isLoggedIn) {
@@ -230,12 +230,12 @@ const ProductDetails = () => {
               }
               console.log(localStorage.getItem("isLoggedIn"));
             
-              // Si el usuario está autenticado, permitir la reserva
+           
               console.log("Usuario autenticado, proceder con la reserva.");
-              // Aquí va la lógica de la reserva
+             
             
 
-                // Validar que el usuario haya seleccionado ambas fechas
+                
                 if (!startDate || !endDate) {
                   Swal.fire({
                     title: "⚠️ Selecciona las fechas",
