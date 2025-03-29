@@ -20,7 +20,7 @@ const ProductDetails = () => {
       try {
         const response = await fetch(`http://localhost:8080/tour/buscar/${id}`);
         if (!response.ok) {
-          throw new Error(`No se encontró el tour con ID ${id}`);
+          throw new Error("No se encontró el tour con ID ${id}");
         }
         const data = await response.json();
         setTour(data);
@@ -32,9 +32,7 @@ const ProductDetails = () => {
 
       const fetchFechasOcupadas = async () => {
         try {
-          const response = await fetch(
-            `http://localhost:8080/reservas/fechas/${id}`
-          );
+          const response = await fetch(`http://localhost:8080/reservas/fechas/${id}`);
           if (response.status === 204) {
             setFechasOcupadas(new Set()); // No hay reservas
             return;
@@ -156,7 +154,7 @@ const ProductDetails = () => {
           📷 Ver más
         </a>
       </div>
-      {/* <Link to={`/Galeria/${id}`} className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs">
+      {/* <Link to={/Galeria/${id}} className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs">
   📷 Mostrar todas las fotos
 </Link> */}
 
@@ -217,16 +215,25 @@ const ProductDetails = () => {
               </div>
             </div>
             <button
-              className="w-full bg-[#F18F01] text-white text-lg py-2 rounded-lg font-semibold hover:bg-orange-600 transition duration-300"
-              onClick={() => {
-                const isLoggedIn = JSON.parse(
-                  localStorage.getItem("isLoggedIn") || "true"
-                );
-
-                if (!isLoggedIn) {
-                  navigate("/login");
-                  return;
-                }
+             className="w-full bg-[#F18F01] text-white text-lg py-2 rounded-lg font-semibold hover:bg-orange-600 transition duration-300"
+             onClick={() => {
+              // Comprobar si isLoggedIn está almacenado como "true" en localStorage
+              const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; 
+            
+              console.log("Estado de sesión:", isLoggedIn); // Verificar en consola
+              console.log(localStorage.getItem("isLoggedIn"));
+            
+              if (!isLoggedIn) {
+                alert("Para reservar debes iniciar sesión.");
+                navigate("/login");
+                return;
+              }
+              console.log(localStorage.getItem("isLoggedIn"));
+            
+              // Si el usuario está autenticado, permitir la reserva
+              console.log("Usuario autenticado, proceder con la reserva.");
+              // Aquí va la lógica de la reserva
+            
 
                 // Validar que el usuario haya seleccionado ambas fechas
                 if (!startDate || !endDate) {
