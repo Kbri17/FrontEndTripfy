@@ -3,8 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // import { Link } from "react-router-dom";
-
-
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -15,7 +14,7 @@ const ProductDetails = () => {
   const [endDate, setEndDate] = useState(null); // Fecha de finalización
   const [numPeople, setNumPeople] = useState(1);
   const [fechasOcupadas, setFechasOcupadas] = useState(new Set());
- 
+
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -33,7 +32,9 @@ const ProductDetails = () => {
 
       const fetchFechasOcupadas = async () => {
         try {
-          const response = await fetch(`http://localhost:8080/reservas/fechas/${id}`);
+          const response = await fetch(
+            `http://localhost:8080/reservas/fechas/${id}`
+          );
           if (response.status === 204) {
             setFechasOcupadas(new Set()); // No hay reservas
             return;
@@ -42,12 +43,16 @@ const ProductDetails = () => {
             throw new Error("Error al obtener las fechas ocupadas");
           }
           const data = await response.json();
-          setFechasOcupadas(new Set(data.map(fecha => new Date(fecha).toISOString().split("T")[0])));
+          setFechasOcupadas(
+            new Set(
+              data.map((fecha) => new Date(fecha).toISOString().split("T")[0])
+            )
+          );
         } catch (error) {
           console.error("Error al obtener las fechas ocupadas:", error);
         }
       };
-     
+
       // Llamar a la función después de obtener el tour
       fetchFechasOcupadas();
     };
@@ -89,7 +94,7 @@ const ProductDetails = () => {
       ? "occupied-date"
       : undefined;
   };
-  
+
   const isDateDisabled = (date) => {
     // Si la fecha está en fechasOcupadas, devuelve false para deshabilitarla
     return !fechasOcupadas.has(date.toISOString().split("T")[0]);
@@ -148,7 +153,7 @@ const ProductDetails = () => {
           href={`/galeria/${id}`}
           className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs"
         >
-          📷 Mostrar todas las fotos
+          📷 Ver más
         </a>
       </div>
       {/* <Link to={`/Galeria/${id}`} className="text-white bg-gray-800 px-4 py-1 rounded-full font-semibold hover:bg-gray-900 transition duration-300 shadow-lg inline-block text-xs">
@@ -173,17 +178,16 @@ const ProductDetails = () => {
                 <div>
                   <label className="block text-gray-600">LLEGADA</label>
                   <DatePicker
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      className="w-full border-none text-black font-semibold"
-                      placeholderText="Seleccionar fecha"
-                      minDate={new Date()}
-                      filterDate={isDateDisabled}
-                      dayClassName={highlightWithRed}
-                    />
-
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    className="w-full border-none text-black font-semibold"
+                    placeholderText="Seleccionar fecha"
+                    minDate={new Date()}
+                    filterDate={isDateDisabled}
+                    dayClassName={highlightWithRed}
+                  />
                 </div>
-               
+
                 <div>
                   <label className="block text-gray-600">SALIDA</label>
                   <DatePicker
@@ -212,8 +216,72 @@ const ProductDetails = () => {
                 </select>
               </div>
             </div>
+            <button
+              className="w-full bg-[#F18F01] text-white text-lg py-2 rounded-lg font-semibold hover:bg-orange-600 transition duration-300"
+              onClick={() => {
+                const isLoggedIn = JSON.parse(
+                  localStorage.getItem("isLoggedIn") || "true"
+                );
 
-            <button className="w-full bg-[#F18F01] text-white text-lg py-2 rounded-lg font-semibold hover:bg-orange-600 transition duration-300">
+                if (!isLoggedIn) {
+                  navigate("/login");
+                  return;
+                }
+
+                // Validar que el usuario haya seleccionado ambas fechas
+                if (!startDate || !endDate) {
+                  Swal.fire({
+                    title: "⚠️ Selecciona las fechas",
+                    text: "Debes elegir una fecha de llegada y salida antes de continuar.",
+                    icon: "warning",
+                    confirmButtonColor: "#F18F01",
+                    confirmButtonText: "Entendido",
+                  });
+                  return;
+                }
+
+                const fechaLlegada = startDate.toLocaleDateString();
+                const fechaSalida = endDate.toLocaleDateString();
+                const personas = numPeople;
+                const nombreTour = tour.nombre; 
+
+                Swal.fire({
+                  title: "📅 Confirmación de Reserva",
+                  html: `
+        <h2 style="font-size: 1.2rem; font-weight: bold; color: #F18F01;">🌍 ${nombreTour}</h2>
+        <p><strong>🛬 Llegada:</strong> ${fechaLlegada}</p>
+        <p><strong> 🛫Salida:</strong> ${fechaSalida}</p>
+        <p><strong>👤 Número de personas:</strong> ${personas}</p>
+        <p style="margin-top: 10px;">¿Deseas confirmar la reserva?</p>
+      `,
+                  icon: "question",
+                  showCancelButton: true,
+                  confirmButtonColor: "#F18F01",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "✅ Confirmar",
+                  cancelButtonText: "❌ Cancelar",
+                  background: "#fff",
+                  customClass: {
+                    popup: "rounded-lg shadow-lg",
+                    title: "font-bold text-lg",
+                  },
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    Swal.fire(
+                      "🎉 ¡Reserva confirmada!",
+                      `Tu reserva para ${nombreTour} ha sido registrada con éxito.`,
+                      "success"
+                    );
+                  } else {
+                    Swal.fire(
+                      "❌ Reserva cancelada",
+                      "No se ha realizado ninguna reserva.",
+                      "error"
+                    );
+                  }
+                });
+              }}
+            >
               Reserva
             </button>
 
@@ -239,7 +307,5 @@ const ProductDetails = () => {
     </div>
   );
 };
-
-
 
 export default ProductDetails;
