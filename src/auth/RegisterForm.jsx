@@ -31,6 +31,7 @@ const RegisterForm = () => {
       Success();
       navigate("/login"); // Redirigir después del registro
     } catch (err) {
+      ErrorAlert();
       console.error("Error de registro", err);
     }
   };

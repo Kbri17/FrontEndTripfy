@@ -28,6 +28,8 @@ const LoginForm = () => {
   
       await loadUser();
       const userRole = response.userResponse.role;
+      localStorage.setItem("rol", userRole);
+      console.log("Rol es:", userRole)
       if (userRole === "ADMIN") {
         navigate("/administracion");
       } else {
