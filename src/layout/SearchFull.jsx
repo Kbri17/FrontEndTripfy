@@ -48,7 +48,7 @@ const SearchFull = ({ searchTerm, setSearchTerm }) => {
 
         {/* Botón de búsqueda */}
         <div className="w-full md:w-auto px-2">
-          <button className="bg-custom-orange text-white rounded-lg md:rounded-full w-full md:w-auto px-4 py-1 text-sm font-semibold flex items-center justify-center hover:bg-gray-700">
+          <button className="bg-gray-400 text-white rounded-lg md:rounded-full w-full md:w-auto px-4 py-1 text-sm font-semibold flex items-center justify-center hover:bg-gray-700">
             <FontAwesomeIcon icon={faSearch} className="mr-2" />
             Buscar
           </button>

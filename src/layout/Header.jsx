@@ -14,13 +14,13 @@ import { useAuth } from "../auth/hooks/useAuth";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout, loadUser } = useAuth();
-  const userAdmin = user?.rolEstado=== "ADMIN";
+  const userAdmin = user?.rolEstado === "ADMIN";
   const navigate = useNavigate();
 
-  const handleLogout = () =>{
+  const handleLogout = () => {
     logout();
     navigate("/");
-  }
+  };
 
   return (
     <header className="top-0 left-0 w-full h-16 bg-custom-blue z-50">
@@ -43,12 +43,20 @@ const Header = () => {
             {user ? (
               <div className="hidden md:flex  w-full flex items-center justify-end space-x-4">
                 <div>
-                  <span className="w-4/12 text-white font-semibold text-xl">
-                    Hola, {user.name || user.nombre || "Usuario"}
+                  <span className="text-white font-semibold flex items-center text-m md:text-m">
+                    {/* Hola,{" "} */}
+                    {user.nombre && user.apellido ? (
+                      <span className="bg-custom-orange text-white rounded-lg md:rounded-full w-full md:w-auto px-3 py-1 text-sm font-bold flex items-center justify-center hover:bg-gray-400">
+                        {user.nombre.charAt(0).toUpperCase()}
+                        {user.apellido.charAt(0).toUpperCase()}
+                      </span>
+                    ) : (
+                      "Usuario"
+                    )}
                   </span>
                 </div>
 
-                <div className="flex gap-4 text-2xl text-white">
+                <div className="flex gap-4 text-1xl text-white">
                   <Link to="/reservas">
                     {" "}
                     <FontAwesomeIcon icon={faCartShopping} />{" "}
@@ -65,7 +73,7 @@ const Header = () => {
                 <div>
                   <button
                     onClick={handleLogout}
-                    className="bg-custom-orange text-white font-bold text-xl w-12/12 py-1 rounded hover:bg-orange-600 transition duration-300 mr-4"
+                    className="bg-gray-700 text-white rounded-lg md:rounded-full w-full md:w-auto px-4 py-1 text-sm font-bold flex items-center justify-center hover:bg-custom-orange"
                   >
                     Cerrar sesión
                   </button>
@@ -75,13 +83,13 @@ const Header = () => {
               <div className="hidden md:flex items-center">
                 <Link
                   to="/register"
-                  className="bg-white text-custom-orange font-bold text-xl px-3 py-1 rounded hover:bg-orange-600 transition duration-300 mr-4"
+                  className="bg-gray-700 text-white rounded-lg md:rounded-full w-full md:w-auto px-4 py-1 text-sm font-bold flex items-center justify-center hover:bg-custom-orange mr-4"
                 >
                   Registrarse
                 </Link>
                 <Link
                   to="/login"
-                  className="bg-custom-orange text-white font-bold text-xl px-3 py-1 rounded hover:bg-orange-600 transition duration-300 mr-4"
+                  className="bg-gray-700 text-white rounded-lg md:rounded-full w-full md:w-auto px-4 py-1 text-sm font-bold flex items-center justify-center hover:bg-custom-orange mr-4"
                 >
                   Iniciar sesión
                 </Link>
