@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TravelPackageCard from "./Card";
 
-const Carousel = () => {
+const Carousel = ({ selectedCategory }) => {
   const [tours, setTours] = useState([]);
 
   useEffect(() => {
@@ -20,30 +20,44 @@ const Carousel = () => {
     fetchTours();
   }, []);
 
+  // Filtrar tours según la categoría seleccionada
+  const filteredTours = selectedCategory
+    ? tours.filter(
+        (tour) =>
+          tour.categoria.toLowerCase() === selectedCategory.toLowerCase() &&
+          tour.estado === true
+      )
+    : tours.filter((tour) => tour.estado === true); // Mostrar todos si no hay categoría seleccionada
+
   return (
-    
     <div className="w-10/12 py-8 flex items-center mx-auto justify-center">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-10">
-        {tours
-          .filter((tour) => tour.estado === true).map((tour) => {
-            
-            return (
-              <div
-                key={tour.idTour}
-                className="card p-4 rounded-xl hover:scale-105 transition transform duration-300"
-              >
-                <TravelPackageCard
-                  idTour={tour.idTour} // 🔹 Pasamos el ID
-                  image={tour.imagenes.length > 0 ? tour.imagenes[0].url : "ruta_por_defecto.png"}
-                  title={tour.nombre}
-                  destination={tour.ubicacion}
-                  description={tour.descripcion}
-                  price={tour.precio}
-                  categoria={tour.categoria}
-                />
-              </div>
-            );
-          })}
+        {filteredTours.length > 0 ? (
+          filteredTours.map((tour) => (
+            <div
+              key={tour.idTour}
+              className="p-2 rounded-xl hover:scale-105 transition transform duration-300"
+            >
+              <TravelPackageCard
+                idTour={tour.idTour}
+                image={
+                  tour.imagenes.length > 0
+                    ? tour.imagenes[0].url
+                    : "ruta_por_defecto.png"
+                }
+                title={tour.nombre}
+                destination={tour.ubicacion}
+                description={tour.descripcion}
+                price={tour.precio}
+                categoria={tour.categoria}
+              />
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500">
+            No hay tours disponibles para esta categoría.
+          </p>
+        )}
       </div>
     </div>
   );
