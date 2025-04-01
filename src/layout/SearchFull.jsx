@@ -5,7 +5,7 @@ import {
   faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-const SearchFull = () => {
+const SearchFull = ({ searchTerm, setSearchTerm }) => {
   return (
     <section className="flex justify-center items-center py-0 px-4">
       <div className="bg-white shadow-md rounded-lg md:rounded-full flex flex-col md:flex-row items-center w-full max-w-4xl p-2">
@@ -23,6 +23,8 @@ const SearchFull = () => {
               type="text"
               placeholder="¿A dónde vas?"
               className="w-full focus:outline-none text-sm text-gray-400"
+              value={searchTerm} // Vincula el valor del input con el estado searchTerm
+              onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado searchTerm al escribir
             />
           </div>
         </div>

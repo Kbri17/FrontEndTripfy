@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TravelPackageCard from "./Card";
 
-const Carousel = ({ selectedCategory }) => {
+const Carousel = ({ selectedCategory, searchTerm }) => {
   const [tours, setTours] = useState([]);
 
   useEffect(() => {
@@ -20,14 +20,16 @@ const Carousel = ({ selectedCategory }) => {
     fetchTours();
   }, []);
 
-  // Filtrar tours según la categoría seleccionada
-  const filteredTours = selectedCategory
-    ? tours.filter(
-        (tour) =>
-          tour.categoria.toLowerCase() === selectedCategory.toLowerCase() &&
-          tour.estado === true
-      )
-    : tours.filter((tour) => tour.estado === true); // Mostrar todos si no hay categoría seleccionada
+  // Filtrar tours según la categoría seleccionada y el término de búsqueda
+  const filteredTours = tours.filter((tour) => {
+    const matchesCategory = selectedCategory
+      ? tour.categoria.toLowerCase() === selectedCategory.toLowerCase()
+      : true; // Si no hay categoría seleccionada, mostrar todos
+    const matchesSearch = searchTerm
+      ? tour.ubicacion.toLowerCase().includes(searchTerm.toLowerCase())
+      : true; // Si no hay término de búsqueda, mostrar todos
+    return matchesCategory && matchesSearch && tour.estado === true;
+  });
 
   return (
     <div className="w-10/12 py-8 flex items-center mx-auto justify-center">
@@ -55,7 +57,7 @@ const Carousel = ({ selectedCategory }) => {
           ))
         ) : (
           <p className="text-center text-gray-500">
-            No hay tours disponibles para esta categoría.
+            No hay tours disponibles para esta búsqueda.
           </p>
         )}
       </div>
