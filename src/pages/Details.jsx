@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { tourId } = useParams();
   const [tour, setTour] = useState(null);
   const [descripcion, setDescripcion] = useState("");
   const [startDate, setStartDate] = useState(null); // Fecha de inicio
@@ -32,7 +33,9 @@ const ProductDetails = () => {
 
       const fetchFechasOcupadas = async () => {
         try {
-          const response = await fetch(`http://localhost:8080/reservas/fechas/${id}`);
+          const response = await fetch(
+            `http://localhost:8080/reservas/fechas/${id}`
+          );
           if (response.status === 204) {
             setFechasOcupadas(new Set()); // No hay reservas
             return;
@@ -215,34 +218,26 @@ const ProductDetails = () => {
               </div>
             </div>
             <button
-             className="w-full bg-[#F18F01] text-white text-lg py-2 rounded-lg font-semibold hover:bg-orange-600 transition duration-300"
-             onClick={() => {
-              
-              const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; 
-            
-              console.log("Estado de sesión:", isLoggedIn);
-              console.log(localStorage.getItem("isLoggedIn"));
-            
-              if (!isLoggedIn) {
-                Swal.fire({
-                  title: "🔒 Acceso restringido",
-                  text: "Para reservar debes iniciar sesión.",
-                  icon: "warning",
-                  confirmButtonColor: "#F18F01",
-                  confirmButtonText: "Iniciar sesión",
-                }).then(() => {
-                  navigate("/login");
-                });
-                return;
-              }
-              console.log(localStorage.getItem("isLoggedIn"));
-            
-           
-              console.log("Usuario autenticado, proceder con la reserva.");
-             
-            
+              className="w-full bg-[#F18F01] text-white text-lg py-2 rounded-lg font-semibold hover:bg-orange-600 transition duration-300"
+              onClick={async () => {
+                const isLoggedIn =
+                  localStorage.getItem("isLoggedIn") === "true";
 
-                
+                console.log("Estado de sesión:", isLoggedIn);
+
+                if (!isLoggedIn) {
+                  Swal.fire({
+                    title: "🔒 Acceso restringido",
+                    text: "Para reservar debes iniciar sesión.",
+                    icon: "warning",
+                    confirmButtonColor: "#F18F01",
+                    confirmButtonText: "Iniciar sesión",
+                  }).then(() => {
+                    navigate("/login");
+                  });
+                  return;
+                }
+
                 if (!startDate || !endDate) {
                   Swal.fire({
                     title: "⚠️ Selecciona las fechas",
@@ -254,17 +249,29 @@ const ProductDetails = () => {
                   return;
                 }
 
-                const fechaLlegada = startDate.toLocaleDateString();
-                const fechaSalida = endDate.toLocaleDateString();
+                const fechaLlegada = startDate.toISOString().split("T")[0];
+                const fechaSalida = endDate.toISOString().split("T")[0];
                 const personas = numPeople;
-                const nombreTour = tour.nombre; 
+                const nombreTour = tour.nombre;
+                const tourId = tour?.idTour; 
+                const usuarioId = parseInt(localStorage.getItem("id"));
 
-                Swal.fire({
+                if (!tourId) {
+                  Swal.fire(
+                    "❌ Error",
+                    "El ID del tour no es válido.",
+                    "error"
+                  );
+                  return;
+                }
+
+                
+                const confirmacion = await Swal.fire({
                   title: "📅 Confirmación de Reserva",
                   html: `
         <h2 style="font-size: 1.2rem; font-weight: bold; color: #F18F01;">🌍 ${nombreTour}</h2>
         <p><strong>🛬 Llegada:</strong> ${fechaLlegada}</p>
-        <p><strong> 🛫Salida:</strong> ${fechaSalida}</p>
+        <p><strong> 🛫 Salida:</strong> ${fechaSalida}</p>
         <p><strong>👤 Número de personas:</strong> ${personas}</p>
         <p style="margin-top: 10px;">¿Deseas confirmar la reserva?</p>
       `,
@@ -279,21 +286,76 @@ const ProductDetails = () => {
                     popup: "rounded-lg shadow-lg",
                     title: "font-bold text-lg",
                   },
-                }).then((result) => {
-                  if (result.isConfirmed) {
+                });
+
+                if (!confirmacion.isConfirmed) {
+                  Swal.fire(
+                    "❌ Reserva cancelada",
+                    "No se ha realizado ninguna reserva.",
+                    "error"
+                  );
+                  return;
+                }
+
+                
+                const reservaData = {
+                  usuario: { idUsuario: usuarioId },
+                  tour: { idTour: parseInt(tourId) },
+                  nombreTour: nombreTour,
+                  fechaReserva: new Date().toISOString().split("T")[0],
+                  fechaInicio: fechaLlegada,
+                  fechaFin: fechaSalida,
+                  cantidadPersonas: personas,
+                  estadoReserva: 1,
+                  estado: true,
+                  calificacion: null,
+                  comentarios: "",
+                };
+
+                console.log("Enviando datos de reserva:", reservaData);
+
+               
+                try {
+                  const response = await fetch(
+                    `http://localhost:8080/reservas/guardar`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(reservaData),
+                    }
+                  );
+
+                  if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("Error al crear la reserva:", errorData);
                     Swal.fire(
-                      "🎉 ¡Reserva confirmada!",
-                      `Tu reserva para ${nombreTour} ha sido registrada con éxito.`,
-                      "success"
-                    );
-                  } else {
-                    Swal.fire(
-                      "❌ Reserva cancelada",
-                      "No se ha realizado ninguna reserva.",
+                      "❌ Error",
+                      `Hubo un problema al realizar la reserva. Detalles: ${
+                        errorData.message || "No se pudo completar la reserva"
+                      }`,
                       "error"
                     );
+                    return;
                   }
-                });
+
+                
+                  Swal.fire(
+                    "🎉 ¡Reserva confirmada!",
+                    `Tu reserva para ${nombreTour} ha sido registrada con éxito.`,
+                    "success"
+                  ).then(() => {
+                    navigate("/reservas"); 
+                  });
+                } catch (error) {
+                  console.error("Error en la solicitud:", error);
+                  Swal.fire(
+                    "❌ Error",
+                    "Hubo un error en la solicitud. Intenta nuevamente.",
+                    "error"
+                  );
+                }
               }}
             >
               Reserva

@@ -118,7 +118,7 @@ export const router = createBrowserRouter([
         element: <Usuarios />,
       },
       {
-        path: "/reservas",
+        path: "/Reservas",
         element: <ReservationsList />,
       },
 
