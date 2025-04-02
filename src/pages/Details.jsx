@@ -33,29 +33,60 @@ const ProductDetails = () => {
 
       const fetchFechasOcupadas = async () => {
         try {
-          const response = await fetch(
-            `http://localhost:8080/reservas/fechas/${id}`
-          );
-          if (response.status === 204) {
-            setFechasOcupadas(new Set()); // No hay reservas
-            return;
-          }
-          if (!response.ok) {
-            throw new Error("Error al obtener las fechas ocupadas");
-          }
-          const data = await response.json();
-          setFechasOcupadas(
-            new Set(
-              data.map((fecha) => new Date(fecha).toISOString().split("T")[0])
-            )
-          );
+            const response = await fetch(`http://localhost:8080/reservas/fechas/${id}`);
+    
+            if (response.status === 204) {
+                setFechasOcupadas(new Set()); // No hay reservas
+                return;
+            }
+    
+            if (!response.ok) {
+                throw new Error("Error al obtener las fechas ocupadas");
+            }
+    
+            const data = await response.json();
+            
+            console.log("Reservas recibidas del backend:", data); // Depuración
+            
+            // Procesar las fechas ocupadas con validaciones
+            const fechasOcupadasArray = obtenerFechasOcupadas(data);
+    
+            setFechasOcupadas(new Set(fechasOcupadasArray));
         } catch (error) {
-          console.error("Error al obtener las fechas ocupadas:", error);
+            console.error("Error al obtener las fechas ocupadas:", error);
         }
-      };
-
+    };
+    
+    function obtenerFechasOcupadas(reservas) {
+        const fechasOcupadas = new Set();
+    
+        reservas.forEach(({ fechaInicio, fechaFin }) => {
+            let inicio = new Date(fechaInicio);
+            let fin = new Date(fechaFin);
+    
+            if (isNaN(inicio.getTime()) || isNaN(fin.getTime())) {
+                console.warn("Fecha inválida detectada:", { fechaInicio, fechaFin });
+                return; // Saltar fechas inválidas
+            }
+    
+            // Asegurar que fechaInicio es menor o igual a fechaFin
+            if (inicio > fin) {
+                console.warn("Corrigiendo fecha invertida:", { fechaInicio, fechaFin });
+                [inicio, fin] = [fin, inicio]; // Intercambiar valores
+            }
+    
+            while (inicio <= fin) {
+                fechasOcupadas.add(inicio.toISOString().split('T')[0]); // Formato YYYY-MM-DD
+                inicio.setDate(inicio.getDate() + 1);
+            }
+        });
+    
+        return Array.from(fechasOcupadas).sort();
+    }
+    
       // Llamar a la función después de obtener el tour
       fetchFechasOcupadas();
+      
     };
 
     fetchTour();
@@ -91,10 +122,9 @@ const ProductDetails = () => {
   };
 
   const highlightWithRed = (date) => {
-    return fechasOcupadas.has(date.toISOString().split("T")[0])
-      ? "occupied-date"
-      : undefined;
-  };
+    const formattedDate = date.toISOString().split("T")[0];
+    return fechasOcupadas.has(formattedDate) ? "bg-red-500 text-white" : "";
+};
 
   const isDateDisabled = (date) => {
     // Si la fecha está en fechasOcupadas, devuelve false para deshabilitarla
@@ -179,13 +209,13 @@ const ProductDetails = () => {
                 <div>
                   <label className="block text-gray-600">LLEGADA</label>
                   <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    className="w-full border-none text-black font-semibold"
-                    placeholderText="Seleccionar fecha"
-                    minDate={new Date()}
-                    filterDate={isDateDisabled}
-                    dayClassName={highlightWithRed}
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      className="w-full border-none text-black font-semibold"
+                      placeholderText="Seleccionar fecha"
+                      minDate={new Date()}
+                      filterDate={isDateDisabled}  // Bloquea fechas ocupadas
+                      dayClassName={highlightWithRed} // Resalta en rojo las fechas ocupadas
                   />
                 </div>
 
