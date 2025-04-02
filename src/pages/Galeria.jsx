@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-
-
 const Galeria = () => {
   const { id } = useParams(); // Obtiene el ID del tour desde la URL
   const navigate = useNavigate();
@@ -10,18 +8,18 @@ const Galeria = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // Cargar imágenes del tour desde el backend
-    fetch(`http://localhost:8080/tour/imagenes/${id}`)
+    // Cargar información completa del tour desde el backend
+    fetch(`http://localhost:8080/tour/buscar/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Imágenes recibidas:", data);
-        if (Array.isArray(data) && data.length > 0) {
-          setImagenes(data);
+        console.log("Datos completos recibidos:", JSON.stringify(data, null, 2));
+        if (data && data.imagenes && Array.isArray(data.imagenes)) {
+          setImagenes(data.imagenes.map(img => img.url));
         } else {
           console.error("No se encontraron imágenes para este tour.");
         }
       })
-      .catch((error) => console.error("Error cargando imágenes:", error));
+      .catch((error) => console.error("Error cargando datos del tour:", error));
   }, [id]);
 
   const goToPrevious = () => {
@@ -55,7 +53,7 @@ const Galeria = () => {
 
           <div className="h-96 flex justify-center items-center">
             <img
-              src={`http://localhost:8080/${imagenes[currentIndex]}`}
+              src={imagenes[currentIndex]}
               alt={`Imagen ${currentIndex + 1}`}
               className="rounded-lg shadow-lg object-cover w-full h-full"
             />
