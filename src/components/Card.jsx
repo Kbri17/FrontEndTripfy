@@ -46,7 +46,7 @@ const TravelPackageCard = ({
       {/* Ícono de corazón */}
       <button
         onClick={toggleFavorite}
-        className="absolute top-2 right-2 text-2xl focus:outline-none"
+        className="absolute top-2 right-2 text-2xl focus:outline-none hover:bg-gray-600"
       >
         {isFavorite ? "❤️" : "🤍"}
       </button>

@@ -17,6 +17,12 @@ const HeroSection = () => {
     }
   };
 
+  const clearFilters = () => {
+    setSelectedCategory(""); // Restablece la categoría
+    setSearchTerm(""); // Restablece el término de búsqueda
+    setSelectedDate(""); // Restablece la fecha
+  };
+
   return (
     <section className="flex flex-col items-center justify-center p-4 text-white w-full min-h-min">
       {/* Categorías */}
@@ -49,6 +55,7 @@ const HeroSection = () => {
         setSearchTerm={setSearchTerm}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
+        clearFilters={clearFilters} // Pasa la función para limpiar filtros
       />
 
       {/* Carrusel con filtro por categoría, búsqueda y fecha */}
@@ -62,3 +69,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
