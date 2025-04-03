@@ -6,6 +6,7 @@ import Carousel from "./components/Carrusel";
 const HeroSection = () => {
   const [selectedCategory, setSelectedCategory] = useState(""); // Estado para la categoría seleccionada
   const [searchTerm, setSearchTerm] = useState(""); // Estado para el término de búsqueda
+  const [selectedDate, setSelectedDate] = useState(""); // Estado para la fecha seleccionada
 
   const handleCategoryClick = (category) => {
     // Si la categoría seleccionada es la misma, deselecciona
@@ -43,10 +44,19 @@ const HeroSection = () => {
       </div>
 
       {/* Campo de búsqueda */}
-      <SearchFull searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <SearchFull
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
 
-      {/* Carrusel con filtro por categoría y búsqueda */}
-      <Carousel selectedCategory={selectedCategory} searchTerm={searchTerm} />
+      {/* Carrusel con filtro por categoría, búsqueda y fecha */}
+      <Carousel
+        selectedCategory={selectedCategory}
+        searchTerm={searchTerm}
+        selectedDate={selectedDate}
+      />
     </section>
   );
 };
