@@ -4,6 +4,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FaStar } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaWhatsapp } from "react-icons/fa";
+
+
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -15,6 +19,9 @@ const ProductDetails = () => {
   const [endDate, setEndDate] = useState(null); // Fecha de finalización
   const [numPeople, setNumPeople] = useState(1);
   const [fechasOcupadas, setFechasOcupadas] = useState(new Set());
+  const [rating, setRating] = useState(null);
+  const [hover, setHover] = useState(null);
+  const [showShareOptions, setShowShareOptions] = useState(false);
 
   useEffect(() => {
     const fetchTour = async () => {
@@ -33,60 +40,67 @@ const ProductDetails = () => {
 
       const fetchFechasOcupadas = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/reservas/fechas/${id}`);
-    
-            if (response.status === 204) {
-                setFechasOcupadas(new Set()); // No hay reservas
-                return;
-            }
-    
-            if (!response.ok) {
-                throw new Error("Error al obtener las fechas ocupadas");
-            }
-    
-            const data = await response.json();
-            
-            console.log("Reservas recibidas del backend:", data); // Depuración
-            
-            // Procesar las fechas ocupadas con validaciones
-            const fechasOcupadasArray = obtenerFechasOcupadas(data);
-    
-            setFechasOcupadas(new Set(fechasOcupadasArray));
+          const response = await fetch(
+            `http://localhost:8080/reservas/fechas/${id}`
+          );
+
+          if (response.status === 204) {
+            setFechasOcupadas(new Set()); // No hay reservas
+            return;
+          }
+
+          if (!response.ok) {
+            throw new Error("Error al obtener las fechas ocupadas");
+          }
+
+          const data = await response.json();
+
+          console.log("Reservas recibidas del backend:", data); // Depuración
+
+          // Procesar las fechas ocupadas con validaciones
+          const fechasOcupadasArray = obtenerFechasOcupadas(data);
+
+          setFechasOcupadas(new Set(fechasOcupadasArray));
         } catch (error) {
-            console.error("Error al obtener las fechas ocupadas:", error);
+          console.error("Error al obtener las fechas ocupadas:", error);
         }
-    };
-    
-    function obtenerFechasOcupadas(reservas) {
+      };
+
+      function obtenerFechasOcupadas(reservas) {
         const fechasOcupadas = new Set();
-    
+
         reservas.forEach(({ fechaInicio, fechaFin }) => {
-            let inicio = new Date(fechaInicio);
-            let fin = new Date(fechaFin);
-    
-            if (isNaN(inicio.getTime()) || isNaN(fin.getTime())) {
-                console.warn("Fecha inválida detectada:", { fechaInicio, fechaFin });
-                return; // Saltar fechas inválidas
-            }
-    
-            // Asegurar que fechaInicio es menor o igual a fechaFin
-            if (inicio > fin) {
-                console.warn("Corrigiendo fecha invertida:", { fechaInicio, fechaFin });
-                [inicio, fin] = [fin, inicio]; // Intercambiar valores
-            }
-    
-            while (inicio <= fin) {
-                fechasOcupadas.add(inicio.toISOString().split('T')[0]); // Formato YYYY-MM-DD
-                inicio.setDate(inicio.getDate() + 1);
-            }
+          let inicio = new Date(fechaInicio);
+          let fin = new Date(fechaFin);
+
+          if (isNaN(inicio.getTime()) || isNaN(fin.getTime())) {
+            console.warn("Fecha inválida detectada:", {
+              fechaInicio,
+              fechaFin,
+            });
+            return; // Saltar fechas inválidas
+          }
+
+          // Asegurar que fechaInicio es menor o igual a fechaFin
+          if (inicio > fin) {
+            console.warn("Corrigiendo fecha invertida:", {
+              fechaInicio,
+              fechaFin,
+            });
+            [inicio, fin] = [fin, inicio]; // Intercambiar valores
+          }
+
+          while (inicio <= fin) {
+            fechasOcupadas.add(inicio.toISOString().split("T")[0]); // Formato YYYY-MM-DD
+            inicio.setDate(inicio.getDate() + 1);
+          }
         });
-    
+
         return Array.from(fechasOcupadas).sort();
-    }
-    
+      }
+
       // Llamar a la función después de obtener el tour
       fetchFechasOcupadas();
-      
     };
 
     fetchTour();
@@ -95,9 +109,9 @@ const ProductDetails = () => {
   const generarDescripcion = (titulo) => {
     setDescripcion(`🌍 ¡Embárcate en una aventura inolvidable en ${titulo}! ✈️  
 
-      Descubre los encantos de **${titulo}** con nuestro tour exclusivo, diseñado para brindarte una experiencia única e inolvidable. Desde el momento en que comiences tu viaje, te sumergirás en la cultura, la historia y la belleza de este maravilloso destino.  
+      Descubre los encantos de ${titulo} con nuestro tour exclusivo, diseñado para brindarte una experiencia única e inolvidable. Desde el momento en que comiences tu viaje, te sumergirás en la cultura, la historia y la belleza de este maravilloso destino.  
 
-      ✨ **¿Qué incluye nuestro tour?**  
+      ✨ ¿Qué incluye nuestro tour?
       ✅ Visitas guiadas a los principales lugares turísticos 🏛️  
       ✅ Transporte cómodo y seguro 🚍  
       ✅ Acompañamiento de guías expertos 📜  
@@ -106,10 +120,10 @@ const ProductDetails = () => {
 
       Cada día será una oportunidad para descubrir algo nuevo: desde los monumentos más emblemáticos hasta rincones escondidos llenos de historia y encanto. Sumérgete en la gastronomía local, déjate sorprender por la arquitectura impresionante y captura momentos que recordarás para siempre.  
 
-      🔥 **¡No dejes pasar esta oportunidad!** 🔥  
+      🔥 ¡No dejes pasar esta oportunidad! 🔥  
       Reserva ahora y vive una experiencia que cambiará tu forma de viajar. 🌟  
 
-      📅 **Cupos limitados** – ¡Asegura tu lugar hoy mismo!`);
+      📅 Cupos limitados – ¡Asegura tu lugar hoy mismo!`);
   };
 
   const formatDescripcion = (descripcion) => {
@@ -124,7 +138,7 @@ const ProductDetails = () => {
   const highlightWithRed = (date) => {
     const formattedDate = date.toISOString().split("T")[0];
     return fechasOcupadas.has(formattedDate) ? "bg-red-500 text-white" : "";
-};
+  };
 
   const isDateDisabled = (date) => {
     // Si la fecha está en fechasOcupadas, devuelve false para deshabilitarla
@@ -132,6 +146,9 @@ const ProductDetails = () => {
   };
 
   if (!tour) return <p>Cargando detalles...</p>;
+
+  const shareUrl = window.location.href;
+  const shareText = encodeURIComponent(`¡Mira este tour: ${tour.nombre}!`);
 
   return (
     <div className="container mx-auto p-6">
@@ -144,12 +161,44 @@ const ProductDetails = () => {
           {tour.nombre}
         </h1>
         <div className="flex gap-4">
-          <button className="text-gray-700 hover:text-gray-900 text-lg">
-            📤 Compartir
-          </button>
-          <button className="text-gray-700 hover:text-gray-900 text-lg">
-            🧡 Favoritos
-          </button>
+        <div className="flex gap-4">
+  <button className="text-gray-700 hover:text-gray-900 text-lg">
+    
+      <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+              >
+                <FaFacebook className="inline-block text-blue-600 text-2xl" />
+              </a>
+  </button>
+  <button className="text-gray-700 hover:text-gray-900 text-lg">
+  
+    
+              <a
+                href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+              >
+                <FaTwitter className="inline-block text-blue-400 text-2xl" />
+              </a>
+  </button>
+  <button className="text-gray-700 hover:text-gray-900 text-lg">
+ 
+       <a
+                href={`https://wa.me/?text=${shareText} ${shareUrl}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-200"
+              >
+                  <FaWhatsapp className="inline-block text-green-500 text-2xl" />
+              </a>
+  </button>
+
+</div>
+          
         </div>
       </div>
 
@@ -209,13 +258,13 @@ const ProductDetails = () => {
                 <div>
                   <label className="block text-gray-600">LLEGADA</label>
                   <DatePicker
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      className="w-full border-none text-black font-semibold"
-                      placeholderText="Seleccionar fecha"
-                      minDate={new Date()}
-                      filterDate={isDateDisabled}  // Bloquea fechas ocupadas
-                      dayClassName={highlightWithRed} // Resalta en rojo las fechas ocupadas
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    className="w-full border-none text-black font-semibold"
+                    placeholderText="Seleccionar fecha"
+                    minDate={new Date()}
+                    filterDate={isDateDisabled} // Bloquea fechas ocupadas
+                    dayClassName={highlightWithRed} // Resalta en rojo las fechas ocupadas
                   />
                 </div>
 
@@ -283,7 +332,7 @@ const ProductDetails = () => {
                 const fechaSalida = endDate.toISOString().split("T")[0];
                 const personas = numPeople;
                 const nombreTour = tour.nombre;
-                const tourId = tour?.idTour; 
+                const tourId = tour?.idTour;
                 const usuarioId = parseInt(localStorage.getItem("id"));
 
                 if (!tourId) {
@@ -295,7 +344,6 @@ const ProductDetails = () => {
                   return;
                 }
 
-                
                 const confirmacion = await Swal.fire({
                   title: "📅 Confirmación de Reserva",
                   html: `
@@ -327,7 +375,6 @@ const ProductDetails = () => {
                   return;
                 }
 
-                
                 const reservaData = {
                   usuario: { idUsuario: usuarioId },
                   tour: { idTour: parseInt(tourId) },
@@ -344,7 +391,6 @@ const ProductDetails = () => {
 
                 console.log("Enviando datos de reserva:", reservaData);
 
-               
                 try {
                   const response = await fetch(
                     `http://localhost:8080/reservas/guardar`,
@@ -370,13 +416,12 @@ const ProductDetails = () => {
                     return;
                   }
 
-                
                   Swal.fire(
                     "🎉 ¡Reserva confirmada!",
                     `Tu reserva para ${nombreTour} ha sido registrada con éxito.`,
                     "success"
                   ).then(() => {
-                    navigate("/reservas"); 
+                    navigate("/reservas");
                   });
                 } catch (error) {
                   console.error("Error en la solicitud:", error);
@@ -409,6 +454,55 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
+        <h2 className="text-xl font-bold">📜 Políticas del Producto</h2>
+        <ul className="list-disc pl-5">
+          <li>
+            Cancelación gratuita hasta 48 horas antes del inicio del tour.
+          </li>
+          <li>
+            Se requiere una identificación válida al momento del check-in.
+          </li>
+          <li>Los menores de edad deben estar acompañados por un adulto.</li>
+          <li>
+            No se permiten cambios de fecha dentro de las 24 horas previas al
+            tour.
+          </li>
+        </ul>
+      </div>
+
+      <div className="mt-4 p-4 bg-white rounded-lg shadow-md text-center">
+        <h2 className="text-xl font-bold">⭐ Califica este Producto</h2>
+        <div className="flex justify-center mt-2">
+          {[...Array(5)].map((_, index) => {
+            const ratingValue = index + 1;
+            return (
+              <label key={index}>
+                <input
+                  type="radio"
+                  name="rating"
+                  className="hidden"
+                  value={ratingValue}
+                  onClick={() => setRating(ratingValue)}
+                />
+                <FaStar
+                  className="cursor-pointer"
+                  color={
+                    ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"
+                  }
+                  size={30}
+                  onMouseEnter={() => setHover(ratingValue)}
+                  onMouseLeave={() => setHover(null)}
+                />
+              </label>
+            );
+          })}
+        </div>
+        {rating && (
+          <p className="mt-2 text-lg">Has calificado con {rating} estrellas.</p>
+        )}
       </div>
     </div>
   );
