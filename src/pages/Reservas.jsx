@@ -49,9 +49,9 @@ const Reservas = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/reservas/${idReserva}`,
+        `http://localhost:8080/reservas/cancelar/${idReserva}`,
         {
-          method: "DELETE",
+          method: "PUT",
         }
       );
 
@@ -69,7 +69,7 @@ const Reservas = () => {
       setReservas(
         reservas.map((reserva) =>
           reserva.idReserva === idReserva
-            ? { ...reserva, cancelada: true }
+            ? { ...reserva, estado: false }
             : reserva
         )
       );
@@ -120,7 +120,7 @@ const Reservas = () => {
               </p>
 
               <div className="flex justify-center items-center mt-1 h-14">
-                {reserva.cancelada ? (
+                {reserva.estado === "cancelada" || reserva.estado === false ? (
                   <img
                     src={stickerCancelada}
                     alt="Sticker Cancelada"
