@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { FaStar } from "react-icons/fa";
 import { FaFacebook, FaTwitter, FaWhatsapp } from "react-icons/fa";
 
-const API_URL = import.meta.env.VITE_API_URL;
+
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -21,8 +21,10 @@ const ProductDetails = () => {
   const [fechasOcupadas, setFechasOcupadas] = useState(new Set());
   const [rating, setRating] = useState(null);
   const [hover, setHover] = useState(null);
-  const [showShareOptions, setShowShareOptions] = useState(false);
  
+
+
+
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -42,7 +44,10 @@ const ProductDetails = () => {
 
       const fetchFechasOcupadas = async () => {
         try {
-          const response = await fetch(`${API_URL}/reservas/fechas/${id}`);
+          const response = await fetch(
+            `${API_URL}/reservas/fechas/${id}`
+          );
+
           if (response.status === 204) {
             setFechasOcupadas(new Set()); // No hay reservas
             return;
@@ -255,6 +260,7 @@ const ProductDetails = () => {
             <div className="border border-gray-300 rounded-lg p-3 mb-3 w-full">
               <div className="flex justify-between text-sm font-medium mb-2">
                 <div>
+                  
                   <label className="block text-gray-600">LLEGADA</label>
                   <DatePicker
                     selected={startDate}
@@ -392,7 +398,7 @@ const ProductDetails = () => {
 
                 try {
                   const response = await fetch(
-                    `http://localhost:8080/reservas/guardar`,
+                    `${API_URL}/reservas/guardar`,
                     {
                       method: "POST",
                       headers: {
