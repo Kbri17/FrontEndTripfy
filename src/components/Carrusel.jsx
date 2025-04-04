@@ -9,7 +9,7 @@ const Carousel = ({ selectedCategory, searchTerm, selectedDate }) => {
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const response = await fetch(${API_URL}/tour/buscartodos); // Ajusta la URL de tu API
+        const response = await fetch(`${API_URL}/tour/buscartodos`); // Ajusta la URL de tu API
         if (!response.ok) throw new Error("Error al obtener los tours");
 
         const data = await response.json();
