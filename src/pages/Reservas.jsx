@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import stickerCancelada from "../assets/sticker-cancelada.png";
 
+const API_URL = import.meta.env.VITE_API_URL;
 const Reservas = () => {
   const [reservas, setReservas] = useState([]);
   const usuarioId = localStorage.getItem("id");
@@ -14,7 +15,7 @@ const Reservas = () => {
   const fetchReservas = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/reservas/usuario/${usuarioId}`
+        `${API_URL}/reservas/usuario/${usuarioId}`
       );
       if (!response.ok) {
         throw new Error("No se pudieron obtener las reservas");
@@ -49,7 +50,7 @@ const Reservas = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/reservas/cancelar/${idReserva}`,
+        `${API_URL}/reservas/cancelar/${idReserva}`,
         {
           method: "PUT",
         }

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import TravelPackageCard from "./Card";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Carousel = ({ selectedCategory, searchTerm, selectedDate }) => {
   const [tours, setTours] = useState([]);
 
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const response = await fetch("http://localhost:8080/tour/buscartodos"); // Ajusta la URL de tu API
+        const response = await fetch(`${API_URL}/tour/buscartodos`); // Ajusta la URL de tu API
         if (!response.ok) throw new Error("Error al obtener los tours");
 
         const data = await response.json();

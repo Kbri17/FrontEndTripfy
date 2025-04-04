@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { FaStar } from "react-icons/fa";
 import { FaFacebook, FaTwitter, FaWhatsapp } from "react-icons/fa";
 
-const API_URL = import.meta.env.VITE_API_URL;
+
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -389,7 +389,7 @@ const ProductDetails = () => {
 
                 try {
                   const response = await fetch(
-                    `http://localhost:8080/reservas/guardar`,
+                    `${API_URL}/reservas/guardar`,
                     {
                       method: "POST",
                       headers: {
