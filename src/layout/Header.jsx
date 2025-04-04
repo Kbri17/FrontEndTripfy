@@ -6,6 +6,7 @@ import {
   faUser,
   faCartShopping,
   faUserGear,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
@@ -60,6 +61,13 @@ const Header = () => {
                   <Link to="/reservas">
                     {" "}
                     <FontAwesomeIcon icon={faCartShopping} />{" "}
+                  </Link>
+                  {/* Ícono de favoritos */}
+                  <Link to="/favoritos">
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      className="text-white hover:text-white transition duration-300"
+                    />
                   </Link>
                   <Link to="/perfil">
                     <FontAwesomeIcon icon={faUser} />

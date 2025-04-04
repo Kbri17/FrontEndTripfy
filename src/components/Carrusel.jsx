@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TravelPackageCard from "./Card";
 
-const Carousel = ({ selectedCategory, searchTerm }) => {
+const Carousel = ({ selectedCategory, searchTerm, selectedDate }) => {
   const [tours, setTours] = useState([]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const Carousel = ({ selectedCategory, searchTerm }) => {
     fetchTours();
   }, []);
 
-  // Filtrar tours según la categoría seleccionada y el término de búsqueda
+  // Filtrar tours según la categoría seleccionada, el término de búsqueda y la fecha
   const filteredTours = tours.filter((tour) => {
     const matchesCategory = selectedCategory
       ? tour.categoria.toLowerCase() === selectedCategory.toLowerCase()
@@ -28,7 +28,12 @@ const Carousel = ({ selectedCategory, searchTerm }) => {
     const matchesSearch = searchTerm
       ? tour.ubicacion.toLowerCase().includes(searchTerm.toLowerCase())
       : true; // Si no hay término de búsqueda, mostrar todos
-    return matchesCategory && matchesSearch && tour.estado === true;
+    const matchesDate = selectedDate
+      ? new Date(tour.fecha) >= new Date(selectedDate)
+      : true; // Si no hay fecha seleccionada, mostrar todos
+    return (
+      matchesCategory && matchesSearch && matchesDate && tour.estado === true
+    );
   });
 
   return (
@@ -52,6 +57,7 @@ const Carousel = ({ selectedCategory, searchTerm }) => {
                 description={tour.descripcion}
                 price={tour.precio}
                 categoria={tour.categoria}
+                fecha={tour.fecha} // Asegúrate de que la fecha esté disponible en el objeto tour
               />
             </div>
           ))
