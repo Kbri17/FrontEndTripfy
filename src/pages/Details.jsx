@@ -19,6 +19,9 @@ const ProductDetails = () => {
   const [endDate, setEndDate] = useState(null); // Fecha de finalización
   const [numPeople, setNumPeople] = useState(1);
   const [fechasOcupadas, setFechasOcupadas] = useState(new Set());
+  const [rating, setRating] = useState(null);
+  const [hover, setHover] = useState(null);
+  const [showShareOptions, setShowShareOptions] = useState(false);
  
   const API_URL = import.meta.env.VITE_API_URL;
 
