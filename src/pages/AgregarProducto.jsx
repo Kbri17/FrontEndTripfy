@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import ErrorAlert from '../alerts/Error';
+import Success from '../alerts/Succes';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -45,15 +47,17 @@ const AgregarProducto = () => {
     try {
       const response = await fetch(`${API_URL}/tour/guardar`, {
         method: 'POST',
+        headers: {Authorization: `Bearer ${token}`},
         body: formData,
       });
+      const data = await response.json(); // si el backend devuelve JSON
+      console.log(data)
   
       if (!response.ok) {
+        ErrorAlert()
         throw new Error('Error al guardar el producto.');
       }
-  
-      alert('Producto agregado con éxito.');
-      
+      Success();
       setNombre('');
       setDescripcion('');
       setImagenes([]);

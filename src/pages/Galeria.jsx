@@ -14,14 +14,14 @@ const Galeria = () => {
     fetch(`${API_URL}/tour/imagenes/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Imágenes recibidas:", data);
-        if (Array.isArray(data) && data.length > 0) {
-          setImagenes(data);
+        console.log("Datos completos recibidos:", JSON.stringify(data, null, 2));
+        if (data && data.imagenes && Array.isArray(data.imagenes)) {
+          setImagenes(data.imagenes.map(img => img.url));
         } else {
           console.error("No se encontraron imágenes para este tour.");
         }
       })
-      .catch((error) => console.error("Error cargando imágenes:", error));
+      .catch((error) => console.error("Error cargando datos del tour:", error));
   }, [id]);
 
   const goToPrevious = () => {

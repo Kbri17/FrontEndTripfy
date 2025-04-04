@@ -18,6 +18,8 @@ import ReservationsList from "./pages/ReservasList";
 import Pruebas from "./components/Pruebas";
 import ListarProductoDos from "./pages/ListarProductoDos";
 import { PiFolderLock } from "react-icons/pi";
+import PrivateRoute from "./PrivateRouter";
+import AdminRoute from "./AdminRoute";
 const Root = () => (
   <div className="w-full flex flex-col min-h-screen overflow-x-hidden">
     <Header /> {/* Siempre visible arriba */}
@@ -49,7 +51,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/perfil",
-        element: <PerfilUser />,
+        element: (
+        <PrivateRoute>
+          <PerfilUser />
+        </PrivateRoute>
+        ),
       },
       {
         path: "/favoritos",
@@ -70,7 +76,12 @@ export const router = createBrowserRouter([
       //Solo rutas admin
       {
         path: "/admin",
-        element: <SwiperCarousel />,
+        
+        element: (
+          <AdminRoute>
+            <SwiperCarousel />
+          </AdminRoute>
+        ),
       },
       {
         path: "/admin/update",
@@ -79,11 +90,20 @@ export const router = createBrowserRouter([
       //Rutas prueba panel administracion  agregar producto, categorias, usurios, productos
       {
         path: "/administracion",
-        element: <Administracion />,
+        element: (
+        <AdminRoute>
+          <Administracion />
+        </AdminRoute>
+        ),
       },
       {
         path: "/AgregarProducto",
-        element: <AgregarProducto />,
+        element: (
+          <AdminRoute>
+            <AgregarProducto />
+          </AdminRoute>
+        )
+        ,
       },
       {
         path: "/GestionarCategorias",
@@ -98,7 +118,7 @@ export const router = createBrowserRouter([
         element: <Usuarios />,
       },
       {
-        path: "/reservas",
+        path: "/Reservas",
         element: <ReservationsList />,
       },
 

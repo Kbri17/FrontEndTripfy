@@ -55,13 +55,34 @@ export const authService = {
       throw error.response?.data || error.message;
     }
   },
-  // Cerrar sesión
-  async logout() {
-    // const navigate = useNavigate();
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    // navigate("/");
-  },
+  // // Cerrar sesión
+  // async logout() {
+  //   // const navigate = useNavigate();
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("user");
+  //   // navigate("/");
+  // },
+// Cerrar sesión
+async logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("id");  
+  localStorage.removeItem("rol"); 
+  localStorage.removeItem("isLoggedIn"); // Asegurar que se borre el estado de sesión
+},
 
+//Guardar reservas 
+async saveReservation(reserva) {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("No hay sesión activa");
+    }
 
+    const response = await requestGenerico.post("/reservas/guardar", reserva);
+    return response;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+},
 };

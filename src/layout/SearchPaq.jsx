@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faCalendarAlt, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
-const Search = () => {
+const SearchPaq = () => {
   return (
     <section className="flex justify-center items-center py-0 px-4">
       <div className="bg-white shadow-md rounded-lg md:rounded-full flex flex-col md:flex-row items-center w-full max-w-4xl p-2">
@@ -54,4 +54,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchPaq;

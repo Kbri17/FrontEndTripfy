@@ -94,6 +94,7 @@ const ListadoProductos = () => {
               <th>Precio</th>
               <th>Ubicación</th>
               <th>Categoría</th>
+              <th>Fecha</th>
               <th>Acciones</th>
               <th>Estado</th>
             </tr>
@@ -113,6 +114,7 @@ const ListadoProductos = () => {
                   <td>${producto.precio}</td>
                   <td>{producto.ubicacion}</td>
                   <td>{producto.categoria}</td>
+                  <td>{producto.fecha}</td>
                   <td>
                     <button
                       className="btn btn-warning me-2"
@@ -195,6 +197,20 @@ const ListadoProductos = () => {
                         setProductoEdicion({
                           ...productoEdicion,
                           precio: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Fecha</label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      value={productoEdicion.fecha}
+                      onChange={(e) =>
+                        setProductoEdicion({
+                          ...productoEdicion,
+                          fecha: e.target.value,
                         })
                       }
                     />

@@ -15,15 +15,21 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await login(usuario);
       console.log("Respuesta de login:", response);
       if (!response.token) {
         throw new Error(response.message || "Error en la autenticación");
       }
+  
+      // 🔹 Guardar estado de sesión en localStorage
+      localStorage.setItem("isLoggedIn", "true");
+  
       await loadUser();
       const userRole = response.userResponse.role;
+      localStorage.setItem("rol", userRole);
+      console.log("Rol es:", userRole)
       if (userRole === "ADMIN") {
         navigate("/administracion");
       } else {
@@ -32,8 +38,6 @@ const LoginForm = () => {
     } catch (err) {
       console.error("Error en login:", err);
       setLocalError(err.message || "Error desconocido");
-
-      
     }
   };
   return (
@@ -99,8 +103,10 @@ const LoginForm = () => {
             {loading ? "Cargando..." : "Iniciar sesión"}
           </button>
         </div>
+        
       </form>
     </div>
+    
   );
 };
 
