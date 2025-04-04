@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 const Galeria = () => {
   const { id } = useParams(); // Obtiene el ID del tour desde la URL
   const navigate = useNavigate();
@@ -10,8 +8,8 @@ const Galeria = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // Cargar imágenes del tour desde el backend
-    fetch(`${API_URL}/tour/imagenes/${id}`)
+    // Cargar información completa del tour desde el backend
+    fetch(`${API_URL}/tour/buscar/${id}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Datos completos recibidos:", JSON.stringify(data, null, 2));
@@ -55,7 +53,7 @@ const Galeria = () => {
 
           <div className="h-96 flex justify-center items-center">
             <img
-              src={`${API_URL}/${imagenes[currentIndex]}`}
+              src={imagenes[currentIndex]}
               alt={`Imagen ${currentIndex + 1}`}
               className="rounded-lg shadow-lg object-cover w-full h-full"
             />

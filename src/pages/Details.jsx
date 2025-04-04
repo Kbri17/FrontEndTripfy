@@ -19,7 +19,12 @@ const ProductDetails = () => {
   const [endDate, setEndDate] = useState(null); // Fecha de finalización
   const [numPeople, setNumPeople] = useState(1);
   const [fechasOcupadas, setFechasOcupadas] = useState(new Set());
+  const [rating, setRating] = useState(null);
+  const [hover, setHover] = useState(null);
  
+
+
+
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -39,7 +44,10 @@ const ProductDetails = () => {
 
       const fetchFechasOcupadas = async () => {
         try {
-          const response = await fetch(`${API_URL}/reservas/fechas/${id}`);
+          const response = await fetch(
+            `${API_URL}/reservas/fechas/${id}`
+          );
+
           if (response.status === 204) {
             setFechasOcupadas(new Set()); // No hay reservas
             return;
@@ -252,6 +260,7 @@ const ProductDetails = () => {
             <div className="border border-gray-300 rounded-lg p-3 mb-3 w-full">
               <div className="flex justify-between text-sm font-medium mb-2">
                 <div>
+                  
                   <label className="block text-gray-600">LLEGADA</label>
                   <DatePicker
                     selected={startDate}
